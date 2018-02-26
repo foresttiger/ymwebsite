@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>永茂出入库系统</title>
+    <link rel="stylesheet" href="./../js/lib/layui-v2.2.5/css/layui.css" media="all">
+    <!-- <link rel="icon" type="image/x-icon" href="./../images/logo.ico"> -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="./../images/logo.ico"> -->
+    <link rel="stylesheet" href="../css/manager.css">
+    <!-- <link rel="stylesheet" href="couter.css"> -->
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">
+                <!-- <img src="./../images/logo.png" style="width: 160px;" alt=""> -->
+            </div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="">永茂出入库系统</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                      <img src="./../images/logo.ico" style="width: 60px;" class="layui-nav-img">
+                      AJLManager
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item" id="logo_out"><a href="javascript:;">退出登录</a></li>
+            </ul>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">构件管理</a>
+                        <dl class="layui-nav-child" id="order">
+                            <dd class="layui-this" data-type="pc"><a href="javascript:;">构件入库</a></dd>
+                            <dd data-type="mobile"><a href="javascript:;">构件出库</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">账号管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">管理员</a></dd>
+                            <dd><a href="javascript:;">入库员</a></dd>
+                            <dd><a href="javascript:;">出库员</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">车辆管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">构件装车</a></dd>
+                            <dd><a href="javascript:;">构件卸车</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">日志</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">登录</a></dd>
+                            <dd><a href="javascript:;">管理员入库</a></dd>
+                            <dd><a href="javascript:;">构件入库</a></dd>
+                            <dd><a href="javascript:;">构件出库</a></dd>
+                            <dd><a href="javascript:;">账号管理</a></dd>
+                            <dd><a href="javascript:;">构件装车</a></dd>
+                            <dd><a href="javascript:;">构件卸车</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">
+                <div class="tab-header">
+                    <h2></h2>
+                    <form class="layui-form search">
+                        <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="">
+                            <option value="all">全部</option>
+                            <option value="user_id">ID</option>
+                            <option value="cellname">小区名</option>
+                            <option value="address">地址</option>
+                            <option value="components">户型</option>
+                            <option value="area">面积</option>
+                            <option value="style">风格</option>
+                            <option value="type">装修类型</option>
+                            <option value="budget">预算</option>
+                            <option value="price">合同总价</option>
+                            <option value="name" selected>姓名</option>
+                            <option value="mobilephone">手机号码</option>
+                            <option value="other">备注</option>
+                            <option value="date">日期</option>
+                            <option value="status">订单状态</option>
+                        </select>
+                        <input type="text" name="dataString" required="" lay-verify="required" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
+                        <button lay-submit class=" layui-btn layui-btn-warm" lay-filter="search_btn">搜索</button>
+                    </form>
+                </div>
+                <table class="layui-hide" id="demo" lay-filter="quote"></table>
+            </div>
+        </div>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © www.gxajl.com - 安居乐版权所有
+        </div>
+    </div>
+    <script src="./../js/lib/jquery/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/other/other.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/layui-v2.2.5/layui.js" charset="utf-8"></script>
+    <script src="./../js/index.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+
+    });
+    // layui.use('form', function() {
+    //     var form = layui.form;
+
+    // });
+    </script>
+    <script src="../js/couter.js" charset="utf-8"></script>
+    <script type="text/html" id="cellnameTpl">
+        <a class="layui-table-link" target="_blank">{{ d.cellname }}</a>
+    </script>
+    <script type="text/html" id="statusTpl">
+        {{# if(d.status === '已签单'){ }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.status === '已完成') { }}
+        <span style="color: green;">{{ d.status }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+</body>
+
+</html>
