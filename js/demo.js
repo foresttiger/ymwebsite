@@ -15,21 +15,22 @@
               //展示已知数据
               table.render({
                   elem: '#demo',
+                  cellMinWidth: 80,
                   cols: [
                       [ //标题栏
-                          { field: 'userId', title: 'ID', width: 80, sort: true, align: "center" },
-                          { field: 'cellname', title: '小区名', width: 120, edit: 'text',templet: '#cellnameTpl' },
+                          { field: 'userId', title: 'ID', sort: true, align: "center" },
+                          { field: 'cellname', title: '小区名', edit: 'text',templet: '#cellnameTpl' },
                           { field: 'address', title: '地址', edit: 'text' },
-                          { field: 'components', title: '户型', sort: true, width: 120, edit: 'text' },
-                          { field: 'area', title: '面积', width: 80, align: "center", edit: 'text' },
-                          { field: 'style', title: '风格', width: 80, align: "center", edit: 'text' },
-                          { field: 'type', title: '类型', sort: true, width: 80, align: "center", edit: 'text' },
-                          { field: 'budget', title: '预算', width: 80, align: "center", edit: 'text' },
-                          { field: 'price', title: '合同总价', width: 100, align: "center", edit: 'text' },
-                          { field: 'name', title: '姓名', sort: true, width: 100, align: "center", edit: 'text' },
-                          { field: 'mobilephone', title: '手机号码', sort: true, width: 120, align: "center", edit: 'text' },
+                          { field: 'components', title: '户型', sort: true,edit: 'text' },
+                          { field: 'area', title: '面积',align: "center", edit: 'text' },
+                          { field: 'style', title: '风格',align: "center", edit: 'text' },
+                          { field: 'type', title: '类型', sort: true,align: "center", edit: 'text' },
+                          { field: 'budget', title: '预算', align: "center", edit: 'text' },
+                          { field: 'price', title: '合同总价',align: "center", edit: 'text' },
+                          { field: 'name', title: '姓名', sort: true,align: "center", edit: 'text' },
+                          { field: 'mobilephone', title: '手机号码', sort: true,align: "center", edit: 'text' },
                           { field: 'other', title: '备注', sort: true, edit: 'text' },
-                          { field: 'date', title: '日期', sort: true, align: "center",width: 164, edit: 'text' },
+                          { field: 'date', title: '日期', sort: true, align: "center", edit: 'text' },
                           { field: 'status', title: '状态', sort: true, align: "center", edit: 'text',templet: '#statusTpl' }
                       ]
                   ],
