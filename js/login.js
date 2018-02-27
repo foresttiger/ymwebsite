@@ -45,7 +45,7 @@ if (readCookies()) {
             $("#pwd").focus();
             return false;
         }
-        var obj = { "phone": user, "password": pwd, "type":null };
+        var obj = { "phone": user, "password": pwd, "type":"admin" };
         $.ajax({
             type: "post",
             url: "http://rainingjoy.xin:9112/login",
@@ -61,7 +61,9 @@ if (readCookies()) {
                 // $('<div id="msg" />').addClass("loading").html("正在登录...").css("color", "#999").appendTo('.sub');
             },
             success: function(json) {
+                console.log(json.token)
                 addCookies(user, pwd, 168)
+                addCookies("token", json.token, 168)
                 if (json.status == 200) {
                     layer.msg("登录成功！")
                     setTimeout(function() {

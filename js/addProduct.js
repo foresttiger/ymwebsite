@@ -2,6 +2,7 @@ var _proName = undefined;
 var _buildingInfo = undefined;
 var _componentName = undefined;
 var _date = undefined;
+var picPath = undefined;
 layui.use(['form', 'layedit', 'laydate'], function() {
     var form = layui.form,
         layer = layui.layer,
@@ -86,12 +87,13 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         layer.alert(JSON.stringify(data.field), {
             title: '最终的提交信息'
         })
-        _title = data.field.title;
-        _layer = data.field.layer;
-        _name = data.field.name;
-        _date = data.field.date;
-        var ms = "title:" + _title + ", " + "layer:" + _layer + "," + "name:" + _name + "," + "date:" + data.field.date
+        _title = data.field.proName;
+        _layer = data.field.buildingInfo;
+        _name = data.field.componentName;
+        _date = data.field.productDate;
+        var ms = "title:" + _title + ", " + "layer:" + _layer + "," + "name:" + _name + "," + "date:" + data.field.productDate
         makeCode(ms);
+        loaderData(data.field);
         return false;
     });
 });
@@ -105,6 +107,7 @@ function makeCode(ms) {
         colorLight: "#ffffff",
         text: utf16to8(ms)
     });
+    downloadClick()
 }
 
 
@@ -148,17 +151,55 @@ function downloadClick() {
     canvas.getContext('2d').drawImage(c, 0, 0);
     canvas.getContext('2d').drawImage(img, 20, 80);
     // canvas.getContext('2d').text(img, 20, 0);
-    // canvas.getContext('2d').fillText('项目:' + _title, 10, 30);
-    // canvas.getContext('2d').fillText('楼层号:' + _layer, 220, 30);
-    // canvas.getContext('2d').fillText('构件:' + _name, 10, 60);
-    // canvas.getContext('2d').fillText('生产日期:' + _date, 220, 60);
-    canvas.getContext('2d').fillText('项目:碧桂园碧桂园', 10, 30);
-    canvas.getContext('2d').fillText('楼层号:17#19898', 220, 30);
-    canvas.getContext('2d').fillText('构件:碧桂园碧桂园', 10, 60);
-    canvas.getContext('2d').fillText('生产日期:2018-10-20', 220, 60);
+    canvas.getContext('2d').fillText('项目:' + _title, 10, 30);
+    canvas.getContext('2d').fillText('楼层号:' + _layer, 220, 30);
+    canvas.getContext('2d').fillText('构件:' + _name, 10, 60);
+    canvas.getContext('2d').fillText('生产日期:' + _date, 220, 60);
+
+    // canvas.getContext('2d').fillText('项目:碧桂园碧桂园', 10, 30);
+    // canvas.getContext('2d').fillText('楼层号:17#19898', 220, 30);
+    // canvas.getContext('2d').fillText('构件:碧桂园碧桂园', 10, 60);
+    // canvas.getContext('2d').fillText('生产日期:2018-10-20', 220, 60);
     // 构造url
     url = canvas.toDataURL('image/png');
     // 构造a标签并模拟点击
-    var downloadLink = $('#downloadLink').attr("href", url).attr("download", "二维码.png");
+    var downloadLink = $('#downloadLink').attr("href", url).attr("download", _name+".png");
     downloadLink[0].click();
+    picPath = url;
+}
+
+function loaderData(option) {
+    var size = option.length_X + "x" + option.length_Y + "x" + option.length_Z;
+    delete option.length_X;
+    delete option.length_Y;
+    delete option.length_Z;
+    Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath });
+    $.ajax({
+        type: "post",
+        url: "http://rainingjoy.xin:9112/saveOrUpdateComponent",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(option),
+        beforeSend: function() {
+            layer.msg('正在上传...', {
+                icon: 16,
+                time: 3000000,
+                shade: [0.1, '#fff']
+            });
+            // $('<div id="msg" />').addClass("loading").html("正在登录...").css("color", "#999").appendTo('.sub');
+        },
+        success: function(json) {
+            console.log(json)
+            if (json.status == 200) {
+                layer.msg("入库成功！")
+                // var ms = "title:" + _title + ", " + "layer:" + _layer + "," + "name:" + _name + "," + "date:" + _date
+                // makeCode(ms);
+                $("#form_reset").click();
+            } else {
+                $("#msg").remove();
+                layer.msg(json.msg)
+                return false;
+            }
+        }
+    });
 }
