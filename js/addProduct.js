@@ -1,6 +1,6 @@
-var _title = undefined;
-var _layer = undefined;
-var _name = undefined;
+var _proName = undefined;
+var _buildingInfo = undefined;
+var _componentName = undefined;
 var _date = undefined;
 layui.use(['form', 'layedit', 'laydate'], function() {
     var form = layui.form,
@@ -10,7 +10,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 
     //日期
     laydate.render({
-        elem: '#date'
+        elem: '#productDate'
     });
     laydate.render({
         elem: '#date1'
@@ -21,17 +21,17 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 
     //自定义验证规则
     form.verify({
-        title: function(value) {
+        proName: function(value) {
             if (value.length < 1) {
                 return '请输入项目名称';
             }
         },
-        layer: function(value) {
+        buildingInfo: function(value) {
             if (value.length < 1) {
                 return '请输入楼号跟层号';
             }
         },
-        name: function(value) {
+        componentName: function(value) {
             if (value.length < 1) {
                 return '请输入构件名称';
             }
@@ -51,7 +51,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 return '请输入构件高度';
             }
         },
-        HNT: function(value) {
+        volume: function(value) {
             if (value.length < 1) {
                 return '请输入混凝土方量';
             }
@@ -61,7 +61,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 return '请输入构件重量';
             }
         },
-        grade: function(value) {
+        level: function(value) {
             if (value.length < 1) {
                 return '请输入混凝土等级';
             }

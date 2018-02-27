@@ -45,7 +45,7 @@ if (readCookies()) {
             $("#pwd").focus();
             return false;
         }
-        var obj = { "phone": user, "password": pwd };
+        var obj = { "phone": user, "password": pwd, "type":null };
         $.ajax({
             type: "post",
             url: "http://rainingjoy.xin:9112/login",
