@@ -46,7 +46,7 @@
       var opt = {
           "token": token,
           "componentName": searchVal,
-          "status": status || "add"
+          "status": status
       }
       $.ajax({
           "url": URL,
@@ -71,7 +71,8 @@
               cellMinWidth: 100,
               cols: [
                   [ //标题栏
-                      { field: 'id', title: 'ID', width: 80, sort: true, align: "center", fixed: 'left' },
+                      { title: '序号',templet: '#indexTpl',width: 80,fixed: 'left',align: "center" },
+                      { field: 'id', title: 'ID',width: 80, sort: true, align: "center",},
                       { field: 'proName', title: '项目名称', sort: true, align: "center" },
                       { field: 'buildingInfo', title: '楼层号', align: "center" },
                       { field: 'componentName', title: '构件名称', align: "center" },
@@ -86,7 +87,7 @@
                       { field: 'carsInfo', title: '车辆信息', align: "center" },
                       { field: 'status', title: '状态', align: "center" },
                       // { field: 'picPath', title: '二维码地址', align: "center" },
-                      { field: 'right', title: '操作', width: 200, toolbar: "#components" }
+                      { field: 'right', title: '操作', width: 150, toolbar: "#components",align: "center",fixed: 'right' }
                   ]
               ],
               height: 'full-200',
@@ -301,27 +302,3 @@
       // };
 
   }
-  /*下载图片
-  function DownLoadReportIMG(imgPathURL) {
-        //如果隐藏IFRAME不存在，则添加
-        if (!document.getElementById(“IframeReportImg”))
-        $(‘‘).appendTo(“body”);
-        
-        if (document.all.IframeReportImg.src != imgPathURL) {
-            //加载图片
-            document.all.IframeReportImg.src = imgPathURL;
-        }
-        else {
-            //图片直接另存为
-            DoSaveAsIMG();
-        }
-    }
-    function DoSaveAsIMG() {
-        if (document.all.IframeReportImg.src != “about:blank”)
-        document.frames(“IframeReportImg”).document.execCommand(“SaveAs”);
-    }
-
-  */
-
-
-  /*.*/
