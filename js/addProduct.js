@@ -84,9 +84,9 @@ layui.use(['form', 'layedit', 'laydate'], function() {
     //监听提交
     form.on('submit(demo1)', function(data) {
         console.log(data.field)
-        layer.alert(JSON.stringify(data.field), {
-            title: '最终的提交信息'
-        })
+        // layer.alert(JSON.stringify(data.field), {
+        //     title: '最终的提交信息'
+        // })
         _title = data.field.proName;
         _layer = data.field.buildingInfo;
         _name = data.field.componentName;
