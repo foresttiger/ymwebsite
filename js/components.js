@@ -19,7 +19,8 @@
           });
           form.on('submit(search_btn)', function(data) {
               var type = $("#order dd.layui-this").attr("data-type");
-              var string = data.field.row + '=' + data.field.dataString;
+              var string = data.field.dataString;
+              // var string = data.field.row + '=' + data.field.dataString;
               if (data.field.row == "all") {
                   string = undefined
               }
@@ -35,15 +36,25 @@
 
   })
   /*更新数据*/
-  function loadDataToType(type, search) {
-
-      var URL = search ? ("http://rainingjoy.xin:9111/getList?dataType=" + type + "&" + search) : ("http://rainingjoy.xin:9111/getAll?dataType=" + type)
+  function loadDataToType(type, searchVal, status) {
+      var token = "8f79bacb841642fd894bb0d2ea0f5c74";
+      // var URL = search ? ("http://rainingjoy.xin:9111/getList?dataType=" + type + "&" + search) : ("http://rainingjoy.xin:9111/getList?token=" + token)
+      var URL = "http://rainingjoy.xin:9112/getList"
+      // var URL = search ? ("http://rainingjoy.xin:9111/getList?dataType=" + type + "&" + search) : ("http://rainingjoy.xin:9111/getAll?dataType=" + type)
       // var URL = "http://rainingjoy.xin:9111/getAll?dataType=" + type;
+
+      var opt = {
+          "token": token,
+          "componentName": searchVal,
+          "status": status || "add"
+      }
       $.ajax({
           "url": URL,
-          "type": "get",
+          "type": "post",
+          contentType: "application/json",
+          "data": JSON.stringify(opt)
       }).done(function(data) {
-          renderOrderTable(data, type)
+          renderOrderTable(data.list, type)
       }).fail(function(e) {
           console.log(e)
       });
@@ -61,11 +72,11 @@
               cols: [
                   [ //标题栏
                       { field: 'id', title: 'ID', width: 80, sort: true, align: "center", fixed: 'left' },
-                      { field: 'proName', title: '项目名称', sort: true, templet: '#cellnameTpl' },
+                      { field: 'proName', title: '项目名称', sort: true, align: "center" },
                       { field: 'buildingInfo', title: '楼层号', align: "center" },
                       { field: 'componentName', title: '构件名称', align: "center" },
                       { field: 'size', title: '尺寸', align: "center" },
-                      { field: 'volume', title: '混凝土方量',sort: true, align: "center" },
+                      { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
                       { field: 'weight', title: '构件重量', sort: true, align: "center" },
                       { field: 'level', title: '混凝土等级', sort: true, align: "center" },
                       { field: 'productDate', title: '生产日期', sort: true, align: "center" },
@@ -130,7 +141,8 @@
                   layEvent = obj.event; //获得 lay-event 对应的值
               if (layEvent === 'detail') {
                   console.log(data)
-                  layer.msg('查看操作');
+                  showModel(data)
+                  // layer.msg('查看操作');
               } else if (layEvent === 'del') {
                   layer.confirm('真的删除行么', function(index) {
                       obj.del(); //删除对应行（tr）的DOM结构
@@ -156,4 +168,31 @@
           .then((responseData) => { // 上面的转好的json
               console.log(responseData)
           })
+  };
+
+  /*查看详情*/
+  function showModel(data) {
+      var img = '<div class="qcode"><img src="../images/ejwfdjef.png"></div>'
+      var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
+          '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
+          '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
+          '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
+          '<li><label for="">混凝土方量:</label><span>' + data.size + '</span></li>' +
+          '<li><label for="">构件重量:</label><span>' + data.weight + '</span></li>' +
+          '<li><label for="">混凝土等级:</label><span>' + data.level + '</span></li>' +
+          '<li><label for="">生产日期:</label><span>' + data.productDate + '</span></li>' +
+          '<li><label for="">车辆信息:</label><span>' + data.carsInfo + '</span></li>' +
+          '<li><label for="">区域:</label><span>' + data.location + '</span></li>' +
+          '<li><label for="">入库日期:</label><span>' + data.inboundDate + '</span></li>' +
+          '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>'+
+          '<li><label for="">构件状态:</label><span>' + data.status + '</span></li>'
+      $('.ms ul').append(HTML);
+      $('.ms .contents').append(img);
+      layer.open({
+          type: 1,
+          title: data.componentName,
+          skin: 'layui-layer-rim', //加上边框
+          area: ['600px', '510px'], //宽高
+          content: $('.ms')
+      });
   }

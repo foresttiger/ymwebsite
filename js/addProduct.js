@@ -165,7 +165,8 @@ function downloadClick() {
     // 构造a标签并模拟点击
     var downloadLink = $('#downloadLink').attr("href", url).attr("download", _name+".png");
     downloadLink[0].click();
-    picPath = url;
+    picPath = undefined;
+    // picPath = url;
 }
 
 function loaderData(option) {
@@ -173,7 +174,7 @@ function loaderData(option) {
     delete option.length_X;
     delete option.length_Y;
     delete option.length_Z;
-    Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath });
+    Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"add" });
     $.ajax({
         type: "post",
         url: "http://rainingjoy.xin:9112/saveOrUpdateComponent",
