@@ -72,7 +72,7 @@
               cols: [
                   [ //标题栏
                       { title: '序号',templet: '#indexTpl',width: 80,fixed: 'left',align: "center" },
-                      { field: 'id', title: 'ID',width: 80, sort: true, align: "center",},
+                      { field: 'id', title: '产品ID',width: 80, sort: true, align: "center",},
                       { field: 'proName', title: '项目名称', sort: true, align: "center" },
                       { field: 'buildingInfo', title: '楼层号', align: "center" },
                       { field: 'componentName', title: '构件名称', align: "center" },
@@ -114,7 +114,7 @@
           table.on('edit(quote)', function(obj) {
               updataOrderData(obj.data, type)
           });
-          $('#demo .layui-btn').on('click', function() {
+          $('#demo .layui-btn.search_btn').on('click', function() {
               var type = $(this).data('type');
               active[type] ? active[type].call(this) : '';
           });
@@ -157,7 +157,11 @@
                   downloadQRcode(data);
               }
           });
-
+          table.reload('testReload', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              }
+            });
       });
 
   };

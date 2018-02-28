@@ -26,7 +26,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                       <img src="./../images/logo.ico" style="width: 60px;" class="layui-nav-img">
-                      AJLManager
+                      超级管理员
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
@@ -91,10 +91,11 @@
                             <option value="componentName">构件名称</option>
                         </select>
                         <input type="text" name="dataString" required="" lay-verify="required" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
-                        <button lay-submit class=" layui-btn layui-btn-warm" data-type="reload" lay-filter="search_btn">搜索</button>
+                        <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
                         <a href="./addProduct.html" target="_blank" class="layui-btn" style="padding:0 10px;">
                             <i class="layui-icon">&#xe608;</i> 添加
                         </a>
+                        <!-- <button class="layui-btn" data-type="reload">搜索</button> -->
                     </form>
                 </div>
                 <table class="layui-hide" id="demo" lay-filter="quote"></table>
