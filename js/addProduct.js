@@ -91,7 +91,13 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         _layer = data.field.buildingInfo;
         _name = data.field.componentName;
         _date = data.field.productDate;
-        var ms = "title:" + _title + ", " + "layer:" + _layer + "," + "name:" + _name + "," + "date:" + data.field.productDate
+        var ms = {
+             "proName":_title,
+             "buildingInfo":_layer,
+             "componentName":_name,
+             "productDate":_date,
+        }
+        var ms = JSON.stringify(ms);
         makeCode(ms);
         loaderData(data.field);
         return false;
