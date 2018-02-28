@@ -203,11 +203,22 @@
   }
   /*操作二维码*/
   function downloadQRcode(data) {
-    makeCode(data) 
+    var imgName = data.proName + data.componentName;
+    makeCode(data);
+    downloadClick(data);
+    var url = productQrcodeImg(data);
+    downloadClick(url,imgName);
   }
   // 生成二维码
   function makeCode(ms) {
-      var data = JSON.stringify(ms)
+      var opts ={
+        "id":ms.id,
+        "proName":ms.proName,
+        "buildingInfo":ms.buildingInfo,
+        "componentName":ms.componentName,
+        "productDate":ms.productDate,
+      }
+      var data = JSON.stringify(opts)
       $("#qrcode").empty();
       $("#qrcode").qrcode({
           width: 400,
@@ -216,7 +227,6 @@
           colorLight: "#ffffff",
           text: utf16to8(data)
       });
-      downloadClick(ms)
   }
   /*转码*/
   function utf16to8(str) { //转码 
@@ -239,7 +249,8 @@
       return out;
   }
   /*下载二维码*/
-  function downloadClick(data) {
+  function productQrcodeImg(data){
+      // var opts
       var id = data.id;
       var proName = data.proName;
       var buildingInfo = data.buildingInfo;
@@ -267,15 +278,66 @@
       canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
       canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
       canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
+      return canvas.toDataURL('image/png')
+  }
+  function downloadClick(url,name) {
+      // var id = data.id;
+      // var proName = data.proName;
+      // var buildingInfo = data.buildingInfo;
+      // var componentName = data.componentName;
+      // var productDate = data.productDate;
+      // var c = document.createElement('canvas');
+      // c.width = 600;
+      // c.height = 520;
+      // var ctx = c.getContext("2d");
+      // ctx.fillStyle = "#FFFFFF";
+      // ctx.fillRect(0, 0, 600, 500);
+
+      // // 获取base64的图片节点
+      // var img = $('#qrcode canvas')[0];
+      // // 构建画布
+      // var canvas = document.createElement('canvas');
+      // canvas.width = 440;
+      // canvas.height = 520;
+      // canvas.getContext('2d').font = "22px Georgia";
+
+      // canvas.getContext('2d').drawImage(c, 0, 0);
+      // canvas.getContext('2d').drawImage(img, 20, 80);
+
+      // canvas.getContext('2d').fillText('项目:' + proName, 10, 30);
+      // canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
+      // canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
+      // canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
       // 构造url
-      url = canvas.toDataURL('image/png');
+      // url = canvas.toDataURL('image/png');
+      // return url;
       var rA = $('<a>');
       // 构造a标签并模拟点击
-      var downloadLink = rA.attr("href", url).attr("download", proName + componentName + ".png");
+      var downloadLink = rA.attr("href", url).attr("download", name + ".png");
+      console.log(downloadLink)
       downloadLink[0].click();
-      picPath = undefined;
   }
+  /*下载图片
+  function DownLoadReportIMG(imgPathURL) {
+        //如果隐藏IFRAME不存在，则添加
+        if (!document.getElementById(“IframeReportImg”))
+        $(‘‘).appendTo(“body”);
+        
+        if (document.all.IframeReportImg.src != imgPathURL) {
+            //加载图片
+            document.all.IframeReportImg.src = imgPathURL;
+        }
+        else {
+            //图片直接另存为
+            DoSaveAsIMG();
+        }
+    }
+    function DoSaveAsIMG() {
+        if (document.all.IframeReportImg.src != “about:blank”)
+        document.frames(“IframeReportImg”).document.execCommand(“SaveAs”);
+    }
 
+  */
 
 
   /*.*/
