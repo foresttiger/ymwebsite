@@ -85,7 +85,7 @@
                       { field: 'location', title: '区域', sort: true, align: "center" },
                       { field: 'carsInfo', title: '车辆信息', align: "center" },
                       { field: 'status', title: '状态', align: "center" },
-                      { field: 'picPath', title: '二维码地址', align: "center" },
+                      // { field: 'picPath', title: '二维码地址', align: "center" },
                       { field: 'right', title: '操作', width: 200, toolbar: "#components" }
                   ]
               ],
@@ -151,6 +151,9 @@
                   });
               } else if (layEvent === 'edit') {
                   layer.msg('编辑操作');
+              }else if (layEvent === 'download') {
+                  layer.msg('编辑操作');
+                  downloadQRcode(data);
               }
           });
 
@@ -186,7 +189,7 @@
           '<li><label for="">车辆信息:</label><span>' + data.carsInfo + '</span></li>' +
           '<li><label for="">区域:</label><span>' + data.location + '</span></li>' +
           '<li><label for="">入库日期:</label><span>' + data.inboundDate + '</span></li>' +
-          '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>'+
+          '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>' +
           '<li><label for="">构件状态:</label><span>' + data.status + '</span></li>'
       $('.ms ul').append(HTML);
       $('.ms .contents .qcode').append(img);
@@ -198,3 +201,81 @@
           content: $('.ms')
       });
   }
+  /*操作二维码*/
+  function downloadQRcode(data) {
+    makeCode(data) 
+  }
+  // 生成二维码
+  function makeCode(ms) {
+      var data = JSON.stringify(ms)
+      $("#qrcode").empty();
+      $("#qrcode").qrcode({
+          width: 400,
+          height: 400,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          text: utf16to8(data)
+      });
+      downloadClick(ms)
+  }
+  /*转码*/
+  function utf16to8(str) { //转码 
+      var out, i, len, c;
+      out = "";
+      len = str.length;
+      for (i = 0; i < len; i++) {
+          c = str.charCodeAt(i);
+          if ((c >= 0x0001) && (c <= 0x007F)) {
+              out += str.charAt(i);
+          } else if (c > 0x07FF) {
+              out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+              out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+              out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+          } else {
+              out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+              out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+          }
+      }
+      return out;
+  }
+  /*下载二维码*/
+  function downloadClick(data) {
+      var id = data.id;
+      var proName = data.proName;
+      var buildingInfo = data.buildingInfo;
+      var componentName = data.componentName;
+      var productDate = data.productDate;
+      var c = document.createElement('canvas');
+      c.width = 600;
+      c.height = 520;
+      var ctx = c.getContext("2d");
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, 600, 500);
+
+      // 获取base64的图片节点
+      var img = $('#qrcode canvas')[0];
+      // 构建画布
+      var canvas = document.createElement('canvas');
+      canvas.width = 440;
+      canvas.height = 520;
+      canvas.getContext('2d').font = "22px Georgia";
+
+      canvas.getContext('2d').drawImage(c, 0, 0);
+      canvas.getContext('2d').drawImage(img, 20, 80);
+
+      canvas.getContext('2d').fillText('项目:' + proName, 10, 30);
+      canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
+      canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
+      canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
+      // 构造url
+      url = canvas.toDataURL('image/png');
+      var rA = $('<a>');
+      // 构造a标签并模拟点击
+      var downloadLink = rA.attr("href", url).attr("download", proName + componentName + ".png");
+      downloadLink[0].click();
+      picPath = undefined;
+  }
+
+
+
+  /*.*/

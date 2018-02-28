@@ -105,6 +105,7 @@
             © www.gxajl.com - 安居乐版权所有
         </div>
     </div>
+
     <div class="ms">
         <div class="contents">
 
@@ -120,9 +121,14 @@
             <div class="qcode"></div>
         </div>
     </div>
+    <!-- 二维码 -->
+    <div id="qrcode" style="display:none;width:600px; height:600px; margin-top:15px;"></div>
+
     <script src="./../js/lib/jquery/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./../js/lib/other/other.js" type="text/javascript" charset="utf-8"></script>
     <script src="./../js/lib/layui-v2.2.5/layui.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/qrcode.min.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
     <script src="./../js/index.js" type="text/javascript" charset="utf-8"></script>
     <script>
     //JavaScript代码区域
@@ -146,7 +152,7 @@
     </script>
     <script type="text/html" id="components">
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-primary  layui-btn-xs" lay-event="donate">下载二维码</a>
+        <a class="layui-btn layui-btn-primary  layui-btn-xs" lay-event="download">下载二维码</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <!--     <script type="text/html" id="barDemo">
