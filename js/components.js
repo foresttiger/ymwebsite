@@ -140,7 +140,7 @@
                   ,
                   layEvent = obj.event; //获得 lay-event 对应的值
               if (layEvent === 'detail') {
-                  console.log(data)
+                  // console.log(data)
                   showModel(data)
                   // layer.msg('查看操作');
               } else if (layEvent === 'del') {
@@ -151,8 +151,8 @@
                   });
               } else if (layEvent === 'edit') {
                   layer.msg('编辑操作');
-              }else if (layEvent === 'download') {
-                  layer.msg('编辑操作');
+              } else if (layEvent === 'download') {
+                  layer.msg('正在下载中...');
                   downloadQRcode(data);
               }
           });
@@ -176,8 +176,7 @@
   /*查看详情*/
   function showModel(data) {
       $('.ms ul').empty();
-      $('.ms .contents .qcode').empty();
-      var img = '<img src="../images/ejwfdjef.png">'
+      $('.ms .contents .qcode img').removeAttr("src");
       var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
           '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
@@ -192,7 +191,7 @@
           '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>' +
           '<li><label for="">构件状态:</label><span>' + data.status + '</span></li>'
       $('.ms ul').append(HTML);
-      $('.ms .contents .qcode').append(img);
+      loaderQRcodeImg(data)
       layer.open({
           type: 1,
           title: data.componentName,
@@ -203,20 +202,20 @@
   }
   /*操作二维码*/
   function downloadQRcode(data) {
-    var imgName = data.proName + data.componentName;
-    makeCode(data);
-    downloadClick(data);
-    var url = productQrcodeImg(data);
-    downloadClick(url,imgName);
+      var imgName = data.proName + data.componentName;
+      makeCode(data);
+      // downloadClick(data);
+      var url = productQrcodeImg(data);
+      downloadClick(url, imgName);
   }
   // 生成二维码
   function makeCode(ms) {
-      var opts ={
-        "id":ms.id,
-        "proName":ms.proName,
-        "buildingInfo":ms.buildingInfo,
-        "componentName":ms.componentName,
-        "productDate":ms.productDate,
+      var opts = {
+          "id": ms.id,
+          "proName": ms.proName,
+          "buildingInfo": ms.buildingInfo,
+          "componentName": ms.componentName,
+          "productDate": ms.productDate,
       }
       var data = JSON.stringify(opts)
       $("#qrcode").empty();
@@ -248,8 +247,8 @@
       }
       return out;
   }
-  /*下载二维码*/
-  function productQrcodeImg(data){
+  /*生成二维码*/
+  function productQrcodeImg(data) {
       // var opts
       var id = data.id;
       var proName = data.proName;
@@ -280,42 +279,27 @@
       canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
       return canvas.toDataURL('image/png')
   }
-  function downloadClick(url,name) {
-      // var id = data.id;
-      // var proName = data.proName;
-      // var buildingInfo = data.buildingInfo;
-      // var componentName = data.componentName;
-      // var productDate = data.productDate;
-      // var c = document.createElement('canvas');
-      // c.width = 600;
-      // c.height = 520;
-      // var ctx = c.getContext("2d");
-      // ctx.fillStyle = "#FFFFFF";
-      // ctx.fillRect(0, 0, 600, 500);
-
-      // // 获取base64的图片节点
-      // var img = $('#qrcode canvas')[0];
-      // // 构建画布
-      // var canvas = document.createElement('canvas');
-      // canvas.width = 440;
-      // canvas.height = 520;
-      // canvas.getContext('2d').font = "22px Georgia";
-
-      // canvas.getContext('2d').drawImage(c, 0, 0);
-      // canvas.getContext('2d').drawImage(img, 20, 80);
-
-      // canvas.getContext('2d').fillText('项目:' + proName, 10, 30);
-      // canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
-      // canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
-      // canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
-      // 构造url
-      // url = canvas.toDataURL('image/png');
-      // return url;
+  /*下载图片*/
+  function downloadClick(url, name) {
       var rA = $('<a>');
       // 构造a标签并模拟点击
       var downloadLink = rA.attr("href", url).attr("download", name + ".png");
       console.log(downloadLink)
       downloadLink[0].click();
+  }
+  /*得到二维码图片*/
+  function loaderQRcodeImg(data,files) {
+      var imgName = data.proName + data.componentName;
+      makeCode(data);
+      // downloadClick(data);
+      var url = productQrcodeImg(data);
+      // var read = new FileReader();
+      // read.readAsDataURL(url);
+      // read.onload = function(e) {
+          // var src = e.target.result;
+          $(".ms .contents .qcode img").attr("src", url);
+      // };
+
   }
   /*下载图片
   function DownLoadReportIMG(imgPathURL) {
