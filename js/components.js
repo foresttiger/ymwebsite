@@ -172,7 +172,9 @@
 
   /*查看详情*/
   function showModel(data) {
-      var img = '<div class="qcode"><img src="../images/ejwfdjef.png"></div>'
+      $('.ms ul').empty();
+      $('.ms .contents .qcode').empty();
+      var img = '<img src="../images/ejwfdjef.png">'
       var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
           '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
@@ -187,7 +189,7 @@
           '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>'+
           '<li><label for="">构件状态:</label><span>' + data.status + '</span></li>'
       $('.ms ul').append(HTML);
-      $('.ms .contents').append(img);
+      $('.ms .contents .qcode').append(img);
       layer.open({
           type: 1,
           title: data.componentName,
