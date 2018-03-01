@@ -84,7 +84,8 @@
                       { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
                       { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                       { field: 'location', title: '区域', sort: true, align: "center" },
-                      { field: 'carsInfo', title: '车辆信息', align: "center" },
+                      { field: 'inboundCars', title: '入库车辆', align: "center" },
+                      { field: 'outboundCars', title: '出库车辆', align: "center" },
                       { field: 'status', title: '状态', align: "center" },
                       // { field: 'picPath', title: '二维码地址', align: "center" },
                       { field: 'right', title: '操作', width: 150, toolbar: "#components",align: "center",fixed: 'right' }
@@ -190,7 +191,8 @@
           '<li><label for="">构件重量:</label><span>' + data.weight + '</span></li>' +
           '<li><label for="">混凝土等级:</label><span>' + data.level + '</span></li>' +
           '<li><label for="">生产日期:</label><span>' + data.productDate + '</span></li>' +
-          '<li><label for="">车辆信息:</label><span>' + data.carsInfo + '</span></li>' +
+          '<li><label for="">入库车辆:</label><span>' + data.inboundCars + '</span></li>' +
+          '<li><label for="">出库车辆:</label><span>' + data.outboundCars + '</span></li>' +
           '<li><label for="">区域:</label><span>' + data.location + '</span></li>' +
           '<li><label for="">入库日期:</label><span>' + data.inboundDate + '</span></li>' +
           '<li><label for="">出库日期:</label><span>' + data.outboundDate + '</span></li>' +
