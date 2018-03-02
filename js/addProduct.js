@@ -1,4 +1,4 @@
-
+judgeIsLogin();
 layui.use(['form', 'layedit', 'laydate'], function() {
     var form = layui.form,
         layer = layui.layer,
@@ -84,13 +84,20 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         return false;
     });
 });
+
 function loaderData(option) {
+    var isLogin = getSession("token");
+    if (!isLogin) {
+        window.location.href = "../index.html";
+        return
+    }
+    var token = getSession("token")
     var size = option.length_X + "x" + option.length_Y + "x" + option.length_Z;
     delete option.length_X;
     delete option.length_Y;
     delete option.length_Z;
     // Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"入库" });
-    Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size,"status":"入库" });
+    Object.assign(option, { "token": token, "size": size, "status": "inbound" });
     $.ajax({
         type: "post",
         url: "http://rainingjoy.xin:9112/saveOrUpdateComponent",
@@ -111,7 +118,7 @@ function loaderData(option) {
                 $("#form_reset").click();
             } else {
                 $("#msg").remove();
-                layer.msg(json.msg)
+                layer.msg(json.message)
                 return false;
             }
         }

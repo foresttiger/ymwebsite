@@ -1,4 +1,5 @@
   $(function() {
+      judgeIsLogin();
       loadDataToType("pc");
       $("#order dd").click(function(e) {
           var dataType = $(this).attr("data-type");
@@ -71,8 +72,8 @@
               cellMinWidth: 100,
               cols: [
                   [ //标题栏
-                      { title: '序号',templet: '#indexTpl',width: 80,fixed: 'left',align: "center" },
-                      { field: 'id', title: '产品ID',width: 80, sort: true, align: "center",},
+                      { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                      { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                       { field: 'proName', title: '项目名称', sort: true, align: "center" },
                       { field: 'buildingInfo', title: '楼层号', align: "center" },
                       { field: 'componentName', title: '构件名称', align: "center" },
@@ -88,7 +89,7 @@
                       { field: 'outboundCars', title: '出库车辆', align: "center" },
                       { field: 'status', title: '状态', align: "center" },
                       // { field: 'picPath', title: '二维码地址', align: "center" },
-                      { field: 'right', title: '操作', width: 150, toolbar: "#components",align: "center",fixed: 'right' }
+                      { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
                   ]
               ],
               height: 'full-200',
@@ -160,9 +161,9 @@
           });
           table.reload('testReload', {
               page: {
-                curr: 1 //重新从第 1 页开始
+                  curr: 1 //重新从第 1 页开始
               }
-            });
+          });
       });
 
   };
@@ -295,7 +296,7 @@
       downloadLink[0].click();
   }
   /*得到二维码图片*/
-  function loaderQRcodeImg(data,files) {
+  function loaderQRcodeImg(data, files) {
       var imgName = data.proName + data.componentName;
       makeCode(data);
       // downloadClick(data);
@@ -303,8 +304,8 @@
       // var read = new FileReader();
       // read.readAsDataURL(url);
       // read.onload = function(e) {
-          // var src = e.target.result;
-          $(".ms .contents .qcode img").attr("src", url);
+      // var src = e.target.result;
+      $(".ms .contents .qcode img").attr("src", url);
       // };
 
   }

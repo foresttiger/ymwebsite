@@ -1,10 +1,19 @@
+// var isLogin = getSession("token");
+// if(!isLogin){
+//     clearSession();
+//     window.location.href = "index.html";
+// }
 $("#logo_out").click(function() {
-    // delCookie();
-    // $.cookie('QWpsbWFuYWdlcg',null);
-    delAllCookie();
-    // window.location.href = "http://www.gxajl.com/manager/index.html"
-    window.location.href = "../index.html"
+    clearSession()
+    window.location.href = "../index.html";
 })
+function judgeIsLogin() {
+    var isLogin = getSession("token");
+    if (!isLogin) {
+        clearSession();
+        window.location.href = "../index.html";
+    }
+}
 
 function getCookie($name) {
     var data = document.cookie;
@@ -28,4 +37,47 @@ function delAllCookie() {
         document.cookie = varName[0] + "=''; expires=" + myDate.toGMTString();
     }
 
+}
+/*设置Cookie*/
+function addCookies(name, value, expiresHours) {
+    // value = URLEncoder.encode(name, "utf-8");
+    // value = decodeURI
+    var cookieString = name + "=" + value;
+    //判断是否设置过期时间 
+    if (expiresHours > 0) {
+        var date = new Date();
+        date.setTime(date.getTime + expiresHours * 3600 * 1000);
+        cookieString = cookieString + "; expires=" + date.toGMTString();
+    }
+    document.cookie = cookieString;
+}
+/*读取Cookie*/
+function readCookies() {
+    var has = false;
+    var strCookie = document.cookie;
+    var arrCookie = strCookie.split("; ");
+    for (var i = 0; i < arrCookie.length; i++) {
+        var arr = arrCookie[i].split("=");
+        if (arr[0] == "QWpsbWFuYWdlcg") {
+            has = true;
+        };
+    }
+    return has;
+}
+/*设置session*/
+function setSession(name, value) {
+    $.session.set(name, value)
+}
+/*获取*/
+function getSession(name) {
+    var value = $.session.get(name);
+    return value;
+}
+/*删除*/
+function delSession(name) {
+    $.session.remove(name);
+}
+/*清除*/
+function clearSession() {
+    $.session.clear();
 }
