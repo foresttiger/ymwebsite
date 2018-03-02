@@ -97,7 +97,7 @@ function loaderData(option) {
     delete option.length_Y;
     delete option.length_Z;
     // Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"入库" });
-    Object.assign(option, { "token": token, "size": size, "status": "inbound" });
+    Object.assign(option, { "token": token, "size": size, "status": "add" });
     $.ajax({
         type: "post",
         url: "http://rainingjoy.xin:9112/saveOrUpdateComponent",

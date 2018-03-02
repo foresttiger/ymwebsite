@@ -70,6 +70,7 @@
           table.render({
               elem: '#demo',
               cellMinWidth: 100,
+              loading:true,
               cols: [
                   [ //标题栏
                       { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
@@ -98,7 +99,12 @@
               even: true,
               page: true, //是否显示分页
               limits: [50, 100, 200],
-              limit: 50 //每页默认显示的数量
+              limit: 50, //每页默认显示的数量
+              done: function(res, curr, count){
+                  var $ = layui.$;
+                  $("[data-field='id']").css('display','none');
+                  $("[data-field='status']").css('display','none');
+              }
           });
           var $ = layui.$,
               active = {
@@ -204,7 +210,7 @@
           type: 1,
           title: data.componentName,
           skin: 'layui-layer-rim', //加上边框
-          area: ['600px', '510px'], //宽高
+          area: ['600px', '580px'], //宽高
           content: $('.ms')
       });
   }
