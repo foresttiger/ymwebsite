@@ -70,19 +70,19 @@
           table.render({
               elem: '#demo',
               cellMinWidth: 100,
-              loading:true,
+              loading: true,
               cols: [
                   [ //标题栏
                       { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                       { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                      { field: 'proName', title: '项目名称', sort: true, align: "center" },
-                      { field: 'buildingInfo', title: '楼层号', align: "center" },
-                      { field: 'componentName', title: '构件名称', align: "center" },
-                      { field: 'size', title: '尺寸', align: "center" },
-                      { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
-                      { field: 'weight', title: '构件重量', sort: true, align: "center" },
-                      { field: 'level', title: '混凝土等级', sort: true, align: "center" },
-                      { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                      { field: 'proName', title: '项目名称', sort: true, align: "center", event: 'proName' },
+                      { field: 'buildingInfo', title: '楼层号', align: "center", event: 'buildingInfo' },
+                      { field: 'componentName', title: '构件名称', align: "center", event: 'componentName' },
+                      { field: 'size', title: '尺寸', align: "center", event: 'size' },
+                      { field: 'volume', title: '混凝土方量', sort: true, align: "center", event: 'volume' },
+                      { field: 'weight', title: '构件重量', sort: true, align: "center", event: 'weight' },
+                      { field: 'level', title: '混凝土等级', sort: true, align: "center", event: 'level' },
+                      { field: 'productDate', title: '生产日期', sort: true, align: "center", event: 'productDate' },
                       { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
                       { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                       { field: 'location', title: '区域', sort: true, align: "center" },
@@ -100,10 +100,10 @@
               page: true, //是否显示分页
               limits: [50, 100, 200],
               limit: 50, //每页默认显示的数量
-              done: function(res, curr, count){
+              done: function(res, curr, count) {
                   var $ = layui.$;
-                  $("[data-field='id']").css('display','none');
-                  $("[data-field='status']").css('display','none');
+                  // $("[data-field='id']").css('display', 'none');
+                  $("[data-field='status']").css('display', 'none');
               }
           });
           var $ = layui.$,
@@ -119,9 +119,29 @@
                   }
               };
           //监听单元格编辑
-          table.on('edit(quote)', function(obj) {
-              updataOrderData(obj.data, type)
-          });
+          // table.on('edit(quote)', function(obj) {
+          //     if (obj.status == "inbound") {
+          //         layer.confirm('产品已入库！', {
+          //             btn: ['确定'] //按钮
+          //         });
+          //         return;
+          //     } else if(obj.status == "outbound") {
+          //         layer.confirm('产品已出库！', {
+          //             btn: ['确定'] //按钮
+          //         });
+          //         return;
+          //     }else{
+          //       obj.status = "update";
+          //     }
+
+          //     layer.confirm('确定修改？', {
+          //         btn: ['确定', '取消'] //按钮
+          //     }, function() {
+          //         updataOrderData(obj.data)
+          //     }, function() {});
+          //     // updataOrderData(obj.data, type)
+          // });
+
           $('#demo .layui-btn.search_btn').on('click', function() {
               var type = $(this).data('type');
               active[type] ? active[type].call(this) : '';
@@ -144,6 +164,26 @@
                   }
               };
           //监听工具条
+          //监听单元格事件
+          // table.on('tool(quote)', function(obj) {
+          //     var data = obj.data;
+          //     if (obj.event === 'setSign') {
+          //         layer.prompt({
+          //             formType: 2,
+          //             title: '修改 ID 为 [' + data.id + '] 的用户签名',
+          //             value: data.sign
+          //         }, function(value, index) {
+          //             layer.close(index);
+
+          //             //这里一般是发送修改的Ajax请求
+
+          //             //同步更新表格和缓存对应的值
+          //             obj.update({
+          //                 sign: value
+          //             });
+          //         });
+          //     }
+          // });
           table.on('tool(quote)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
               var data = obj.data //获得当前行数据
                   ,
@@ -164,6 +204,69 @@
                   layer.msg('正在下载中...');
                   downloadQRcode(data);
               }
+
+              switch (layEvent) {
+                  case "proName":
+                      editValue("", obj.event, "项目名", obj)
+                      break;
+                  case "buildingInfo":
+                      editValue("", obj.event, "楼层号", obj)
+                      break;
+                  case "componentName":
+                      editValue("", obj.event, "构件名称", obj)
+                      break;
+                  case "size":
+                      editValue("", obj.event, "尺寸", obj)
+                      break;
+                  case "volume":
+                      editValue("", obj.event, "混凝土方量", obj)
+                      break;
+                  case "weight":
+                      editValue("", obj.event, "构件重量", obj)
+                      break;
+                  case "level":
+                      editValue("", obj.event, "混凝土等级", obj)
+                      break;
+                  case "productDate":
+                      editValue("", obj.event, "生产日期", obj)
+                      break;
+              }
+
+              // function editValue(type, title, obj) {
+              //     layer.prompt({
+              //         formType: 2,
+              //         title: '修改 ID 为 [' + obj.data.id + '] title',
+              //         value: obj.data[type]
+              //     }, function(value, index) {
+              //         layer.close(index);
+
+              //         //这里一般是发送修改的Ajax请求
+
+              //         //同步更新表格和缓存对应的值
+              //         obj.update({
+              //             sign: value
+              //         });
+              //     });
+              // }
+
+              // } 
+              // else if (obj.event === 'proName') {
+              //     // editValue(obj.event, "项目名", obj)
+              //     layer.prompt({
+              //         formType: 2,
+              //         title: '修改 ID 为 [' + data.id + '] 的用户签名',
+              //         value: data.proName
+              //     }, function(value, index) {
+              //         layer.close(index);
+
+              //         //这里一般是发送修改的Ajax请求
+
+              //         //同步更新表格和缓存对应的值
+              //         obj.update({
+              //             proName: value
+              //         });
+              //     });
+              // }
           });
           table.reload('testReload', {
               page: {
@@ -174,17 +277,53 @@
 
   };
 
-  // function updataOrderData(obj, type) {
-  //     var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
-  //     fetch(url, {
-  //             method: 'POST',
-  //             headers: { "Content-Type": "application/json" },
-  //             body: JSON.stringify(obj)
-  //         }).then((response) => response.text())
-  //         .then((responseData) => { // 上面的转好的json
-  //             console.log(responseData)
-  //         })
-  // };
+  function editValue(type, name, title, obj) {
+      layer.prompt({
+          formType: 2,
+          title: "修改" + title,
+          value: obj.data[name]
+      }, function(value, index) {
+          layer.close(index);
+          obj.data[name] = value;
+          var opt = {};
+          opt[name] = value;
+          updataOrderData(obj, opt)
+      });
+  }
+
+  function updataOrderData(obj, opt) {
+      var datas = obj.data;
+      var token = getSession("token");
+      Object.assign(datas, { "token": token, "status": "update" });
+      delete datas.LAY_TABLE_INDEX
+      // http://ymzg.gxajl.com/saveOrUpdateComponent
+      // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
+      $.ajax({
+          type: "post",
+          url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify(datas),
+          beforeSend: function() {
+              layer.msg('正在更新数据', {
+                  icon: 16,
+                  time: 3000000,
+                  shade: [0.1, '#fff']
+              });
+          },
+          success: function(json) {
+              console.log(json)
+              if (json.status == 200) {
+                  layer.msg("更新成功！")
+                  obj.update(opt);
+              } else {
+                  $("#msg").remove();
+                  layer.msg(json.message)
+                  return false;
+              }
+          }
+      });
+  };
 
   /*查看详情*/
   function showModel(data) {
@@ -238,6 +377,7 @@
           height: 400,
           colorDark: "#000000",
           colorLight: "#ffffff",
+          correctLevel: 0,
           text: utf16to8(data)
       });
   }

@@ -23,46 +23,46 @@ layui.use(['form', 'layedit', 'laydate'], function() {
                 return '请输入项目名称';
             }
         },
-        buildingInfo: function(value) {
-            if (value.length < 1) {
-                return '请输入楼号跟层号';
-            }
-        },
+        // buildingInfo: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入楼号跟层号';
+        //     }
+        // },
         componentName: function(value) {
             if (value.length < 1) {
                 return '请输入构件名称';
             }
         },
-        length_X: function(value) {
-            if (value.length < 1) {
-                return '请输入构件长度';
-            }
-        },
-        length_Y: function(value) {
-            if (value.length < 1) {
-                return '请输入构件宽度';
-            }
-        },
-        length_Z: function(value) {
-            if (value.length < 1) {
-                return '请输入构件高度';
-            }
-        },
-        volume: function(value) {
-            if (value.length < 1) {
-                return '请输入混凝土方量';
-            }
-        },
-        weight: function(value) {
-            if (value.length < 1) {
-                return '请输入构件重量';
-            }
-        },
-        level: function(value) {
-            if (value.length < 1) {
-                return '请输入混凝土等级';
-            }
-        },
+        // length_X: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件长度';
+        //     }
+        // },
+        // length_Y: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件宽度';
+        //     }
+        // },
+        // length_Z: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件高度';
+        //     }
+        // },
+        // volume: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入混凝土方量';
+        //     }
+        // },
+        // weight: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件重量';
+        //     }
+        // },
+        // level: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入混凝土等级';
+        //     }
+        // },
         pass: [/(.+){6,12}$/, '密码必须6到12位'],
         content: function(value) {
             layedit.sync(editIndex);
