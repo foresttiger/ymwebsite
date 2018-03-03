@@ -38,11 +38,11 @@
   })
   /*更新数据*/
   function loadDataToType(type, searchVal, status) {
-      var token = "8f79bacb841642fd894bb0d2ea0f5c74";
-      // var URL = search ? ("http://rainingjoy.xin:9111/getList?dataType=" + type + "&" + search) : ("http://rainingjoy.xin:9111/getList?token=" + token)
-      var URL = "http://rainingjoy.xin:9112/getList"
-      // var URL = search ? ("http://rainingjoy.xin:9111/getList?dataType=" + type + "&" + search) : ("http://rainingjoy.xin:9111/getAll?dataType=" + type)
-      // var URL = "http://rainingjoy.xin:9111/getAll?dataType=" + type;
+      var token = getSession("token");
+      // var URL = search ? ("http://www.zjgymzg.com:9111/getList?dataType=" + type + "&" + search) : ("http://www.zjgymzg.com:9111/getList?token=" + token)
+      var URL = "http://ymzg.gxajl.com/getList"
+      // var URL = search ? ("http://www.zjgymzg.com:9111/getList?dataType=" + type + "&" + search) : ("http://www.zjgymzg.com:9111/getAll?dataType=" + type)
+      // var URL = "http://www.zjgymzg.com:9111/getAll?dataType=" + type;
 
       var opt = {
           "token": token,
@@ -174,17 +174,17 @@
 
   };
 
-  function updataOrderData(obj, type) {
-      var url = 'http://rainingjoy.xin:9111/saveOrUpdate?dataType=' + type
-      fetch(url, {
-              method: 'POST',
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(obj)
-          }).then((response) => response.text())
-          .then((responseData) => { // 上面的转好的json
-              console.log(responseData)
-          })
-  };
+  // function updataOrderData(obj, type) {
+  //     var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
+  //     fetch(url, {
+  //             method: 'POST',
+  //             headers: { "Content-Type": "application/json" },
+  //             body: JSON.stringify(obj)
+  //         }).then((response) => response.text())
+  //         .then((responseData) => { // 上面的转好的json
+  //             console.log(responseData)
+  //         })
+  // };
 
   /*查看详情*/
   function showModel(data) {

@@ -1,6 +1,6 @@
   $(function() {
       $.ajax({
-          "url": 'http://rainingjoy.xin:9111/getAll?dataType=pc',
+          "url": 'http://www.zjgymzg.com:9111/getAll?dataType=pc',
           "type": "get",
       }).done(function(data) {
           renderTable(data)
@@ -64,7 +64,7 @@
   })
   /*更新数据*/
   function updataData(obj) {
-      fetch('http://rainingjoy.xin:9111/saveOrUpdate', {
+      fetch('http://www.zjgymzg.com:9111/saveOrUpdate', {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(obj)
@@ -73,7 +73,7 @@
               console.log(responseData)
           })
   }
-  // fetch('http://rainingjoy.xin:9111/insert', {
+  // fetch('http://www.zjgymzg.com:9111/insert', {
   //         method: 'POST',
   //         headers: { "Content-Type": "application/json" },
   //         body: JSON.stringify(obj)
@@ -83,7 +83,7 @@
   //     })
   // $.ajax({
   //     type: "post",
-  //     url: "http://rainingjoy.xin:9111/insert",
+  //     url: "http://www.zjgymzg.com:9111/insert",
   //     dataType: "application/json",
   //     data: JSON.stringify(obj),
   //     success: function(data) {
@@ -94,7 +94,7 @@
   //     }
   // })
   // $.ajax({
-  //     "url": 'http://rainingjoy.xin:9111/insert',
+  //     "url": 'http://www.zjgymzg.com:9111/insert',
   //     "type": "post",
   //     contentType: 'application/json',
   //     "data": JSON.stringify(obj)
@@ -104,9 +104,9 @@
   //     console.log(e)
   // });
   /*获取*/
-  // rainingjoy.xin:9111/getList
+  // www.zjgymzg.com:9111/getList
   // $.ajax({
-  //     "url": 'http://rainingjoy.xin:9111/getList?name="adasd"',
+  //     "url": 'http://www.zjgymzg.com:9111/getList?name="adasd"',
   //     "type": "get",
   // }).done(function (data) {
   //     console.log(data);
