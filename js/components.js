@@ -194,7 +194,7 @@
           '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
           '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
-          '<li><label for="">混凝土方量:</label><span>' + data.size + '</span></li>' +
+          '<li><label for="">混凝土方量:</label><span>' + data.volume + '</span></li>' +
           '<li><label for="">构件重量:</label><span>' + data.weight + '</span></li>' +
           '<li><label for="">混凝土等级:</label><span>' + data.level + '</span></li>' +
           '<li><label for="">生产日期:</label><span>' + data.productDate + '</span></li>' +
