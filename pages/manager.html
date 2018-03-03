@@ -42,9 +42,9 @@
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" href="javascript:;">构件管理</a>
-                        <dl class="layui-nav-child" id="order">
-                            <dd class="layui-this" data-type="pc"><a href="javascript:;">构件入库</a></dd>
-                            <dd data-type="mobile"><a href="javascript:;">构件出库</a></dd>
+                        <dl class="layui-nav-child components" id="order">
+                            <dd class="layui-this" data-type="inbound"><a href="javascript:;">构件入库</a></dd>
+                            <dd data-type="outbound"><a href="javascript:;">构件出库</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
@@ -56,11 +56,11 @@
                             <!-- <dd><a href="javascript:;">出库员</a></dd> -->
                         </dl>
                     </li>
-                    <li class="layui-nav-item">
+                    <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">车辆管理</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">入库车辆</a></dd>
-                            <dd><a href="javascript:;">出库车辆</a></dd>
+                        <dl class="layui-nav-child components">
+                            <dd data-type="inboundCars"><a href="javascript:;">入库车辆</a></dd>
+                            <dd data-type="outboundCars"><a href="javascript:;">出库车辆</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
@@ -71,7 +71,7 @@
                             <dd><a href="javascript:;">构件入库</a></dd>
                             <dd><a href="javascript:;">构件出库</a></dd>
                             <dd><a href="javascript:;">账号管理</a></dd>
-<!--                             <dd><a href="javascript:;">构件装车</a></dd>
+                            <!--                             <dd><a href="javascript:;">构件装车</a></dd>
                             <dd><a href="javascript:;">构件卸车</a></dd> -->
                         </dl>
                     </li>
@@ -83,19 +83,21 @@
             <div style="padding: 15px;">
                 <div class="tab-header">
                     <div>
-                        <h2></h2>
+                        <h2>构件入库</h2>
                     </div>
                     <!-- <button lay-submit class=" layui-btn layui-btn-warm" lay-filter="search_btn">搜索</button> -->
                     <form class="layui-form search">
                         <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="">
-                            <!-- <option value="proName">项目名称</option> -->
+                            <option value="proName">项目名称</option>
+                            <option value="buildingInfo">楼层号</option>
                             <option value="componentName">构件名称</option>
                         </select>
-                        <input type="text" name="dataString" required="" lay-verify="required" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
+                        <input type="text" name="dataString" required="" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
                         <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
-                        <a href="./addProduct.html" target="_blank" class="layui-btn" style="padding:0 10px;">
+                        <a href="./addProduct.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
                             <i class="layui-icon">&#xe608;</i> 添加
                         </a>
+                        <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
                         <!-- <button class="layui-btn" data-type="reload">搜索</button> -->
                     </form>
                 </div>
@@ -107,10 +109,8 @@
             © www.zjgymzg.com - 永茂住工版权所有
         </div>
     </div>
-
     <div class="ms">
         <div class="contents">
-
             <ul>
                 <!-- <li>
                 <label for="">项目名称</label><span></span></li>
@@ -127,7 +127,6 @@
     </div>
     <!-- 二维码 -->
     <div id="qrcode" style="display:none;width:600px; height:600px; margin-top:15px;"></div>
-
     <script src="./../js/lib/jquery/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./../js/lib/jquery/jquery.session.js" type="text/javascript" charset="utf-8"></script>
     <script src="./../js/lib/other/other.js" type="text/javascript" charset="utf-8"></script>

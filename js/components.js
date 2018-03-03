@@ -1,15 +1,19 @@
   $(function() {
+      $(".addNewProduct").show();
+      var searchObj = undefined;
       judgeIsLogin();
       loadDataToType("pc");
-      $("#order dd").click(function(e) {
+      $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
+          $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
+
           loadDataToType(dataType);
           console.log(dataType);
       })
       layui.use('form', function() {
           var form = layui.form;
           form.on('select(search_type)', function(data) {
-              var type = $("#order dd.layui-this").attr("data-type");
+              var type = $(".components dd.layui-this").attr("data-type");
               if (data.value == "all") {
                   $(".searchData").val("");
                   loadDataToType(type);
@@ -19,35 +23,68 @@
               console.log(data.othis); //得到美化后的DOM对象
           });
           form.on('submit(search_btn)', function(data) {
-              var type = $("#order dd.layui-this").attr("data-type");
+              var type = $(".components dd.layui-this").attr("data-type");
               var string = data.field.dataString;
-              // var string = data.field.row + '=' + data.field.dataString;
-              if (data.field.row == "all") {
-                  string = undefined
+              searchObj = {
+                  type: data.field.row,
+                  value: string
               }
-              loadDataToType(type, string);
-              // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-              // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-              // console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+              // var string = data.field.row + '=' + data.field.dataString;
+              // if (data.field.row == "all") {
+              //     string = undefined
+              // }
+              loadDataToType(type, searchObj);
               return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
           });
       });
+      $(".refresh_btn").click(function() {
+          var type = $(".components dd.layui-this").attr("data-type");
+          refreshData(type);
+      })
 
 
 
   })
+  /*刷新数据*/
+  function refreshData(type) {
+      loadDataToType(type);
+  }
+  // $(".components dd").click(function(e) {
+  //     var dataType = $(this).attr("data-type");
+  //     loadDataToType(dataType);
+  //     console.log(dataType);
+  // })
   /*更新数据*/
-  function loadDataToType(type, searchVal, status) {
+  function loadDataToType(type, searchObj, status) {
+      switch (type) {
+          case "add":
+          case "update":
+          case "inbound":
+              status = undefined;
+              $(".addNewProduct").show();
+              break
+          case "inboundCars":
+              $(".addNewProduct").hide();
+              status = "inbound";
+              searchObj = { type: type, value: "" }
+              break;
+          case "outboundCars":
+          case "outbound":
+              $(".addNewProduct").hide();
+              status = "outbound";
+              searchObj = { type: "outboundCars", value: "" }
+              break;
+      }
       var token = getSession("token");
-      // var URL = search ? ("http://www.zjgymzg.com:9111/getList?dataType=" + type + "&" + search) : ("http://www.zjgymzg.com:9111/getList?token=" + token)
       var URL = "http://ymzg.gxajl.com/getList"
-      // var URL = search ? ("http://www.zjgymzg.com:9111/getList?dataType=" + type + "&" + search) : ("http://www.zjgymzg.com:9111/getAll?dataType=" + type)
-      // var URL = "http://www.zjgymzg.com:9111/getAll?dataType=" + type;
-
       var opt = {
           "token": token,
-          "componentName": searchVal,
+          // "componentName": searchVal,
           "status": status
+      }
+      if (!!searchObj) {
+          opt[searchObj.type] = searchObj.value;
+          // Object.assign(opt,{})
       }
       $.ajax({
           "url": URL,
@@ -63,7 +100,72 @@
   }
 
   function renderOrderTable(data, type) {
-      $(".tab-header h2").html($("#order dd[data-type=" + type + "]").find("a").text());
+      var options = [ //标题栏
+          { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+          { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+          { field: 'proName', title: '项目名称', sort: true, align: "center", event: 'proName' },
+          { field: 'buildingInfo', title: '楼层号', align: "center", event: 'buildingInfo' },
+          { field: 'componentName', title: '构件名称', align: "center", event: 'componentName' },
+          { field: 'size', title: '尺寸', align: "center", event: 'size' },
+          { field: 'volume', title: '混凝土方量', sort: true, align: "center", event: 'volume' },
+          { field: 'weight', title: '构件重量', sort: true, align: "center", event: 'weight' },
+          { field: 'level', title: '混凝土等级', sort: true, align: "center", event: 'level' },
+          { field: 'productDate', title: '生产日期', sort: true, align: "center", event: 'productDate' },
+          { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
+          { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+          { field: 'location', title: '区域', sort: true, align: "center" },
+          { field: 'inboundCars', title: '入库车辆', align: "center" },
+          { field: 'outboundCars', title: '出库车辆', align: "center" },
+          { field: 'status', title: '状态', align: "center" },
+          // { field: 'picPath', title: '二维码地址', align: "center" },
+          { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
+      ]
+      switch (type) {
+          case "inboundCars":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'componentName', title: '构件名称', align: "center" },
+                  { field: 'size', title: '尺寸', align: "center" },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
+                  // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  { field: 'inboundCars', title: '入库车辆', align: "center" },
+                  // { field: 'outboundCars', title: '出库车辆', align: "center" },
+                  // { field: 'status', title: '状态', align: "center" },
+                  // { field: 'picPath', title: '二维码地址', align: "center" },
+                  // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
+              ]
+              break;
+          case "outboundCars":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'componentName', title: '构件名称', align: "center" },
+                  { field: 'size', title: '尺寸', align: "center" },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  // { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  // { field: 'inboundCars', title: '入库车辆', align: "center" },
+                  { field: 'outboundCars', title: '出库车辆', align: "center" },
+                  // { field: 'status', title: '状态', align: "center" },
+                  // { field: 'picPath', title: '二维码地址', align: "center" },
+                  // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
+              ]
+              break;
+      }
       layui.use('table', function() {
           var table = layui.table;
           //展示已知数据
@@ -71,28 +173,7 @@
               elem: '#demo',
               cellMinWidth: 100,
               loading: true,
-              cols: [
-                  [ //标题栏
-                      { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                      { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                      { field: 'proName', title: '项目名称', sort: true, align: "center", event: 'proName' },
-                      { field: 'buildingInfo', title: '楼层号', align: "center", event: 'buildingInfo' },
-                      { field: 'componentName', title: '构件名称', align: "center", event: 'componentName' },
-                      { field: 'size', title: '尺寸', align: "center", event: 'size' },
-                      { field: 'volume', title: '混凝土方量', sort: true, align: "center", event: 'volume' },
-                      { field: 'weight', title: '构件重量', sort: true, align: "center", event: 'weight' },
-                      { field: 'level', title: '混凝土等级', sort: true, align: "center", event: 'level' },
-                      { field: 'productDate', title: '生产日期', sort: true, align: "center", event: 'productDate' },
-                      { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
-                      { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
-                      { field: 'location', title: '区域', sort: true, align: "center" },
-                      { field: 'inboundCars', title: '入库车辆', align: "center" },
-                      { field: 'outboundCars', title: '出库车辆', align: "center" },
-                      { field: 'status', title: '状态', align: "center" },
-                      // { field: 'picPath', title: '二维码地址', align: "center" },
-                      { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
-                  ]
-              ],
+              cols: [options],
               height: 'full-200',
               id: 'testReload',
               data: data,
@@ -118,30 +199,6 @@
                       });
                   }
               };
-          //监听单元格编辑
-          // table.on('edit(quote)', function(obj) {
-          //     if (obj.status == "inbound") {
-          //         layer.confirm('产品已入库！', {
-          //             btn: ['确定'] //按钮
-          //         });
-          //         return;
-          //     } else if(obj.status == "outbound") {
-          //         layer.confirm('产品已出库！', {
-          //             btn: ['确定'] //按钮
-          //         });
-          //         return;
-          //     }else{
-          //       obj.status = "update";
-          //     }
-
-          //     layer.confirm('确定修改？', {
-          //         btn: ['确定', '取消'] //按钮
-          //     }, function() {
-          //         updataOrderData(obj.data)
-          //     }, function() {});
-          //     // updataOrderData(obj.data, type)
-          // });
-
           $('#demo .layui-btn.search_btn').on('click', function() {
               var type = $(this).data('type');
               active[type] ? active[type].call(this) : '';
@@ -165,25 +222,6 @@
               };
           //监听工具条
           //监听单元格事件
-          // table.on('tool(quote)', function(obj) {
-          //     var data = obj.data;
-          //     if (obj.event === 'setSign') {
-          //         layer.prompt({
-          //             formType: 2,
-          //             title: '修改 ID 为 [' + data.id + '] 的用户签名',
-          //             value: data.sign
-          //         }, function(value, index) {
-          //             layer.close(index);
-
-          //             //这里一般是发送修改的Ajax请求
-
-          //             //同步更新表格和缓存对应的值
-          //             obj.update({
-          //                 sign: value
-          //             });
-          //         });
-          //     }
-          // });
           table.on('tool(quote)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
               var data = obj.data //获得当前行数据
                   ,
@@ -231,42 +269,6 @@
                       editValue("", obj.event, "生产日期", obj)
                       break;
               }
-
-              // function editValue(type, title, obj) {
-              //     layer.prompt({
-              //         formType: 2,
-              //         title: '修改 ID 为 [' + obj.data.id + '] title',
-              //         value: obj.data[type]
-              //     }, function(value, index) {
-              //         layer.close(index);
-
-              //         //这里一般是发送修改的Ajax请求
-
-              //         //同步更新表格和缓存对应的值
-              //         obj.update({
-              //             sign: value
-              //         });
-              //     });
-              // }
-
-              // } 
-              // else if (obj.event === 'proName') {
-              //     // editValue(obj.event, "项目名", obj)
-              //     layer.prompt({
-              //         formType: 2,
-              //         title: '修改 ID 为 [' + data.id + '] 的用户签名',
-              //         value: data.proName
-              //     }, function(value, index) {
-              //         layer.close(index);
-
-              //         //这里一般是发送修改的Ajax请求
-
-              //         //同步更新表格和缓存对应的值
-              //         obj.update({
-              //             proName: value
-              //         });
-              //     });
-              // }
           });
           table.reload('testReload', {
               page: {
@@ -294,6 +296,17 @@
   function updataOrderData(obj, opt) {
       var datas = obj.data;
       var token = getSession("token");
+      if (datas.status == "inbound") {
+          layer.confirm('该构件已入库，不可再修改！', {
+              btn: ['确定'] //按钮
+          })
+          return;
+      } else if (datas.status == "outbound") {
+          layer.confirm('该构件已出库，不可再修改！', {
+              btn: ['确定'] //按钮
+          })
+          return;
+      }
       Object.assign(datas, { "token": token, "status": "update" });
       delete datas.LAY_TABLE_INDEX
       // http://ymzg.gxajl.com/saveOrUpdateComponent
@@ -445,12 +458,7 @@
   function loaderQRcodeImg(data, files) {
       var imgName = data.proName + data.componentName;
       makeCode(data);
-      // downloadClick(data);
       var url = productQrcodeImg(data);
-      // var read = new FileReader();
-      // read.readAsDataURL(url);
-      // read.onload = function(e) {
-      // var src = e.target.result;
       $(".ms .contents .qcode img").attr("src", url);
       // };
 
