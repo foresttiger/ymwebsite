@@ -34,6 +34,7 @@ var base = new Base64();
                 if (json.status == 200) {
                     layer.msg("登录成功！")
                     setSession("token", json.token)
+                    setSession("scope", json.scope)
                     setSession(user, pwd);
                     setTimeout(function() {
                         window.open("pages/manager.html", '_self')

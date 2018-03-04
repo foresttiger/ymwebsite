@@ -50,10 +50,8 @@
                     <li class="layui-nav-item">
                         <a href="javascript:;">账号管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">管理员</a></dd>
-                            <dd><a href="javascript:;">操作员</a></dd>
-                            <!-- <dd><a href="javascript:;">入库员</a></dd> -->
-                            <!-- <dd><a href="javascript:;">出库员</a></dd> -->
+                            <dd data-type="admin"><a href="javascript:;">管理员</a></dd>
+                            <dd data-type="operator"><a href="javascript:;">操作员</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item layui-nav-itemed">
@@ -67,10 +65,10 @@
                         <a href="javascript:;">日志</a>
                         <dl class="layui-nav-child">
                             <!-- <dd><a href="javascript:;">登录</a></dd> -->
-                            <dd><a href="javascript:;">管理员入库</a></dd>
-                            <dd><a href="javascript:;">构件入库</a></dd>
-                            <dd><a href="javascript:;">构件出库</a></dd>
-                            <dd><a href="javascript:;">账号管理</a></dd>
+                            <dd  data-type="adminlog"><a href="javascript:;">管理员入库</a></dd>
+                            <dd  data-type="inboundlog"><a href="javascript:;">构件入库</a></dd>
+                            <dd  data-type="outboundlog"><a href="javascript:;">构件出库</a></dd>
+                            <dd  data-type="accountlog"><a href="javascript:;">账号管理</a></dd>
                             <!--                             <dd><a href="javascript:;">构件装车</a></dd>
                             <dd><a href="javascript:;">构件卸车</a></dd> -->
                         </dl>
@@ -95,6 +93,9 @@
                         <input type="text" name="dataString" required="" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
                         <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
                         <a href="./addProduct.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
+                            <i class="layui-icon">&#xe608;</i> 添加
+                        </a>
+                        <a href="./addAccount.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
                             <i class="layui-icon">&#xe608;</i> 添加
                         </a>
                         <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
