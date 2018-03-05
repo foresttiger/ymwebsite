@@ -4,7 +4,7 @@ html,body{
 }
 #loginBody{
     font: 14px/1.5 Arial, "Microsoft Yahei";
-	background: url(../images/login.png) no-repeat;
+	background: url(../images/ymlogin.png) no-repeat;
 	/*background-size: 100%;*/
 	display: flex;
 	justify-content: center;
@@ -13,6 +13,9 @@ html,body{
 }
 img{
 	height: 80px;
+}
+h1{
+
 }
 h3{
 	margin:6px 0 ;
@@ -26,20 +29,23 @@ p{
 
 }
 #login .title{
-    color: #c0a354;
+    color: #999;
     font-size: 20px;
     margin-top: -30px;
+    margin-left: -200px;
+    font-weight: 100;
 }
 #login{
-    width: 300px;
-    height: 240px;
-    background-color: rgba(0,0,0,0.5);
+    width: 340px;
+    height: 268px;
+    background-color: rgba(255,255,255,255);
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -180px;
-    margin-left: -150px;
-    border-radius: 5px;
+    margin-top: -86px;
+    margin-left: -170px;
+    border-radius: 2px;
+    border:1px solid #cccccc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,17 +56,21 @@ p{
     width: 280px;
     height: 45px;
     border: none;
-    background-color: #c0a354;
-    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(29,157,235,1);
+    color: #ffffff;
     font-size: 17px;
     cursor: pointer;
     border-radius: 3px;
 
 }
 #login .btn:hover{
-    background-color: rgba(0,0,0,0.4);
-    color: rgba(255, 255, 255, 1);  
+    /*rgba(29,157,235,1)*/
+    background-color: rgba(29,157,235,0.8);
+    color: #ffffff;  
 }
+
+
+/*1d9deb*/
 label{
 	text-align: right;
 	border: none;
@@ -77,35 +87,53 @@ input[type=text],input[type=password]{
     width: 270px;
     padding: 6px;
     font-size: 14px;
-    color: #ffffff;
+    color: #777777;
     background-color: rgba(255,255,255,0.1);
+    border: 1px solid #ccc;
+}
+input[type=text]:focus,input[type=password]:focus{
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
 }
 input::-webkit-input-placeholder { /* WebKit browsers */ 
 
-color: rgba(255,255,255,0.6); 
+/*color: rgba(255,255,255,0.6); */
 
 } 
 
 input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
 
-color: rgba(255,255,255,0.6); 
+/*color: rgba(255,255,255,0.6); */
 
 } 
 
 input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
 
-color: rgba(255,255,255,0.6); 
+/*color: rgba(255,255,255,0.6); */
 
 } 
 
 input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
 
-color: rgba(255,255,255,0.6); 
+/*color: rgba(255,255,255,0.6); */
 
 } 
 .layui-layer-msg{
     background-color: rgba(0,0,0,0.4);
     border: none;
-    color: rgba(255,212,1,1);
+    color: #ffffff;
     font-size: 17px;
+}
+footer{
+    flex-direction: column;
+    color: #ffffff;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 70px;
+}
+footer p{
+    margin:0;
+    text-align: center;
 }
