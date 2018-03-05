@@ -56,32 +56,42 @@
   // })
   /*更新数据*/
   function loadDataToType(type, searchObj, status) {
+      var token = getSession("token");
+      var scope = getSession("scope")
+      var opt = {
+          "token": token,
+          "status": status
+      }
       switch (type) {
           case "add":
           case "update":
           case "inbound":
-              status = undefined;
+              opt.status = undefined;
               $(".addNewProduct").show();
               break
           case "inboundCars":
               $(".addNewProduct").hide();
-              status = "inbound";
+              opt.status = "inbound";
               searchObj = { type: type, value: "" }
               break;
           case "outboundCars":
           case "outbound":
               $(".addNewProduct").hide();
-              status = "outbound";
+              opt.status = "outbound";
               searchObj = { type: "outboundCars", value: "" }
               break;
+          case "admin":
+          case "operator":
+              delete opt.status;
+              opt["scope"] = scope;
+              opt["scope"] = scope;
+              opt["type"] = type;
+              break;
+              // var scope = getSession("scope")
       }
-      var token = getSession("token");
+
       var URL = "http://ymzg.gxajl.com/getList"
-      var opt = {
-          "token": token,
-          // "componentName": searchVal,
-          "status": status
-      }
+
       if (!!searchObj) {
           opt[searchObj.type] = searchObj.value;
           // Object.assign(opt,{})
@@ -163,6 +173,17 @@
                   // { field: 'status', title: '状态', align: "center" },
                   // { field: 'picPath', title: '二维码地址', align: "center" },
                   // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
+              ]
+              break;
+          case "admin":
+          case "operator":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'user', title: '用户名', sort: true, align: "center" },
+                  { field: 'password', title: '密码', align: "center" },
+                  { field: 'scopr', title: '权限', align: "center" },
+                  { field: 'do', title: '操作人', align: "center" },
               ]
               break;
       }

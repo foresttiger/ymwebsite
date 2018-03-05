@@ -7,21 +7,28 @@
 }
 
 .search {
+
     display: flex; // input{
-    // 	width: 200px;
-    // 	// margin-left: 12px;
-    // 	// border-right: none;
+    //  width: 200px;
+    //  // margin-left: 12px;
+    //  // border-right: none;
     // }
     .searchData {
         width: 200px;
         margin-left: 12px;
         border-right: none;
     } // select{
-    // 	width: 110px;
+    //  width: 110px;
     // }
     .layui-btn {
         border-radius: 0;
     }
+}
+
+.select {
+    margin-right: 12px;
+    display: flex;
+    flex-direction: row;
 }
 
 .layui-select-title {
@@ -93,7 +100,8 @@
         padding: 0 5px;
     }
 }
-#addAccount{
+
+#addAccount {
     width: 600px;
-    margin:0 auto;
+    margin: 0 auto;
 }
