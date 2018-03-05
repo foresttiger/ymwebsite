@@ -242,8 +242,8 @@
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'user', title: '用户名', sort: true, align: "center" },
                   { field: 'password', title: '密码', align: "center" },
-                  { field: 'scope', title: '权限',toolbar: "#accountScope", align: "center", fixed: 'right' },
-                  // { field: 'scopr', title: '权限', align: "center" },
+                  // { field: 'scope', title: '权限',toolbar: "#components", align: "center", fixed: 'right' },
+                  { field: 'scopr', title: '权限', align: "center" },
                   { field: 'do', title: '操作人', align: "center" },
               ]
               break;
@@ -349,6 +349,9 @@
                       break;
                   case "productDate":
                       editValue("", obj.event, "生产日期", obj)
+                      break;
+                  case "password":
+                      editValue("", obj.password, "密码", obj)
                       break;
               }
           });
