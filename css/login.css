@@ -1,85 +1,98 @@
-html,body{
+html,
+body {
     width: 100%;
     height: 100%;
 }
-#loginBody{
-    font: 14px/1.5 Arial, "Microsoft Yahei";
-	background: url(../images/ymlogin.png) no-repeat;
-	/*background-size: 100%;*/
-	display: flex;
-	justify-content: center;
-	align-content: center;
-    background-size:100% 100%;-moz-background-size:100% 100%;
-}
-img{
-	height: 80px;
-}
-h1{
 
+#loginBody {
+    font: 14px/1.5 Arial, "Microsoft Yahei";
+    background: url(../images/ymlogin.png) no-repeat;
+    /*background-size: 100%;*/
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
 }
-h3{
-	margin:6px 0 ;
+
+img {
+    height: 80px;
 }
-p{
-	margin: 13px 0;
+
+h1 {}
+
+h3 {
+    margin: 6px 0;
 }
-#login_form{
+
+p {
+    margin: 16px 0;
+}
+
+#login_form {
     /*padding: 12px 0;*/
     margin-bottom: -30px;
-
 }
-#login .title{
+
+#login .title {
     color: #999;
     font-size: 20px;
     margin-top: -30px;
     margin-left: -200px;
     font-weight: 100;
 }
-#login{
+
+#login {
     width: 340px;
     height: 268px;
-    background-color: rgba(255,255,255,255);
+    background-color: rgba(255, 255, 255, 255);
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -86px;
+    margin-top: -90px;
     margin-left: -170px;
     border-radius: 2px;
-    border:1px solid #cccccc;
+    border: 1px solid #cccccc;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-#login .btn{
- display: inline;
-    width: 280px;
+
+#login .btn {
+    display: inline;
+    width: 284px;
     height: 45px;
     border: none;
-    background-color: rgba(29,157,235,1);
+    background-color: rgba(29, 157, 235, 1);
     color: #ffffff;
     font-size: 17px;
     cursor: pointer;
     border-radius: 3px;
+}
 
-}
-#login .btn:hover{
+#login .btn:hover {
     /*rgba(29,157,235,1)*/
-    background-color: rgba(29,157,235,0.8);
-    color: #ffffff;  
+    background-color: rgba(29, 157, 235, 0.8);
+    color: #ffffff;
 }
+
+
 
 
 /*1d9deb*/
-label{
-	text-align: right;
-	border: none;
+
+label {
+    text-align: right;
+    border: none;
     width: 70px;
     display: block;
     float: left;
 }
-input[type=text],input[type=password]{
-	display: block;
+
+input[type=text],
+input[type=password] {
+    display: block;
     border: none;
     height: 28px;
     padding: 0;
@@ -88,44 +101,45 @@ input[type=text],input[type=password]{
     padding: 6px;
     font-size: 14px;
     color: #777777;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid #ccc;
 }
-input[type=text]:focus,input[type=password]:focus{
+
+input[type=text]:focus,
+input[type=password]:focus {
     border-color: #66afe9;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
-input::-webkit-input-placeholder { /* WebKit browsers */ 
 
-/*color: rgba(255,255,255,0.6); */
+input::-webkit-input-placeholder {
+    /* WebKit browsers */
+    /*color: rgba(255,255,255,0.6); */
+}
 
-} 
+input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    /*color: rgba(255,255,255,0.6); */
+}
 
-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    /*color: rgba(255,255,255,0.6); */
+}
 
-/*color: rgba(255,255,255,0.6); */
+input:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    /*color: rgba(255,255,255,0.6); */
+}
 
-} 
-
-input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
-
-/*color: rgba(255,255,255,0.6); */
-
-} 
-
-input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
-
-/*color: rgba(255,255,255,0.6); */
-
-} 
-.layui-layer-msg{
-    background-color: rgba(0,0,0,0.4);
+.layui-layer-msg {
+    background-color: rgba(0, 0, 0, 0.4);
     border: none;
     color: #ffffff;
     font-size: 17px;
 }
-footer{
+
+footer {
     flex-direction: column;
     color: #ffffff;
     align-self: flex-end;
@@ -133,7 +147,8 @@ footer{
     justify-content: center;
     margin-bottom: 70px;
 }
-footer p{
-    margin:0;
+
+footer p {
+    margin: 0;
     text-align: center;
 }

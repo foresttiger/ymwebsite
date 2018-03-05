@@ -2,7 +2,7 @@
       $(".addNewProduct").show();
       var searchObj = undefined;
       judgeIsLogin();
-      loadDataToType("pc");
+      loadDataToType("add");
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
           $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
@@ -56,27 +56,41 @@
   // })
   /*更新数据*/
   function loadDataToType(type, searchObj, status) {
+      $("#selectData").empty();
       var token = getSession("token");
-      var scope = getSession("scope")
+      var scope = getSession("scope");
+      var componentsSelect = '<option value="proName">项目名称</option>' +
+          '<option value="buildingInfo">楼层号</option>' +
+          '<option value="componentName">构件名称</option>';
+      var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
+      var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
+      // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
           "status": status
       }
+      console.log(type)
       switch (type) {
           case "add":
           case "update":
           case "inbound":
               opt.status = undefined;
-              $(".addNewProduct").show();
+              // $(".select").show();
+              // $(".addNewProduct").show();
+              // $(".addAccount").hide();
               break
           case "inboundCars":
-              $(".addNewProduct").hide();
+              // $(".select").show();
+              // $(".addNewProduct").hide();
+              // $(".addAccount").hide();
               opt.status = "inbound";
               searchObj = { type: type, value: "" }
               break;
           case "outboundCars":
           case "outbound":
-              $(".addNewProduct").hide();
+              // $(".select").show();
+              // $(".addNewProduct").hide();
+              // $(".addAccount").hide();
               opt.status = "outbound";
               searchObj = { type: "outboundCars", value: "" }
               break;
@@ -86,9 +100,55 @@
               opt["scope"] = scope;
               opt["scope"] = scope;
               opt["type"] = type;
+              // $(".select").hide();
+              // $(".addAccount").show();
+              // $(".addNewProduct").hide();
               break;
               // var scope = getSession("scope")
       }
+      switch (type) {
+          case "add":
+          case "update":
+          case "inbound":
+              $(".select").show();
+              $(".addNewProduct").show();
+              $(".addAccount").hide();
+              $("#selectData").append(componentsSelect);
+              break;
+          case "outbound":
+              $(".select").show();
+              $(".addNewProduct").hide();
+              $(".addAccount").hide();
+              $("#selectData").append(componentsSelect);
+              break;
+          case "inboundCars":
+              $(".select").show();
+              $(".addNewProduct").hide();
+              $(".addAccount").hide();
+              $("#selectData").append(inboundCarsSelect)
+              break;
+          case "outboundCars":
+              $(".select").show();
+              $(".addNewProduct").hide();
+              $(".addAccount").hide();
+              $("#selectData").append(outboundCarsSelect)
+              break;
+          case "admin":
+          case "operator":
+              $(".select").hide();
+              $(".addAccount").show();
+              $(".addNewProduct").hide();
+              break;
+      }
+      layui.use('form', function() {
+          var form = layui.form;
+          form.render();
+
+          //do something
+
+      });
+      // form.render();
+
 
       var URL = "http://ymzg.gxajl.com/getList"
 
@@ -182,7 +242,8 @@
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'user', title: '用户名', sort: true, align: "center" },
                   { field: 'password', title: '密码', align: "center" },
-                  { field: 'scopr', title: '权限', align: "center" },
+                  { field: 'scope', title: '权限',toolbar: "#accountScope", align: "center", fixed: 'right' },
+                  // { field: 'scopr', title: '权限', align: "center" },
                   { field: 'do', title: '操作人', align: "center" },
               ]
               break;
