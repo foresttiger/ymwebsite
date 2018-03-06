@@ -25,13 +25,13 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                      <img src="./../images/YM.png" style="width: 60px;" class="layui-nav-img">
-                      超级管理员
+                      <img src="./../images/ym.png" style="width: 60px;" class="layui-nav-img">
+                      <span id="accountName"></span>
                     </a>
-                    <dl class="layui-nav-child">
+                    <!-- <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
-                    </dl>
+                    </dl> -->
                 </li>
                 <li class="layui-nav-item" id="logo_out"><a href="javascript:;">退出登录</a></li>
             </ul>
@@ -47,18 +47,18 @@
                             <dd data-type="outbound"><a href="javascript:;">构件出库</a></dd>
                         </dl>
                     </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;">账号管理</a>
-                        <dl class="layui-nav-child components">
-                            <dd data-type="admin"><a href="javascript:;">管理员</a></dd>
-                            <dd data-type="operator"><a href="javascript:;">操作员</a></dd>
-                        </dl>
-                    </li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">车辆管理</a>
                         <dl class="layui-nav-child components">
                             <dd data-type="inboundCars"><a href="javascript:;">入库车辆</a></dd>
                             <dd data-type="outboundCars"><a href="javascript:;">出库车辆</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">账号管理</a>
+                        <dl class="layui-nav-child components">
+                            <dd data-type="admin"><a href="javascript:;">管理员</a></dd>
+                            <dd data-type="operator"><a href="javascript:;">操作员</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
@@ -169,6 +169,14 @@
     </script>
     <script type="text/html" id="indexTpl">
         {{d.LAY_TABLE_INDEX+1}}
+    </script>
+    <script type="text/html" id="scopeTpl">
+        {{# if(d.scope === '1'){}}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '2') { }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '3') { }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '4') { }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '5') { }}
+        <span style="color: green;">{{ d.status }}</span> {{# } else { }} {{ d.status }} {{# } }}
     </script>
 </body>
 

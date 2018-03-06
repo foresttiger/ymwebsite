@@ -1,7 +1,13 @@
   $(function() {
+      var scope = getSession("scope");
+      if (scope == "1") {
+          $("#accountName").text("超级管理员")
+      } else if (scope == "2") {
+          $("#accountName").text("管理员")
+      }
       $(".addNewProduct").show();
       var searchObj = undefined;
-      judgeIsLogin();
+      // judgeIsLogin();
       loadDataToType("add");
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
@@ -47,14 +53,13 @@
   })
   /*刷新数据*/
   function refreshData(type) {
-      loadDataToType(type);
+    var t = type;
+    if (t == "inbound") {
+      t = "pc";
+    }
+      loadDataToType(t);
   }
-  // $(".components dd").click(function(e) {
-  //     var dataType = $(this).attr("data-type");
-  //     loadDataToType(dataType);
-  //     console.log(dataType);
-  // })
-  /*更新数据*/
+  /*加载数据*/
   function loadDataToType(type, searchObj, status) {
       $("#selectData").empty();
       var token = getSession("token");
@@ -64,6 +69,7 @@
           '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
+      var URL = "http://RainingJoy.xin:9000/getComponents";
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -72,6 +78,7 @@
       console.log(type)
       switch (type) {
           case "add":
+          case "pc":
           case "update":
           case "inbound":
               opt.status = undefined;
@@ -97,16 +104,11 @@
           case "admin":
           case "operator":
               delete opt.status;
-              opt["scope"] = scope;
-              opt["scope"] = scope;
-              opt["type"] = type;
-              // $(".select").hide();
-              // $(".addAccount").show();
-              // $(".addNewProduct").hide();
+              opt["type"] = "admin";
               break;
-              // var scope = getSession("scope")
       }
       switch (type) {
+          case "pc":
           case "add":
           case "update":
           case "inbound":
@@ -139,18 +141,42 @@
               $(".addAccount").show();
               $(".addNewProduct").hide();
               break;
+          case "adminlog":
+          case "inboundlog":
+          case "outboundlog":
+          case "accountlog":
+              $(".select").hide();
+              $(".addNewProduct").hide();
+              $(".addAccount").hide();
+              break;
       }
       layui.use('form', function() {
           var form = layui.form;
           form.render();
-
-          //do something
-
       });
       // form.render();
+      // var URL = "http://RainingJoy.xin:9000/getList";
+      switch (type) {
+          case "add":
+          case "update":
+          case "outbound":
+          case "inboundCars":
+          case "outboundCars":
+              URL = "http://RainingJoy.xin:9000/getComponents"
+              break;
+          case "admin":
+          case "operator":
+              URL = "http://RainingJoy.xin:9000/getCustomers"
+              break;
+          case "adminlog":
+          case "inboundlog":
+          case "outboundlog":
+          case "accountlog":
+              URL = "http://RainingJoy.xin:9000/getLogs"
+              break;
 
-
-      var URL = "http://ymzg.gxajl.com/getList"
+      }
+      // var URL = "http://RainingJoy.xin:9000/getList"
 
       if (!!searchObj) {
           opt[searchObj.type] = searchObj.value;
@@ -194,6 +220,7 @@
           case "inboundCars":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'inboundCars', title: '入库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'proName', title: '项目名称', sort: true, align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
@@ -206,12 +233,13 @@
                   { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
-                  { field: 'inboundCars', title: '入库车辆', align: "center" },
+                  
               ]
               break;
           case "outboundCars":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'outboundCars', title: '出库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'proName', title: '项目名称', sort: true, align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
@@ -225,7 +253,7 @@
                   { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
                   // { field: 'inboundCars', title: '入库车辆', align: "center" },
-                  { field: 'outboundCars', title: '出库车辆', align: "center" },
+                  
                   // { field: 'status', title: '状态', align: "center" },
                   // { field: 'picPath', title: '二维码地址', align: "center" },
                   // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
@@ -235,10 +263,12 @@
           case "operator":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  { field: 'user', title: '用户名', sort: true, align: "center" },
-                  { field: 'password', title: '密码', align: "center" },
-                  { field: 'scopr', title: '权限', align: "center" },
-                  { field: 'do', title: '操作人', align: "center" },
+                  // { field: 'id', title: '账户ID', sort: true, align: "center" },
+                  { field: 'phone', title: '用户名', sort: true, align: "center" },
+                  { field: 'password', title: '密码', align: "center", event: 'password' },
+                  { field: 'scope', title: '权限', align: "center", event: 'scope', templet: '#scopeTpl' },
+                  { field: 'date', title: '日期', align: "center" },
+                  { field: 'operator', title: '操作人', align: "center" },
               ]
               break;
           case "adminlog":
@@ -249,7 +279,7 @@
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
                   { field: 'type', title: '类型', width: 120, sort: true, align: "center" },
-                  { field: 'detail', title: '详情', align: "center" },
+                  { field: 'message', title: '详情', align: "center" },
               ]
               break;
 
@@ -356,8 +386,11 @@
                   case "productDate":
                       editValue("", obj.event, "生产日期", obj)
                       break;
+                  case "scope":
+                      editValue("", obj.event, "账号权限", obj)
+                      break;
                   case "password":
-                      editValue("", obj.password, "密码", obj)
+                      editValue("", obj.event, "账号密码", obj)
                       break;
               }
           });
@@ -371,6 +404,17 @@
   };
 
   function editValue(type, name, title, obj) {
+
+      if (obj.event == "scope") {
+          if (obj.data[name] != "入库员" || obj.data[name] != "出库员" || obj.data[name] != "操作员") {
+              layer.confirm('权限设置错误，请重新设置！', {
+                  btn: ['确定'] //按钮
+              })
+              return;
+          }
+          if (obj.data[name] == "入库员") { obj.data[name] = "3" } else if (obj.data[name] == "出库员") { obj.data[name] = "4" } else if (obj.data[name] == "操作员") { obj.data[name] = "5" }
+
+      }
       var option = {};
       var opt = {};
       layer.prompt({
@@ -390,6 +434,8 @@
   function updataOrderData(obj, opt) {
       // var datas = obj.data;
       var datas = obj;
+      var url = "http://RainingJoy.xin:9000/saveOrUpdateComponent";
+      var type = $(".components dd.layui-this").attr("data-type");
       var token = getSession("token");
       if (datas.status == "inbound") {
           layer.confirm('该构件已入库，不可再修改！', {
@@ -402,14 +448,30 @@
           })
           return;
       }
+      switch (type) {
+          case "inbound":
+              url = "http://RainingJoy.xin:9000/saveOrUpdateComponent";
+              break;
+          case "admin":
+          case "operator":
+              url = "http://RainingJoy.xin:9000/saveOrUpdateCustomer";
+              break;
+              // case "adminlog":
+              // case "inboundlog":
+              // case "outboundlog":
+              // case "accountlog":
+              //     URL = "http://RainingJoy.xin:9000/getLogs"
+              //     break;
+
+      }
       Object.assign(datas, { "token": token, "status": "update" });
       // delete datas.LAY_TABLE_INDEX
-      // http://ymzg.gxajl.com/saveOrUpdateComponent
+      // http://RainingJoy.xin:9000/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
       return;
       $.ajax({
           type: "post",
-          url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
+          url: url,
           contentType: "application/json",
           dataType: "json",
           data: JSON.stringify(datas),
