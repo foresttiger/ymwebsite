@@ -15,7 +15,7 @@ var base = new Base64();
             $("#pwd").focus();
             return false;
         }
-        var obj = { "phone": user, "password": pwd, "type": "admin" };
+        var obj = { "phone": user, "password": pwd};
         $.ajax({
             type: "post",
             url: "http://RainingJoy.xin:9000/login",
@@ -32,6 +32,10 @@ var base = new Base64();
             success: function(json) {
                 console.log(json.token)
                 if (json.status == 200) {
+                    if (json.scope!="1"&&json.scope!="2") {
+                        layer.msg("该账户无权限！")
+                        return;
+                    }
                     layer.msg("登录成功！")
                     setSession("token", json.token)
                     setSession("scope", json.scope)

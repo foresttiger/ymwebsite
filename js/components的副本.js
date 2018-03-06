@@ -90,16 +90,22 @@
               // $(".select").show();
               // $(".addNewProduct").hide();
               // $(".addAccount").hide();
-              opt.status = "inbound";
-              searchObj = { type: type, value: "" }
+              opt.status = undefined;
+              if (!!!searchObj) {
+                opt["inboundCars"] = ""
+              }
+              // searchObj = { type: type, value: searchObj }
               break;
           case "outboundCars":
           case "outbound":
+              if (!!!searchObj) {
+                opt["inboundCars"] = ""
+              }
               // $(".select").show();
               // $(".addNewProduct").hide();
               // $(".addAccount").hide();
               opt.status = "outbound";
-              searchObj = { type: "outboundCars", value: "" }
+              // searchObj = { type: "outboundCars", value: "" }
               break;
           case "admin":
               delete opt.status;
