@@ -102,15 +102,24 @@
               searchObj = { type: "outboundCars", value: "" }
               break;
           case "admin":
-          case "operator":
               delete opt.status;
               opt["type"] = "admin";
               break;
-          case "adminlog":
-          case "inboundlog":
-          case "outboundlog":
-          case "accountlog":
-              opt["type"] = "admin";
+          case "operator":
+              delete opt.status;
+              opt["type"] = type;
+              break;
+              // case "adminlog":
+              // case "inboundlog":
+              // case "outboundlog":
+              // case "accountlog":
+              //     opt["type"] = "adminlog";
+              //     break;
+              // case "inboundlog":
+              //     opt["type"] = "inboundlog";
+              //     break;
+          default:
+              opt["type"] = type;
               break;
       }
       switch (type) {
@@ -197,6 +206,7 @@
           renderOrderTable(data.list, type)
       }).fail(function(e) {
           console.log(e)
+          layer.msg("网络异常，请稍后再试！")
       });
 
   }
@@ -268,7 +278,7 @@
           case "admin":
           case "operator":
               options = [ //标题栏
-                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   // { field: 'id', title: '账户ID', sort: true, align: "center" },
                   { field: 'phone', title: '用户名', sort: true, align: "center" },
                   { field: 'password', title: '密码', align: "center", event: 'password' },
@@ -282,10 +292,10 @@
           case "outboundlog":
           case "accountlog":
               options = [ //标题栏
-                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
-                  { field: 'type', title: '类型', width: 120, sort: true, align: "center" },
-                  { field: 'message', title: '详情', align: "center" },
+                  // { field: 'type', title: '类型', width: 120, sort: true, align: "center" },
+                  { field: 'message', title: '详情', align: "left" },
               ]
               break;
 
@@ -411,28 +421,67 @@
 
   function editValue(type, name, title, obj) {
 
-      if (obj.event == "scope") {
-          if (obj.data[name] != "入库员" || obj.data[name] != "出库员" || obj.data[name] != "操作员") {
-              layer.confirm('权限设置错误，请重新设置！', {
-                  btn: ['确定'] //按钮
-              })
-              return;
-          }
-          if (obj.data[name] == "入库员") { obj.data[name] = "3" } else if (obj.data[name] == "出库员") { obj.data[name] = "4" } else if (obj.data[name] == "操作员") { obj.data[name] = "5" }
+      // if (obj.event == "scope") {
+      //     if (obj.data[name] != "入库员" || obj.data[name] != "出库员" || obj.data[name] != "操作员") {
+      //         layer.confirm('权限设置错误，请重新设置！', {
+      //             btn: ['确定'] //按钮
+      //         })
+      //         return;
+      //     }
+      //     if (obj.data[name] == "入库员") { obj.data[name] = "3" } else if (obj.data[name] == "出库员") { obj.data[name] = "4" } else if (obj.data[name] == "操作员") { obj.data[name] = "5" }
 
-      }
+      // }
+      var scope = getSession("scope");
       var option = obj;
       var opt = {};
+      if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
+
       layer.prompt({
           formType: 2,
           title: "修改" + title,
           value: obj.data[name]
       }, function(value, index) {
           layer.close(index);
-          obj.data[name] = value;
+          if (scope == "2" && value == "管理员") {
+              layer.confirm('权限设置错误，请重新设置！', {
+                  btn: ['确定'] //按钮
+              })
+              return;
+          }
+
+          if (obj.event == "scope") {
+              // ["入库员", "出库员", "操作员"]
+              if (!(["入库员", "出库员", "操作员", "管理员"].indexOf(value) != -1)) {
+                  layer.confirm('权限设置错误，请重新设置！', {
+                      btn: ['确定'] //按钮
+                  })
+                  return;
+              }
+              if (value == "入库员") {
+                  obj.data[name] = "3";
+                  opt["type"] = "operator";
+                  opt[name] = "3";
+              } else if (value == "出库员") {
+                  obj.data[name] = "4";
+                  opt["type"] = "operator";
+                  opt[name] = "4";
+              } else if (value == "操作员") {
+                  opt["type"] = "operator";
+                  obj.data[name] = "5";
+                  opt[name] = "5";
+              } else if (value == "管理员") {
+                  opt["type"] = "admin";
+                  obj.data[name] = "2";
+                  opt[name] = "2";
+              }
+
+          } else {
+              obj.data[name] = value;
+              option[name] = value;
+              opt[name] = value;
+          }
           option["id"] = obj.data.id;
-          option[name] = value;
-          opt[name] = value;
+          opt["id"] = obj.data.id;
           updataOrderData(option, opt)
       });
   }
@@ -470,7 +519,23 @@
               //     break;
 
       }
-      Object.assign(datas, { "token": token, "status": "update" });
+      if (obj.event == "scope") {
+          url = "http://RainingJoy.xin:9000/setScope";
+      }
+
+      if (obj.event == "password" && obj.data.scope == "2") {
+          url = "http://RainingJoy.xin:9000/setScope";
+          Object.assign(opt, { "token": token, "type": "admin" });
+
+      } else if (obj.event == "password" && obj.data.scope != "2") {
+          url = "http://RainingJoy.xin:9000/setScope";
+          Object.assign(opt, { "token": token, "type": "operator" });
+
+      }
+      Object.assign(opt, { "token": token, "status": "update" });
+      if (obj.event == "scope" || obj.event == "password") {
+          delete opt.status
+      }
       // delete datas.LAY_TABLE_INDEX
       // http://RainingJoy.xin:9000/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
@@ -480,7 +545,7 @@
           url: url,
           contentType: "application/json",
           dataType: "json",
-          data: JSON.stringify(datas),
+          data: JSON.stringify(opt),
           beforeSend: function() {
               layer.msg('正在更新数据', {
                   icon: 16,
@@ -493,11 +558,15 @@
               if (json.status == 200) {
                   layer.msg("更新成功！")
                   obj.update(opt);
+                  $(".refresh_btn").click();
               } else {
                   $("#msg").remove();
                   layer.msg(json.message)
                   return false;
               }
+          },
+          error: function(e) {
+              layer.msg("网络异常，请稍后再试！")
           }
       });
   };

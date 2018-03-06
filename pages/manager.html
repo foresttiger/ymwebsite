@@ -172,11 +172,11 @@
     </script>
     <script type="text/html" id="scopeTpl">
         {{# if(d.scope === '1'){}}
-        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '2') { }}
-        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '3') { }}
-        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '4') { }}
-        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.scope === '5') { }}
-        <span style="color: green;">{{ d.status }}</span> {{# } else { }} {{ d.status }} {{# } }}
+        <span style="color: red;">{{ '超级管理员'}}</span> {{# } else if(d.scope === '2') { }}
+        <span style="color: red;">{{ '管理员' }}</span> {{# } else if(d.scope === '3') { }}
+        <span style="color: red;">{{ '入库员' }}</span> {{# } else if(d.scope === '4') { }}
+        <span style="color: red;">{{ '出库员' }}</span> {{# } else if(d.scope === '5') { }}
+        <span style="color: green;">{{ '操作员' }}</span> {{# } else { }} {{ d.status }} {{# } }}
     </script>
 </body>
 

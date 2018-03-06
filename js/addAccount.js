@@ -88,7 +88,7 @@ function submitAddAccountData(option) {
     }
     var token = getSession("token")
     console.log(option);
-    Object.assign(option, { "token": token});
+    Object.assign(option, { "token": token });
     $.ajax({
         type: "post",
         // url: "http://RainingJoy.xin:9000/saveOrUpdateCustomer",
@@ -113,6 +113,9 @@ function submitAddAccountData(option) {
                 layer.msg(json.message)
                 return false;
             }
+        },
+        error: function(e) {
+            layer.msg("网络异常，请稍后再试！")
         }
     });
 }
