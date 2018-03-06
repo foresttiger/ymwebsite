@@ -3,6 +3,7 @@
       if (scope == "1") {
           $("#accountName").text("超级管理员")
       } else if (scope == "2") {
+      	  $(".components dd[data-type='admin']").remove();
           $("#accountName").text("管理员")
       }
       $(".addNewProduct").show();
@@ -524,11 +525,9 @@
       }
 
       if (obj.event == "password" && obj.data.scope == "2") {
-          url = "http://RainingJoy.xin:9000/setScope";
           Object.assign(opt, { "token": token, "type": "admin" });
 
       } else if (obj.event == "password" && obj.data.scope != "2") {
-          url = "http://RainingJoy.xin:9000/setScope";
           Object.assign(opt, { "token": token, "type": "operator" });
 
       }
