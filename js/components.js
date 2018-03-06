@@ -53,10 +53,10 @@
   })
   /*刷新数据*/
   function refreshData(type) {
-    var t = type;
-    if (t == "inbound") {
-      t = "pc";
-    }
+      var t = type;
+      if (t == "inbound") {
+          t = "pc";
+      }
       loadDataToType(t);
   }
   /*加载数据*/
@@ -104,6 +104,12 @@
           case "admin":
           case "operator":
               delete opt.status;
+              opt["type"] = "admin";
+              break;
+          case "adminlog":
+          case "inboundlog":
+          case "outboundlog":
+          case "accountlog":
               opt["type"] = "admin";
               break;
       }
@@ -233,7 +239,7 @@
                   { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
-                  
+
               ]
               break;
           case "outboundCars":
@@ -253,7 +259,7 @@
                   { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
                   // { field: 'inboundCars', title: '入库车辆', align: "center" },
-                  
+
                   // { field: 'status', title: '状态', align: "center" },
                   // { field: 'picPath', title: '二维码地址', align: "center" },
                   // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
@@ -415,7 +421,7 @@
           if (obj.data[name] == "入库员") { obj.data[name] = "3" } else if (obj.data[name] == "出库员") { obj.data[name] = "4" } else if (obj.data[name] == "操作员") { obj.data[name] = "5" }
 
       }
-      var option = {};
+      var option = obj;
       var opt = {};
       layer.prompt({
           formType: 2,
@@ -468,7 +474,7 @@
       // delete datas.LAY_TABLE_INDEX
       // http://RainingJoy.xin:9000/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
-      return;
+      // return;
       $.ajax({
           type: "post",
           url: url,
