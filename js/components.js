@@ -247,6 +247,18 @@
                   { field: 'do', title: '操作人', align: "center" },
               ]
               break;
+          case "adminlog":
+          case "inboundlog":
+          case "outboundlog":
+          case "accountlog":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
+                  { field: 'type', title: '类型', width: 120, sort: true, align: "center" },
+                  { field: 'detail', title: '详情', align: "center" },
+              ]
+              break;
+
       }
       layui.use('table', function() {
           var table = layui.table;
@@ -365,6 +377,8 @@
   };
 
   function editValue(type, name, title, obj) {
+      var option = {};
+      var opt = {};
       layer.prompt({
           formType: 2,
           title: "修改" + title,
@@ -372,14 +386,17 @@
       }, function(value, index) {
           layer.close(index);
           obj.data[name] = value;
-          var opt = {};
+          option["id"] = obj.data.id;
+          option["name"] = name;
+          option["value"] = value;
           opt[name] = value;
-          updataOrderData(obj, opt)
+          updataOrderData(option, opt)
       });
   }
 
   function updataOrderData(obj, opt) {
-      var datas = obj.data;
+      // var datas = obj.data;
+      var datas = obj;
       var token = getSession("token");
       if (datas.status == "inbound") {
           layer.confirm('该构件已入库，不可再修改！', {
@@ -393,9 +410,10 @@
           return;
       }
       Object.assign(datas, { "token": token, "status": "update" });
-      delete datas.LAY_TABLE_INDEX
+      // delete datas.LAY_TABLE_INDEX
       // http://ymzg.gxajl.com/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
+      return;
       $.ajax({
           type: "post",
           url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
