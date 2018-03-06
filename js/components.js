@@ -207,10 +207,6 @@
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
-                  // { field: 'outboundCars', title: '出库车辆', align: "center" },
-                  // { field: 'status', title: '状态', align: "center" },
-                  // { field: 'picPath', title: '二维码地址', align: "center" },
-                  // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
               ]
               break;
           case "outboundCars":
@@ -239,10 +235,8 @@
           case "operator":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'user', title: '用户名', sort: true, align: "center" },
                   { field: 'password', title: '密码', align: "center" },
-                  // { field: 'scope', title: '权限',toolbar: "#components", align: "center", fixed: 'right' },
                   { field: 'scopr', title: '权限', align: "center" },
                   { field: 'do', title: '操作人', align: "center" },
               ]
@@ -387,8 +381,7 @@
           layer.close(index);
           obj.data[name] = value;
           option["id"] = obj.data.id;
-          option["name"] = name;
-          option["value"] = value;
+          option[name] = value;
           opt[name] = value;
           updataOrderData(option, opt)
       });
