@@ -7,7 +7,7 @@
       }
       $(".addNewProduct").show();
       var searchObj = undefined;
-      // judgeIsLogin();
+      judgeIsLogin();
       loadDataToType("add");
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
