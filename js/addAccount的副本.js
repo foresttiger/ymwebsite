@@ -91,8 +91,8 @@ function submitAddAccountData(option) {
     Object.assign(option, { "token": token });
     $.ajax({
         type: "post",
-        // url: "http://RainingJoy.xin:9000/saveOrUpdateCustomer",
-        url: "http://RainingJoy.xin:9000/saveOrUpdateCustomer",
+        // url: "http://ymzg.gxajl.com/saveOrUpdateCustomer",
+        url: "http://ymzg.gxajl.com/saveOrUpdateCustomer",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(option),

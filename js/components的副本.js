@@ -2,8 +2,11 @@
       var scope = getSession("scope");
       if (scope == "1") {
           $("#accountName").text("超级管理员")
+          // $(".components dd[data-type=admin]").show();
       } else if (scope == "2") {
           $("#accountName").text("管理员")
+          $(".components dd[data-type=admin]").remove();
+
       }
       $(".addNewProduct").show();
       var searchObj = undefined;
@@ -69,7 +72,7 @@
           '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
-      var URL = "http://RainingJoy.xin:9000/getComponents";
+      var URL = "http://ymzg.gxajl.com/getComponents";
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -92,14 +95,14 @@
               // $(".addAccount").hide();
               opt.status = undefined;
               if (!!!searchObj) {
-                opt["inboundCars"] = ""
+                  opt["inboundCars"] = ""
               }
               // searchObj = { type: type, value: searchObj }
               break;
           case "outboundCars":
           case "outbound":
               if (!!!searchObj) {
-                opt["inboundCars"] = ""
+                  opt["inboundCars"] = ""
               }
               // $(".select").show();
               // $(".addNewProduct").hide();
@@ -176,28 +179,28 @@
           form.render();
       });
       // form.render();
-      // var URL = "http://RainingJoy.xin:9000/getList";
+      // var URL = "http://ymzg.gxajl.com/getList";
       switch (type) {
           case "add":
           case "update":
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://RainingJoy.xin:9000/getComponents"
+              URL = "http://ymzg.gxajl.com/getComponents"
               break;
           case "admin":
           case "operator":
-              URL = "http://RainingJoy.xin:9000/getCustomers"
+              URL = "http://ymzg.gxajl.com/getCustomers"
               break;
           case "adminlog":
           case "inboundlog":
           case "outboundlog":
           case "accountlog":
-              URL = "http://RainingJoy.xin:9000/getLogs"
+              URL = "http://ymzg.gxajl.com/getLogs"
               break;
 
       }
-      // var URL = "http://RainingJoy.xin:9000/getList"
+      // var URL = "http://ymzg.gxajl.com/getList"
 
       if (!!searchObj) {
           opt[searchObj.type] = searchObj.value;
@@ -229,8 +232,8 @@
           { field: 'weight', title: '构件重量', sort: true, align: "center", event: 'weight' },
           { field: 'level', title: '混凝土等级', sort: true, align: "center", event: 'level' },
           { field: 'productDate', title: '生产日期', sort: true, align: "center", event: 'productDate' },
-          { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
-          { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+          { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
+          { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
           { field: 'location', title: '区域', sort: true, align: "center" },
           { field: 'inboundCars', title: '入库车辆', align: "center" },
           { field: 'outboundCars', title: '出库车辆', align: "center" },
@@ -239,6 +242,26 @@
           { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
       ]
       switch (type) {
+          case "outbound":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'componentName', title: '构件名称', align: "center" },
+                  { field: 'size', title: '尺寸', align: "center", event: 'size' },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  { field: 'inboundCars', title: '入库车辆', align: "center" },
+                  { field: 'outboundCars', title: '出库车辆', align: "center" },
+                  { field: 'status', title: '状态', align: "center" },
+              ]
+              break;
           case "inboundCars":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
@@ -252,7 +275,7 @@
                   { field: 'weight', title: '构件重量', sort: true, align: "center" },
                   { field: 'level', title: '混凝土等级', sort: true, align: "center" },
                   { field: 'productDate', title: '生产日期', sort: true, align: "center" },
-                  { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
 
@@ -272,7 +295,7 @@
                   { field: 'level', title: '混凝土等级', sort: true, align: "center" },
                   { field: 'productDate', title: '生产日期', sort: true, align: "center" },
                   // { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
-                  { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
                   { field: 'location', title: '区域', sort: true, align: "center" },
                   // { field: 'inboundCars', title: '入库车辆', align: "center" },
 
@@ -284,12 +307,12 @@
           case "admin":
           case "operator":
               options = [ //标题栏
-                  // { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   // { field: 'id', title: '账户ID', sort: true, align: "center" },
                   { field: 'phone', title: '用户名', sort: true, align: "center" },
                   { field: 'password', title: '密码', align: "center", event: 'password' },
                   { field: 'scope', title: '权限', align: "center", event: 'scope', templet: '#scopeTpl' },
-                  { field: 'date', title: '日期', align: "center" },
+                  { field: 'date', title: '日期', width: 160, align: "center" },
                   { field: 'operator', title: '操作人', align: "center" },
               ]
               break;
@@ -298,10 +321,11 @@
           case "outboundlog":
           case "accountlog":
               options = [ //标题栏
-                  // { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
-                  // { field: 'type', title: '类型', width: 120, sort: true, align: "center" },
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+
+                  // { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
                   { field: 'message', title: '详情', align: "left" },
+                  { field: 'date', title: '日期', width: 160, align: "center" },
               ]
               break;
 
@@ -382,7 +406,10 @@
                   layer.msg('正在下载中...');
                   downloadQRcode(data);
               }
-
+              var type = $(".components dd.layui-this").attr("data-type");
+              if (!(["inbound", "admin", "operator"].indexOf(type) != -1)) {
+                  return;
+              }
               switch (layEvent) {
                   case "proName":
                       editValue("", obj.event, "项目名", obj)
@@ -495,7 +522,7 @@
   function updataOrderData(obj, opt) {
       // var datas = obj.data;
       var datas = obj;
-      var url = "http://RainingJoy.xin:9000/saveOrUpdateComponent";
+      var url = "http://ymzg.gxajl.com/saveOrUpdateComponent";
       var type = $(".components dd.layui-this").attr("data-type");
       var token = getSession("token");
       if (datas.status == "inbound") {
@@ -511,31 +538,27 @@
       }
       switch (type) {
           case "inbound":
-              url = "http://RainingJoy.xin:9000/saveOrUpdateComponent";
+              url = "http://ymzg.gxajl.com/saveOrUpdateComponent";
               break;
           case "admin":
           case "operator":
-              url = "http://RainingJoy.xin:9000/saveOrUpdateCustomer";
+              url = "http://ymzg.gxajl.com/saveOrUpdateCustomer";
               break;
               // case "adminlog":
               // case "inboundlog":
               // case "outboundlog":
               // case "accountlog":
-              //     URL = "http://RainingJoy.xin:9000/getLogs"
+              //     URL = "http://ymzg.gxajl.com/getLogs"
               //     break;
 
       }
       if (obj.event == "scope") {
-          url = "http://RainingJoy.xin:9000/setScope";
+          url = "http://ymzg.gxajl.com/setScope";
       }
 
-      if (obj.event == "password" && obj.data.scope == "2") {
-          url = "http://RainingJoy.xin:9000/setScope";
-          Object.assign(opt, { "token": token, "type": "admin" });
-
-      } else if (obj.event == "password" && obj.data.scope != "2") {
-          url = "http://RainingJoy.xin:9000/setScope";
-          Object.assign(opt, { "token": token, "type": "operator" });
+      if (obj.event == "password") {
+          url = "http://ymzg.gxajl.com/saveOrUpdateCustomer";
+          Object.assign(opt, { "token": token, "type": type });
 
       }
       Object.assign(opt, { "token": token, "status": "update" });
@@ -543,7 +566,7 @@
           delete opt.status
       }
       // delete datas.LAY_TABLE_INDEX
-      // http://RainingJoy.xin:9000/saveOrUpdateComponent
+      // http://ymzg.gxajl.com/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
       // return;
       $.ajax({

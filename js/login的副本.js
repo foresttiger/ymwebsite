@@ -18,7 +18,7 @@ var base = new Base64();
         var obj = { "phone": user, "password": pwd};
         $.ajax({
             type: "post",
-            url: "http://RainingJoy.xin:9000/login",
+            url: "http://ymzg.gxajl.com/login",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(obj),
