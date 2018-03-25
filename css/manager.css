@@ -52,20 +52,19 @@
 .ms {
   display: none; }
   .ms .contents {
-    width: 600px;
+    width: 700px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center; }
     .ms .contents .qcode {
-      width: 300px;
+      width: 400px;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center; }
       .ms .contents .qcode img {
-        width: 280px;
-        height: 331px;
+        width: 400px;
         border: 1px solid #000000; }
   .ms ul {
     width: 200px;

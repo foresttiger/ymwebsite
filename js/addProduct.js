@@ -99,32 +99,33 @@ function loaderData(option) {
     // Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"入库" });
     Object.assign(option, { "token": token, "size": size, "status": "add" });
     console.log(option)
-    // $.ajax({
-    //     type: "post",
-    //     url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
-    //     contentType: "application/json",
-    //     dataType: "json",
-    //     data: JSON.stringify(option),
-    //     beforeSend: function() {
-    //         layer.msg('正在上传...', {
-    //             icon: 16,
-    //             time: 3000000,
-    //             shade: [0.1, '#fff']
-    //         });
-    //     },
-    //     success: function(json) {
-    //         console.log(json)
-    //         if (json.status == 200) {
-    //             layer.msg("入库成功！")
-    //             $("#form_reset").click();
-    //         } else {
-    //             $("#msg").remove();
-    //             layer.msg(json.message)
-    //             return false;
-    //         }
-    //     },
-    //     error: function(e) {
-    //         layer.msg("网络异常，请稍后再试！")
-    //     }
-    // });
+    $.ajax({
+        type: "post",
+        url: "http://rainingjoy.xin:9000/saveOrUpdateComponent",
+        // url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(option),
+        beforeSend: function() {
+            layer.msg('正在上传...', {
+                icon: 16,
+                time: 3000000,
+                shade: [0.1, '#fff']
+            });
+        },
+        success: function(json) {
+            console.log(json)
+            if (json.status == 200) {
+                layer.msg("入库成功！")
+                $("#form_reset").click();
+            } else {
+                $("#msg").remove();
+                layer.msg(json.message)
+                return false;
+            }
+        },
+        error: function(e) {
+            layer.msg("网络异常，请稍后再试！")
+        }
+    });
 }

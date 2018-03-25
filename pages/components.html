@@ -62,12 +62,12 @@
                         <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
                     </form>
                 </div>
-                <div class="scence">
+                <div class="scence" id="scence">
                     <ul class="items">
                         <li class="line">
                             <div class="line_l">项目：</div>
                             <div class="line_r" data-type="proName">
-                            	<dl>
+                            	<dl data-type="proName">
                             		<dd class="selected" data-id="碧桂园">碧桂园</dd>
                             		<dd data-id="清华苑">清华苑</dd>
                             		<dd data-id="建都">建都</dd>
@@ -78,8 +78,8 @@
                         </li>
                         <li class="line">
                             <div class="line_l">楼号：</div>
-                            <div class="line_r" data-type="building">
-                            	<dl>
+                            <div class="line_r" data-type="buildingNum">
+                            	<dl data-type="buildingNum">
                                     <dd class="selected" data-id="all">全部</dd>
                             		<dd data-id="1号楼">1号楼</dd>
                             		<dd data-id="2号楼">2号楼</dd>
@@ -106,8 +106,8 @@
                         </li>
                         <li class="line">
                             <div class="line_l">层号：</div>
-                            <div class="line_r" data-type="layer">
-                            	<dl>
+                            <div class="line_r" data-type="floorNum">
+                            	<dl data-type="floorNum">
                                     <dd class="selected" data-id="all">全部</dd>
                             		<dd data-id="1F">1F</dd>
                             		<dd data-id="2F">2F</dd>
@@ -133,9 +133,9 @@
                             </div>
                         </li>
                         <li class="line">
-                            <div class="line_l">构件类型：</div>
+                            <div class="line_l">构件类别：</div>
                             <div class="line_r" data-type="category">
-                            	<dl>
+                            	<dl data-type="category">
                                     <dd class="selected" data-id="all">全部</dd>
                             		<dd data-id="墙">墙</dd>
                             		<dd data-id="板">板</dd>

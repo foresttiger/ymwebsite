@@ -54,9 +54,18 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">厂区</label>
+                <div class="layui-input-block">
+                    <select name="plant" lay-filter="plant">
+                        <option value="1厂" selected="">1厂</option>
+                        <option value="2厂">2厂</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">楼号</label>
                 <div class="layui-input-inline">
-                    <select name="building">
+                    <select name="buildingNum">
                         <option value="1号楼" selected="">1号楼</option>
                         <option value="2号楼">2号楼</option>
                         <option value="3号楼">3号楼</option>
@@ -81,7 +90,7 @@
                 </div>
                 <label class="layui-form-label">层号</label>
                 <div class="layui-input-inline">
-                    <select name="layer">
+                    <select name="floorNum">
                         <option value="1F">1F</option>
                         <option value="2F">2F</option>
                         <option value="3F">3F</option>
@@ -129,7 +138,7 @@
             </div> -->
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">构件分类</label>
+                    <label class="layui-form-label">构件类别</label>
                     <div class="layui-input-inline">
                         <select name="category" lay-filter="category">
                             <option value="墙" selected="">墙</option>

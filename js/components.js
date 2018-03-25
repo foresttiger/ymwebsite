@@ -1,3 +1,13 @@
+  var proName = undefined;
+  var buildingNum = undefined;
+  var floorNum = undefined;
+  var category = undefined;
+  var searchData = {
+      proName: undefined,
+      buildingNum: undefined,
+      floorNum: undefined,
+      category: undefined,
+  };
   $(function() {
       var scope = getSession("scope");
       if (scope == "1") {
@@ -20,13 +30,13 @@
 
       }
       // loadDataToType("add");
-      $(".components dd").click(function(e) {
-          var dataType = $(this).attr("data-type");
-          $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
+      // $(".components dd").click(function(e) {
+      //     var dataType = $(this).attr("data-type");
+      //     $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
 
-          loadDataToType(dataType);
-          console.log(dataType);
-      })
+      //     loadDataToType(dataType);
+      //     console.log(dataType);
+      // })
       layui.use('form', function() {
           var form = layui.form;
           form.on('select(search_type)', function(data) {
@@ -56,9 +66,39 @@
       });
       $(".refresh_btn").click(function() {
           var type = $(".components .layui-header a.linkThis").attr("data-type");
+          $(".searchData").val("");
           refreshData(type);
       })
-
+      $("#scence dl dd").on("click", function() {
+          var dataType = $(this).parent().attr("data-type");
+          var oldDataId = $("#scence dl[data-type=" + dataType + "] dd.selected").attr("data-id");
+          var newDataId = $(this).attr("data-id");
+          if (newDataId == oldDataId) {
+              return;
+          }
+          if (newDataId == "all") {
+              newDataId = ""
+          }
+          $("#scence dl[data-type=" + dataType + "] dd.selected").removeClass("selected");
+          $(this).addClass("selected");
+          console.log(newDataId);
+          switch (dataType) {
+              case "proName":
+                  searchData.proName = newDataId;
+                  break;
+              case "buildingNum":
+                  searchData.buildingNum = newDataId;
+                  break;
+              case "floorNum":
+                  searchData.floorNum = newDataId;
+                  break;
+              case "category":
+                  searchData.category = newDataId;
+                  break;
+          }
+          var _type = $(".components .headLine li a.linkThis").attr("data-type");
+          loadDataToType(_type, searchData)
+      })
 
 
   })
@@ -78,10 +118,11 @@
       // var componentsSelect = '<option value="proName">项目名称</option>' +
       //     '<option value="buildingInfo">楼层号</option>' +
       //     '<option value="componentName">构件名称</option>';
-      var componentsSelect = '<option value="proName">项目名称</option><option value="componentName">构件名称</option>';
+      var componentsSelect = '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
-      var URL = "http://ymzg.gxajl.com/getComponents";
+      URL = "http://rainingjoy.xin:9000/search"
+      // URL = "http://ymzg.gxajl.com/getComponents"
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -176,7 +217,8 @@
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://ymzg.gxajl.com/getComponents"
+              URL = "http://rainingjoy.xin:9000/search"
+              // URL = "http://ymzg.gxajl.com/getComponents"
               break;
           case "admin":
           case "operator":
@@ -192,10 +234,31 @@
       }
       // var URL = "http://ymzg.gxajl.com/getList"
 
-      if (!!searchObj) {
+
+      // if (!!searchObj)) {
+      if (searchObj && searchObj.type) {
           opt[searchObj.type] = searchObj.value;
-          // Object.assign(opt,{})
+          for (x in searchData) {
+              if (searchData[x]) {
+                  opt[x] = searchData[x];
+              }
+              // document.write(mycars[x] + "<br />")
+          }
+      } else {
+          if (!searchObj) {
+              searchObj = searchData;
+          }
+          for (x in searchObj) {
+              if (searchObj[x]) {
+                  opt[x] = searchObj[x];
+              }
+          }
       }
+
+
+      // opt[searchObj.type] = searchObj.value;
+      // Object.assign(opt,{})
+      // }
       $.ajax({
           "url": URL,
           "type": "post",
@@ -279,40 +342,40 @@
               }
           },
           {
-              field: 'building',
+              field: 'buildingNum',
               title: '楼号',
               align: "center",
-              event: "building",
+              event: "buildingNum",
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.building + '</span>'
+                      return '<span style="color: green">' + d.buildingNum + '</span>'
                   }
                   if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.building + '</span>'
+                      return '<span style="color: red">' + d.buildingNum + '</span>'
                   } else {
-                      return d.building
+                      return d.buildingNum
                   }
               }
           },
           {
-              field: 'layer',
+              field: 'floorNum',
               title: '层号',
               align: "center",
-              event: "layer",
+              event: "floorNum",
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.layer + '</span>'
+                      return '<span style="color: green">' + d.floorNum + '</span>'
                   }
                   if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.layer + '</span>'
+                      return '<span style="color: red">' + d.floorNum + '</span>'
                   } else {
-                      return d.layer
+                      return d.floorNum
                   }
               }
           },
           {
               field: 'category',
-              title: '构件类型',
+              title: '构件类别',
               align: "center",
               event: 'category',
               templet: function(d) {
@@ -525,8 +588,8 @@
                   { field: 'company', title: '公司名', align: "center" },
                   { field: 'proName', title: '项目名称', align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
-                  { field: 'building', title: '楼号', align: "center" },
-                  { field: 'layer', title: '层号', align: "center" },
+                  { field: 'buildingNum', title: '楼号', align: "center" },
+                  { field: 'floorNum', title: '层号', align: "center" },
                   { field: 'category', title: '构件分类', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center", event: 'size' },
@@ -634,10 +697,10 @@
                   case "buildingInfo":
                       editValue("", obj.event, "楼层号", obj)
                       break;
-                  case "building":
+                  case "buildingNum":
                       editValue("", obj.event, "楼号", obj)
                       break;
-                  case "layer":
+                  case "floorNum":
                       editValue("", obj.event, "层号", obj)
                       break;
                   case "category":
@@ -720,7 +783,7 @@
                       opt[name] = value;
                   }
                   break;
-              case "building":
+              case "buildingNum":
                   if (!(["1号楼", "2号楼", "3号楼", "4号楼", "5号楼", "6号楼", "7号楼", "8号楼", "9号楼", "10号楼", "11号楼", "12号楼", "13号楼", "14号楼", "15号楼", "16号楼", "17号楼", "18号楼", "19号楼", "20号楼"].indexOf(value) != -1)) {
                       layer.confirm('楼号设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
@@ -732,7 +795,7 @@
                       opt[name] = value;
                   }
                   break;
-              case "layer":
+              case "floorNum":
                   if (!(["1F", "2F", "3F", "4F", "5F", "6F", "7F", "8F", "9F", "10F", "11F", "12F", "13F", "14F", "15F", "16F", "17F", "18F", "19F", "20F"].indexOf(value) != -1)) {
                       layer.confirm('层号设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
@@ -891,7 +954,7 @@
       $('.ms ul').empty();
       $('.ms .contents .qcode img').removeAttr("src");
       var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
-          '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
+          // '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
           '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
           '<li><label for="">混凝土方量:</label><span>' + data.volume + '</span></li>' +
@@ -910,7 +973,7 @@
           type: 1,
           title: data.componentName,
           skin: 'layui-layer-rim', //加上边框
-          area: ['600px', '580px'], //宽高
+          area: ['600px', '640px'], //宽高
           content: $('.ms')
       });
   }

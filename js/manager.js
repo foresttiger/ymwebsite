@@ -26,26 +26,38 @@
               laydate = layui.laydate;
           laydate.render({
               elem: '#beginDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           laydate.render({
               elem: '#offDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           laydate.render({
               elem: '#outboundCarsBeginDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           laydate.render({
               elem: '#outboundCarsOffDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           laydate.render({
               elem: '#inboundCarsBeginDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           laydate.render({
               elem: '#inboundCarsOffDate', //指定元素
+              type: 'datetime',
+              value: new Date(),
               zIndex: 99999999
           });
           // outboundCars
@@ -100,7 +112,8 @@
           '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
-      var URL = "http://ymzg.gxajl.com/getComponents";
+      // rainingjoy.xin:9000/search
+      var URL = "http://rainingjoy.xin:9000/search";
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -233,7 +246,8 @@
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://ymzg.gxajl.com/getComponents"
+              URL = "http://rainingjoy.xin:9000/search"
+              // URL = "http://ymzg.gxajl.com/getComponents"
               break;
           case "admin":
           case "operator":
@@ -269,13 +283,7 @@
 
   function renderOrderTable(data, type) {
       var options = [ //标题栏
-          {
-              title: '序号',
-              templet: '#indexTpl',
-              width: 80,
-              fixed: 'left',
-              align: "center"
-          },
+          { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
           {
               field: 'id',
               title: '产品ID',
@@ -294,15 +302,31 @@
               }
           },
           {
+              field: 'company',
+              title: '公司名',
+              align: "center",
+              event: 'company',
+              templet: function(d) {
+                  if (d.status === "inbound") {
+                      return '<span style="color: green">' + d.company + '</span>'
+                  }
+                  if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.company + '</span>'
+                  } else {
+                      return d.company
+                  }
+              }
+          },
+          {
               field: 'proName',
               title: '项目名称',
-              sort: true,
               align: "center",
               event: 'proName',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.proName + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.proName + '</span>'
                   } else {
                       return d.proName
@@ -313,14 +337,63 @@
               field: 'buildingInfo',
               title: '楼层号',
               align: "center",
-              event: 'buildingInfo',
+              event: "buildingInfo",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.buildingInfo + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.buildingInfo + '</span>'
                   } else {
                       return d.buildingInfo
+                  }
+              }
+          },
+          {
+              field: 'buildingNum',
+              title: '楼号',
+              align: "center",
+              event: "buildingNum",
+              templet: function(d) {
+                  if (d.status === "inbound") {
+                      return '<span style="color: green">' + d.buildingNum + '</span>'
+                  }
+                  if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.buildingNum + '</span>'
+                  } else {
+                      return d.buildingNum
+                  }
+              }
+          },
+          {
+              field: 'floorNum',
+              title: '层号',
+              align: "center",
+              event: "floorNum",
+              templet: function(d) {
+                  if (d.status === "inbound") {
+                      return '<span style="color: green">' + d.floorNum + '</span>'
+                  }
+                  if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.floorNum + '</span>'
+                  } else {
+                      return d.floorNum
+                  }
+              }
+          },
+          {
+              field: 'category',
+              title: '构件类别',
+              align: "center",
+              event: 'category',
+              templet: function(d) {
+                  if (d.status === "inbound") {
+                      return '<span style="color: green">' + d.category + '</span>'
+                  }
+                  if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.category + '</span>'
+                  } else {
+                      return d.category
                   }
               }
           },
@@ -331,9 +404,10 @@
               event: 'componentName',
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.proName + '</span>'
-                  } else if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.proName + '</span>'
+                      return '<span style="color: green">' + d.componentName + '</span>'
+                  }
+                  if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.componentName + '</span>'
                   } else {
                       return d.componentName
                   }
@@ -347,7 +421,8 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.size + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.size + '</span>'
                   } else {
                       return d.size
@@ -357,13 +432,13 @@
           {
               field: 'volume',
               title: '混凝土方量',
-              sort: true,
               align: "center",
               event: 'volume',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.volume + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.volume + '</span>'
                   } else {
                       return d.volume
@@ -373,13 +448,13 @@
           {
               field: 'weight',
               title: '构件重量',
-              sort: true,
               align: "center",
               event: 'weight',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.weight + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.weight + '</span>'
                   } else {
                       return d.weight
@@ -389,13 +464,13 @@
           {
               field: 'level',
               title: '混凝土等级',
-              sort: true,
               align: "center",
               event: 'level',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.level + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.level + '</span>'
                   } else {
                       return d.level
@@ -405,13 +480,13 @@
           {
               field: 'productDate',
               title: '生产日期',
-              sort: true,
               align: "center",
               event: 'productDate',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.productDate + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.productDate + '</span>'
                   } else {
                       return d.productDate
@@ -422,12 +497,12 @@
               field: 'inboundDate',
               title: '入库日期',
               width: 160,
-              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.inboundDate + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundDate + '</span>'
                   } else {
                       return d.inboundDate
@@ -438,12 +513,12 @@
               field: 'outboundDate',
               title: '出库日期',
               width: 160,
-              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.outboundDate + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundDate + '</span>'
                   } else {
                       return d.outboundDate
@@ -453,12 +528,12 @@
           {
               field: 'location',
               title: '区域',
-              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.location + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.location + '</span>'
                   } else {
                       return d.location
@@ -472,7 +547,8 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.inboundCars + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundCars + '</span>'
                   } else {
                       return d.inboundCars
@@ -486,7 +562,8 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.outboundCars + '</span>'
-                  } else if (d.status === "outbound") {
+                  }
+                  if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundCars + '</span>'
                   } else {
                       return d.outboundCars
@@ -501,18 +578,22 @@
           case "outbound":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'id', title: '产品ID', width: 80,align: "center", },
+                  { field: 'company', title: '公司名称',align: "center" },
+                  { field: 'proName', title: '项目名称',align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'buildingNum', title: '楼号', align: "center" },
+                  { field: 'floorNum', title: '层号', align: "center" },
+                  { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center", event: 'size' },
-                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
-                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
-                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
-                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
-                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
-                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
-                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  { field: 'volume', title: '混凝土方量',align: "center" },
+                  { field: 'weight', title: '构件重量',align: "center" },
+                  { field: 'level', title: '混凝土等级',align: "center" },
+                  { field: 'productDate', title: '生产日期',align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160,  align: "center" },
+                  { field: 'location', title: '区域',  align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
                   { field: 'outboundCars', title: '出库车辆', align: "center" },
                   { field: 'status', title: '状态', align: "center" },
@@ -521,19 +602,23 @@
           case "inboundCars":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'company', title: '公司名称',align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'proName', title: '项目名称', align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'buildingNum', title: '楼号', align: "center" },
+                  { field: 'floorNum', title: '层号', align: "center" },
+                  { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center" },
-                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
-                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
-                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
-                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
-                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
+                  { field: 'volume', title: '混凝土方量',align: "center" },
+                  { field: 'weight', title: '构件重量',align: "center" },
+                  { field: 'level', title: '混凝土等级', align: "center" },
+                  { field: 'productDate', title: '生产日期',align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, align: "center" },
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
-                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  { field: 'location', title: '区域',align: "center" },
 
               ]
               break;
@@ -542,17 +627,20 @@
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   { field: 'outboundCars', title: '出库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'proName', title: '项目名称',align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'buildingNum', title: '楼号', align: "center" },
+                  { field: 'floorNum', title: '层号', align: "center" },
+                  { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center" },
-                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
-                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
-                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
-                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  { field: 'volume', title: '混凝土方量',align: "center" },
+                  { field: 'weight', title: '构件重量', align: "center" },
+                  { field: 'level', title: '混凝土等级', align: "center" },
+                  { field: 'productDate', title: '生产日期', align: "center" },
                   // { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
-                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
-                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, align: "center" },
+                  { field: 'location', title: '区域',align: "center" },
                   // { field: 'inboundCars', title: '入库车辆', align: "center" },
 
                   // { field: 'status', title: '状态', align: "center" },
@@ -565,7 +653,7 @@
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   // { field: 'id', title: '账户ID', sort: true, align: "center" },
-                  { field: 'phone', title: '用户名', sort: true, align: "center" },
+                  { field: 'phone', title: '用户名',align: "center" },
                   { field: 'password', title: '密码', align: "center", event: 'password' },
                   { field: 'scope', title: '权限', align: "center", event: 'scope', templet: '#scopeTpl' },
                   { field: 'date', title: '日期', width: 160, align: "center" },
@@ -667,11 +755,23 @@
                   return;
               }
               switch (layEvent) {
+                  case "company":
+                      editValue("", obj.event, "公司名", obj)
+                      break;
                   case "proName":
                       editValue("", obj.event, "项目名", obj)
                       break;
                   case "buildingInfo":
                       editValue("", obj.event, "楼层号", obj)
+                      break;
+                  case "buildingNum":
+                      editValue("", obj.event, "楼号", obj)
+                      break;
+                  case "floorNum":
+                      editValue("", obj.event, "层号", obj)
+                      break;
+                  case "category":
+                      editValue("", obj.event, "构件类别", obj)
                       break;
                   case "componentName":
                       editValue("", obj.event, "构件名称", obj)
@@ -737,37 +837,97 @@
               })
               return;
           }
-
-          if (obj.event == "scope") {
-              // ["入库员", "出库员", "操作员"]
-              if (!(["入库员", "出库员", "操作员", "管理员"].indexOf(value) != -1)) {
-                  layer.confirm('权限设置错误，请重新设置！', {
-                      btn: ['确定'] //按钮
-                  })
-                  return;
-              }
-              if (value == "入库员") {
-                  obj.data[name] = "3";
-                  opt["type"] = "operator";
-                  opt[name] = "3";
-              } else if (value == "出库员") {
-                  obj.data[name] = "4";
-                  opt["type"] = "operator";
-                  opt[name] = "4";
-              } else if (value == "操作员") {
-                  opt["type"] = "operator";
-                  obj.data[name] = "5";
-                  opt[name] = "5";
-              } else if (value == "管理员") {
-                  opt["type"] = "admin";
-                  obj.data[name] = "2";
-                  opt[name] = "2";
-              }
-
-          } else {
-              obj.data[name] = value;
-              option[name] = value;
-              opt[name] = value;
+          switch (obj.event) {
+              case "company":
+                  if (!(["永茂住工", "远大住工", "宝岳住工", "君大住工"].indexOf(value) != -1)) {
+                      layer.confirm('公司名设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  } else {
+                      obj.data[name] = value;
+                      option[name] = value;
+                      opt[name] = value;
+                  }
+                  break;
+              case "buildingNum":
+                  if (!(["1号楼", "2号楼", "3号楼", "4号楼", "5号楼", "6号楼", "7号楼", "8号楼", "9号楼", "10号楼", "11号楼", "12号楼", "13号楼", "14号楼", "15号楼", "16号楼", "17号楼", "18号楼", "19号楼", "20号楼"].indexOf(value) != -1)) {
+                      layer.confirm('楼号设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  } else {
+                      obj.data[name] = value;
+                      option[name] = value;
+                      opt[name] = value;
+                  }
+                  break;
+              case "floorNum":
+                  if (!(["1F", "2F", "3F", "4F", "5F", "6F", "7F", "8F", "9F", "10F", "11F", "12F", "13F", "14F", "15F", "16F", "17F", "18F", "19F", "20F"].indexOf(value) != -1)) {
+                      layer.confirm('层号设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  } else {
+                      obj.data[name] = value;
+                      option[name] = value;
+                      opt[name] = value;
+                  }
+                  break;
+              case "category":
+                  if (!(["墙", "板", "柱", "楼梯", "阳台", "凸窗"].indexOf(value) != -1)) {
+                      layer.confirm('构件类型设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  } else {
+                      obj.data[name] = value;
+                      option[name] = value;
+                      opt[name] = value;
+                  }
+                  break;
+              case "level":
+                  if (!(["C30", "C35", "C40", "C45"].indexOf(value) != -1)) {
+                      layer.confirm('混凝土等级设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  } else {
+                      obj.data[name] = value;
+                      option[name] = value;
+                      opt[name] = value;
+                  }
+                  break;
+              case "scope":
+                  if (!(["入库员", "出库员", "操作员", "管理员"].indexOf(value) != -1)) {
+                      layer.confirm('权限设置错误，请重新设置！', {
+                          btn: ['确定'] //按钮
+                      })
+                      return;
+                  }
+                  if (value == "入库员") {
+                      obj.data[name] = "3";
+                      opt["type"] = "operator";
+                      opt[name] = "3";
+                  } else if (value == "出库员") {
+                      obj.data[name] = "4";
+                      opt["type"] = "operator";
+                      opt[name] = "4";
+                  } else if (value == "操作员") {
+                      opt["type"] = "operator";
+                      obj.data[name] = "5";
+                      opt[name] = "5";
+                  } else if (value == "管理员") {
+                      opt["type"] = "admin";
+                      obj.data[name] = "2";
+                      opt[name] = "2";
+                  }
+                  break;
+              default:
+                  obj.data[name] = value;
+                  option[name] = value;
+                  opt[name] = value;
+                  break;
           }
           option["id"] = obj.data.id;
           opt["id"] = obj.data.id;
@@ -860,8 +1020,10 @@
   function showModel(data) {
       $('.ms ul').empty();
       $('.ms .contents .qcode img').removeAttr("src");
-      var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
-          '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
+      var HTML = '<li><label for="">公司名称:</label><span>' + data.company + '</span></li>' +
+          '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
+          '<li><label for="">楼层号:</label><span>' + data.buildingNum + data.floorNum  + '</span></li>' +
+          '<li><label for="">构件名称:</label><span>' + data.category + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
           '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
           '<li><label for="">混凝土方量:</label><span>' + data.volume + '</span></li>' +
@@ -880,7 +1042,7 @@
           type: 1,
           title: data.componentName,
           skin: 'layui-layer-rim', //加上边框
-          area: ['600px', '580px'], //宽高
+          area: ['700px', '640px'], //宽高
           content: $('.ms')
       });
   }
@@ -896,16 +1058,21 @@
   function makeCode(ms) {
       var opts = {
           "id": ms.id,
+          "company": ms.company,
           "proName": ms.proName,
-          "buildingInfo": ms.buildingInfo,
+          "buildingNum": ms.buildingNum,
+          "floorNum": ms.floorNum,
+          "category": ms.category,
           "componentName": ms.componentName,
+          "level": ms.level,
+          "weight": ms.weight,
           "productDate": ms.productDate,
       }
       var data = JSON.stringify(opts)
       $("#qrcode").empty();
       $("#qrcode").qrcode({
-          width: 400,
-          height: 400,
+          width: 200,
+          height: 200,
           colorDark: "#000000",
           colorLight: "#ffffff",
           correctLevel: 0,
@@ -936,32 +1103,48 @@
   function productQrcodeImg(data) {
       // var opts
       var id = data.id;
+      var company = data.company;
       var proName = data.proName;
-      var buildingInfo = data.buildingInfo;
+      var buildingInfo = data.buildingNum + data.floorNum;
       var componentName = data.componentName;
+      var level = data.level;
+      var weight = data.weight;
       var productDate = data.productDate;
       var c = document.createElement('canvas');
-      c.width = 600;
+      c.width = 720;
       c.height = 520;
       var ctx = c.getContext("2d");
       ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, 600, 500);
+      ctx.fillRect(0, 0, 640, 520);
 
       // 获取base64的图片节点
       var img = $('#qrcode canvas')[0];
       // 构建画布
       var canvas = document.createElement('canvas');
-      canvas.width = 440;
+      canvas.width = 620;
       canvas.height = 520;
-      canvas.getContext('2d').font = "22px Georgia";
+      canvas.getContext('2d').font = "40px Microsoft Yahei";
 
       canvas.getContext('2d').drawImage(c, 0, 0);
-      canvas.getContext('2d').drawImage(img, 20, 80);
+      canvas.getContext('2d').drawImage(img, 60, 250);
+      canvas.getContext('2d').textAlign = "left";
+      canvas.getContext('2d').fillText(company || "永茂住工", 60, 110);
+      canvas.getContext('2d').fillText("城建档案馆" || proName, 60, 170);
+      canvas.getContext('2d').fillText(buildingInfo, 60, 230);
 
-      canvas.getContext('2d').fillText('项目:' + proName, 10, 30);
-      canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
-      canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
-      canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
+      canvas.getContext('2d').textAlign = "center";
+      canvas.getContext('2d').font = "70px Microsoft Yahei";
+      canvas.getContext('2d').fillText(componentName, 420, 190);
+
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').textAlign = "left";
+
+      canvas.getContext('2d').fillText('等级: ' + "C30" || level, 305, 280);
+      canvas.getContext('2d').fillText('重量: ' + "50" || weight, 305, 340);
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').fillText('生产日期: ', 305, 390);
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').fillText(productDate, 305, 440);
       return canvas.toDataURL('image/png')
   }
   /*下载图片*/
