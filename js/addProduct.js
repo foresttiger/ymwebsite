@@ -1,1 +1,130 @@
-judgeIsLogin(),layui.use(['form','layedit','laydate'],function(){var a=layui.form,b=layui.layer,c=layui.layedit,d=layui.laydate;d.render({elem:'#productDate'}),d.render({elem:'#date1'});var f=c.build('LAY_demo_editor');a.verify({proName:function(g){if(1>g.length)return'\u8BF7\u8F93\u5165\u9879\u76EE\u540D\u79F0'},componentName:function(g){if(1>g.length)return'\u8BF7\u8F93\u5165\u6784\u4EF6\u540D\u79F0'},pass:[/(.+){6,12}$/,'\u5BC6\u7801\u5FC5\u987B6\u523012\u4F4D'],content:function(){c.sync(f)}}),a.on('switch(switchTest)',function(g){b.msg('\u5F00\u5173checked\uFF1A'+(this.checked?'true':'false'),{offset:'6px'}),b.tips('\u6E29\u99A8\u63D0\u793A\uFF1A\u8BF7\u6CE8\u610F\u5F00\u5173\u72B6\u6001\u7684\u6587\u5B57\u53EF\u4EE5\u968F\u610F\u5B9A\u4E49\uFF0C\u800C\u4E0D\u4EC5\u4EC5\u662FON|OFF',g.othis)}),a.on('submit(demo1)',function(g){return console.log(g.field),loaderData(g.field),!1})});function loaderData(a){var b=getSession('token');if(!b)return void(window.location.href='../index.html');var c=getSession('token'),d=a.length_X+'x'+a.length_Y+'x'+a.length_Z;delete a.length_X,delete a.length_Y,delete a.length_Z,Object.assign(a,{token:c,size:d,status:'add'}),$.ajax({type:'post',url:'http://ymzg.gxajl.com/saveOrUpdateComponent',contentType:'application/json',dataType:'json',data:JSON.stringify(a),beforeSend:function(){layer.msg('\u6B63\u5728\u4E0A\u4F20...',{icon:16,time:3e6,shade:[0.1,'#fff']})},success:function(f){return console.log(f),200==f.status?void(layer.msg('\u5165\u5E93\u6210\u529F\uFF01'),$('#form_reset').click()):($('#msg').remove(),layer.msg(f.message),!1)},error:function(){layer.msg('\u7F51\u7EDC\u5F02\u5E38\uFF0C\u8BF7\u7A0D\u540E\u518D\u8BD5\uFF01')}})}
+judgeIsLogin();
+layui.use(['form', 'layedit', 'laydate'], function() {
+    var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate;
+
+    //日期
+    laydate.render({
+        elem: '#productDate'
+    });
+    laydate.render({
+        elem: '#date1'
+    });
+
+    //创建一个编辑器
+    var editIndex = layedit.build('LAY_demo_editor');
+
+    //自定义验证规则
+    form.verify({
+        proName: function(value) {
+            if (value.length < 1) {
+                return '请输入项目名称';
+            }
+        },
+        // buildingInfo: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入楼号跟层号';
+        //     }
+        // },
+        componentName: function(value) {
+            if (value.length < 1) {
+                return '请输入构件名称';
+            }
+        },
+        // length_X: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件长度';
+        //     }
+        // },
+        // length_Y: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件宽度';
+        //     }
+        // },
+        // length_Z: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件高度';
+        //     }
+        // },
+        // volume: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入混凝土方量';
+        //     }
+        // },
+        // weight: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入构件重量';
+        //     }
+        // },
+        // level: function(value) {
+        //     if (value.length < 1) {
+        //         return '请输入混凝土等级';
+        //     }
+        // },
+        pass: [/(.+){6,12}$/, '密码必须6到12位'],
+        content: function(value) {
+            layedit.sync(editIndex);
+        }
+    });
+
+    //监听指定开关
+    form.on('switch(switchTest)', function(data) {
+        layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+            offset: '6px'
+        });
+        layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+    });
+
+    //监听提交
+    form.on('submit(demo1)', function(data) {
+        console.log(data.field)
+        loaderData(data.field);
+        return false;
+    });
+});
+
+function loaderData(option) {
+    var isLogin = getSession("token");
+    if (!isLogin) {
+        window.location.href = "../index.html";
+        return
+    }
+    var token = getSession("token")
+    var size = option.length_X + "x" + option.length_Y + "x" + option.length_Z;
+    delete option.length_X;
+    delete option.length_Y;
+    delete option.length_Z;
+    // Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"入库" });
+    Object.assign(option, { "token": token, "size": size, "status": "add" });
+    console.log(option)
+    // $.ajax({
+    //     type: "post",
+    //     url: "http://ymzg.gxajl.com/saveOrUpdateComponent",
+    //     contentType: "application/json",
+    //     dataType: "json",
+    //     data: JSON.stringify(option),
+    //     beforeSend: function() {
+    //         layer.msg('正在上传...', {
+    //             icon: 16,
+    //             time: 3000000,
+    //             shade: [0.1, '#fff']
+    //         });
+    //     },
+    //     success: function(json) {
+    //         console.log(json)
+    //         if (json.status == 200) {
+    //             layer.msg("入库成功！")
+    //             $("#form_reset").click();
+    //         } else {
+    //             $("#msg").remove();
+    //             layer.msg(json.message)
+    //             return false;
+    //         }
+    //     },
+    //     error: function(e) {
+    //         layer.msg("网络异常，请稍后再试！")
+    //     }
+    // });
+}

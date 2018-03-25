@@ -25,21 +25,126 @@
         <h1>构件入库</h1>
         <form class="layui-form" action="">
             <div class="layui-form-item">
+                <label class="layui-form-label">公司名</label>
+                <div class="layui-input-block">
+                    <select name="company" lay-filter="company">
+                        <option value="永茂住工" selected>永茂住工</option>
+                        <option value="远大住工">远大住工</option>
+                        <option value="宝岳住工">宝岳住工</option>
+                        <option value="君大住工">君大住工</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="layui-form-item">
                 <label class="layui-form-label">项目名称</label>
                 <div class="layui-input-block">
                     <input type="text" name="proName" lay-verify="proName" autocomplete="off" placeholder="请输入项目名称" class="layui-input">
                 </div>
+            </div> -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目名称</label>
+                <div class="layui-input-block">
+                    <select name="proName" lay-filter="proName">
+                        <option value="碧桂园" selected="">碧桂园</option>
+                        <option value="清雅苑">清雅苑</option>
+                        <option value="建都">建都</option>
+                        <option value="周浦">周浦</option>
+                        <option value="城建档案馆">城建档案馆</option>
+                    </select>
+                </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label">楼号</label>
+                <div class="layui-input-inline">
+                    <select name="building">
+                        <option value="1号楼" selected="">1号楼</option>
+                        <option value="2号楼">2号楼</option>
+                        <option value="3号楼">3号楼</option>
+                        <option value="4号楼">4号楼</option>
+                        <option value="5号楼">5号楼</option>
+                        <option value="6号楼">6号楼</option>
+                        <option value="7号楼">7号楼</option>
+                        <option value="8号楼">8号楼</option>
+                        <option value="9号楼">9号楼</option>
+                        <option value="10号楼">10号楼</option>
+                        <option value="11号楼">11号楼</option>
+                        <option value="12号楼">12号楼</option>
+                        <option value="13号楼">13号楼</option>
+                        <option value="14号楼">14号楼</option>
+                        <option value="15号楼">15号楼</option>
+                        <option value="16号楼">16号楼</option>
+                        <option value="17号楼">17号楼</option>
+                        <option value="18号楼">18号楼</option>
+                        <option value="19号楼">19号楼</option>
+                        <option value="20号楼">20号楼</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">层号</label>
+                <div class="layui-input-inline">
+                    <select name="layer">
+                        <option value="1F">1F</option>
+                        <option value="2F">2F</option>
+                        <option value="3F">3F</option>
+                        <option value="4F">4F</option>
+                        <option value="5F">5F</option>
+                        <option value="6F">6F</option>
+                        <option value="7F">7F</option>
+                        <option value="8F">8F</option>
+                        <option value="9F">9F</option>
+                        <option value="10F">10F</option>
+                        <option value="11F">11F</option>
+                        <option value="12F">12F</option>
+                        <option value="13F">13F</option>
+                        <option value="14F">14F</option>
+                        <option value="15F">15F</option>
+                        <option value="16F">16F</option>
+                        <option value="17F">17F</option>
+                        <option value="18F">18F</option>
+                        <option value="19F">19F</option>
+                        <option value="20F">20F</option>
+                    </select>
+                </div>
+            </div>
+            <!--  <div class="layui-form-item">
                 <label class="layui-form-label">楼号跟层号</label>
                 <div class="layui-input-block">
                     <input type="text" name="buildingInfo" lay-verify="buildingInfo" autocomplete="off" placeholder="请输入楼号跟层号" class="layui-input">
+                </div>
+            </div> -->
+            <!-- <div class="layui-form-item">
+                <label class="layui-form-label">构件分类</label>
+                <div class="layui-input-block">
+                    <select name="category" lay-filter="category">
+                        <option value="层板">层板</option>
+                        <option value="柱子" selected="">柱子</option>
+                        <option value="墙壁">墙壁</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">构件名称</label>
                 <div class="layui-input-block">
                     <input type="text" name="componentName" lay-verify="componentName" autocomplete="off" placeholder="请输入构件名称" class="layui-input">
+                </div>
+            </div> -->
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">构件分类</label>
+                    <div class="layui-input-inline">
+                        <select name="category" lay-filter="category">
+                            <option value="墙" selected="">墙</option>
+                            <option value="板">板</option>
+                            <option value="柱">柱</option>
+                            <option value="楼梯">楼梯</option>
+                            <option value="阳台">阳台</option>
+                            <option value="凸窗">凸窗</option>
+                        </select>
+                    </div>
+                    <label class="layui-form-label">构件名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="componentName" lay-verify="componentName" autocomplete="off" placeholder="请输入构件名称" class="layui-input">
+                        <!-- <input type="text" name="length_Z" lay-verify="length_Z" placeholder="cm" autocomplete="off" class="layui-input"> -->
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -70,10 +175,22 @@
                     <input type="text" name="weight" lay-verify="weight" autocomplete="off" placeholder="请输入构件重量" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <!--  <div class="layui-form-item">
                 <label class="layui-form-label">混凝土等级</label>
                 <div class="layui-input-block">
                     <input type="text" name="level" lay-verify="level" autocomplete="off" placeholder="请输入混凝土等级" class="layui-input">
+                </div>
+            </div> -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">混凝土等级</label>
+                <div class="layui-input-block">
+                    <select name="level" lay-filter="level">
+                        <!-- <option value="C25">C25</option> -->
+                        <option value="C30"  selected="">C30</option>
+                        <option value="C35" >C35</option>
+                        <option value="C40" >C40</option>
+                        <option value="C45" >C45</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">

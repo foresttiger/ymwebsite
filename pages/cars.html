@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>PC构件出入库管理系统</title>
+    <link rel="stylesheet" href="./../js/lib/layui-v2.2.5/css/layui.css" media="all">
+    <!-- <link rel="icon" type="image/x-icon" href="./../images/logo.ico"> -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="./../images/logo.ico"> -->
+    <link rel="stylesheet" href="../css/manager.css">
+    <!-- <link rel="stylesheet" href="couter.css"> -->
+</head>
+
+<body class="layui-layout-body manager">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">
+                <img src="./../images/Group.png" style="width: 160px;" alt="">
+            </div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="./manager.html">控制中心</a></li>
+                <li class="layui-nav-item"><a href="./components.html">构件管理</a></li>
+                <li class="layui-nav-item"><a class="linkThis"  href="./cars.html">车辆管理</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                      <img src="./../images/ym.png" style="width: 60px;" class="layui-nav-img">
+                      <span id="accountName"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item" id="logo_out"><a href="javascript:;">退出登录</a></li>
+            </ul>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">车辆管理</a>
+                        <dl class="layui-nav-child components">
+                            <dd class="layui-this" data-type="inboundCars"><a href="javascript:;">入库车辆</a></dd>
+                            <dd data-type="outboundCars"><a href="javascript:;">出库车辆</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">
+                <div class="tab-header">
+                    <div>
+                        <h2>构件入库</h2>
+                    </div>
+                    <!-- <button lay-submit class=" layui-btn layui-btn-warm" lay-filter="search_btn">搜索</button> -->
+                    <form class="layui-form search">
+                        <div class="select">
+                            <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="selectData">
+                                <!-- <option value="proName">项目名称</option>
+                                <option value="buildingInfo">楼层号</option>
+                                <option value="componentName">构件名称</option> -->
+                            </select>
+                            <input type="text" name="dataString" required="" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
+                            <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
+                        </div>
+                        <a href="./addProduct.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
+                            <i class="layui-icon">&#xe608;</i> 添加
+                        </a>
+                        <a href="./addAccount.html" target="_blank" class="layui-btn addAccount" style="padding:0 10px;">
+                            <i class="layui-icon">&#xe608;</i> 添加
+                        </a>
+                        <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
+                        <!-- <button class="layui-btn" data-type="reload">搜索</button> -->
+                    </form>
+                </div>
+                <table class="layui-hide" id="demo" lay-filter="quote"></table>
+            </div>
+        </div>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © www.zjgymzg.com - 永茂住工版权所有
+        </div>
+    </div>
+    <div class="ms">
+        <div class="contents">
+            <ul>
+                <!-- <li>
+                <label for="">项目名称</label><span></span></li>
+            <li>
+                
+            </li>
+            <li></li>
+            <li></li> -->
+            </ul>
+            <div class="qcode">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 二维码 -->
+    <div id="qrcode" style="display:none;width:600px; height:600px; margin-top:15px;"></div>
+    <script src="./../js/lib/jquery/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/jquery/jquery.session.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/other/other.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/layui-v2.2.5/layui.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/qrcode.min.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
+    <script src="./../js/index.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+
+    });
+    // layui.use('form', function() {
+    //     var form = layui.form;
+
+    // });
+    </script>
+    <script src="../js/components.js" charset="utf-8"></script>
+    <script type="text/html" id="cellnameTpl">
+        <a class="layui-table-link" target="_blank">{{ d.cellname }}</a>
+    </script>
+    <script type="text/html" id="statusTpl">
+        {{# if(d.status === '已签单'){ }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.status === '已完成') { }}
+        <span style="color: green;">{{ d.status }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+    <script type="text/html" id="components">
+        <a class="layui-btn layui-btn-sm" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-warm  layui-btn-sm" lay-event="download">下载二维码</a>
+        <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+    </script>
+    <script type="text/html" id="accountScope">
+        <a class="layui-btn layui-btn-sm" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-warm  layui-btn-sm" lay-event="download">下载二维码</a>
+        <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+    </script>
+    <script type="text/html" id="indexTpl">
+        {{d.LAY_TABLE_INDEX+1}}
+    </script>
+    <script type="text/html" id="scopeTpl">
+        {{# if(d.scope === '1'){}}
+        <span style="color: red;">{{ '超级管理员'}}</span> {{# } else if(d.scope === '2') { }}
+        <span style="color: red;">{{ '管理员' }}</span> {{# } else if(d.scope === '3') { }}
+        <span style="color: red;">{{ '入库员' }}</span> {{# } else if(d.scope === '4') { }}
+        <span style="color: red;">{{ '出库员' }}</span> {{# } else if(d.scope === '5') { }}
+        <span style="color: green;">{{ '操作员' }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>PC构件出入库管理系统</title>
+    <link rel="stylesheet" href="./../js/lib/layui-v2.2.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/manager.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body class="layui-layout-body components">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">
+                <img src="./../images/Group.png" style="width: 160px;" alt="">
+            </div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left headLine">
+                <li class="layui-nav-item"><a target="_blank"  href="./manager.html">控制中心</a></li>
+                <li class="layui-nav-item"><a target="_blank"  data-type="inbound" href="./components.html">构件分类管理</a></li>
+                <li class="layui-nav-item"><a class="linkThis" data-type="outbound" href="./outbound.html">构件出库管理</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                      <img src="./../images/ym.png" style="width: 60px;" class="layui-nav-img">
+                      <span id="accountName"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item" id="logo_out"><a href="javascript:;">退出登录</a></li>
+            </ul>
+        </div>
+        <div class="">
+<!--             <span class="layui-breadcrumb">
+              <a href="/">首页</a>
+              <a href="/demo/">构件</a>
+              <a><cite>构件分类</cite></a>
+            </span> -->
+            <div style="padding: 15px;">
+                <div class="tab-header">
+                    <div>
+                        <h2>构件分类管理</h2>
+                    </div>
+                    <form class="layui-form search">
+                        <div class="select">
+                            <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="selectData">
+                                <!-- <option value="proName">项目名称</option>
+                                <option value="buildingInfo">楼层号</option>
+                                <option value="componentName">构件名称</option> -->
+                            </select>
+                            <input type="text" name="dataString" required="" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
+                            <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
+                        </div>
+                        <a href="./addProduct.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
+                            <i class="layui-icon">&#xe608;</i> 添加
+                        </a>
+                        <a href="./addAccount.html" target="_blank" class="layui-btn addAccount" style="padding:0 10px;">
+                            <i class="layui-icon">&#xe608;</i> 添加
+                        </a>
+                        <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
+                    </form>
+                </div>
+                <div class="scence">
+                    <ul class="items">
+                        <li class="line">
+                            <div class="line_l">项目：</div>
+                            <div class="line_r" data-type="proName">
+                                <dl>
+                                    <dd class="selected" data-id="碧桂园">碧桂园</dd>
+                                    <dd data-id="清华苑">清华苑</dd>
+                                    <dd data-id="建都">建都</dd>
+                                    <dd data-id="周浦">周浦</dd>
+                                    <dd data-id="城建档案馆">城建档案馆</dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li class="line">
+                            <div class="line_l">楼号：</div>
+                            <div class="line_r" data-type="building">
+                                <dl>
+                                    <dd class="selected" data-id="all">全部</dd>
+                                    <dd data-id="1号楼">1号楼</dd>
+                                    <dd data-id="2号楼">2号楼</dd>
+                                    <dd data-id="3号楼">3号楼</dd>
+                                    <dd data-id="4号楼">4号楼</dd>
+                                    <dd data-id="5号楼">5号楼</dd>
+                                    <dd data-id="6号楼">6号楼</dd>
+                                    <dd data-id="7号楼">7号楼</dd>
+                                    <dd data-id="8号楼">8号楼</dd>
+                                    <dd data-id="9号楼">9号楼</dd>
+                                    <dd data-id="10号楼">10号楼</dd>
+                                    <dd data-id="11号楼">11号楼</dd>
+                                    <dd data-id="12号楼">12号楼</dd>
+                                    <dd data-id="13号楼">13号楼</dd>
+                                    <dd data-id="14号楼">14号楼</dd>
+                                    <dd data-id="15号楼">15号楼</dd>
+                                    <dd data-id="16号楼">16号楼</dd>
+                                    <dd data-id="17号楼">17号楼</dd>
+                                    <dd data-id="18号楼">18号楼</dd>
+                                    <dd data-id="19号楼">19号楼</dd>
+                                    <dd data-id="20号楼">20号楼</dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li class="line">
+                            <div class="line_l">层号：</div>
+                            <div class="line_r" data-type="layer">
+                                <dl>
+                                    <dd class="selected" data-id="all">全部</dd>
+                                    <dd data-id="1F">1F</dd>
+                                    <dd data-id="2F">2F</dd>
+                                    <dd data-id="3F">3F</dd>
+                                    <dd data-id="4F">4F</dd>
+                                    <dd data-id="5F">5F</dd>
+                                    <dd data-id="6F">6F</dd>
+                                    <dd data-id="7F">7F</dd>
+                                    <dd data-id="8F">8F</dd>
+                                    <dd data-id="9F">9F</dd>
+                                    <dd data-id="10F">10F</dd>
+                                    <dd data-id="11F">11F</dd>
+                                    <dd data-id="12F">12F</dd>
+                                    <dd data-id="13F">13F</dd>
+                                    <dd data-id="14F">14F</dd>
+                                    <dd data-id="15F">15F</dd>
+                                    <dd data-id="16F">16F</dd>
+                                    <dd data-id="17F">17F</dd>
+                                    <dd data-id="18F">18F</dd>
+                                    <dd data-id="19F">19F</dd>
+                                    <dd data-id="20F">20F</dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li class="line">
+                            <div class="line_l">构件类型：</div>
+                            <div class="line_r" data-type="category">
+                                <dl>
+                                    <dd class="selected" data-id="all">全部</dd>
+                                    <dd data-id="墙">墙</dd>
+                                    <dd data-id="板">板</dd>
+                                    <dd data-id="柱">柱</dd>
+                                    <dd data-id="楼梯">楼梯</dd>
+                                    <dd data-id="阳台">阳台</dd>
+                                    <dd data-id="凸窗">凸窗</dd>
+                                </dl>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <table class="layui-hide" id="demo" lay-filter="quote"></table>
+            </div>
+        </div>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © www.zjgymzg.com - 永茂住工版权所有
+        </div>
+    </div>
+    <div class="ms">
+        <div class="contents">
+            <ul>
+                <!-- <li>
+                <label for="">项目名称</label><span></span></li>
+            <li>
+                
+            </li>
+            <li></li>
+            <li></li> -->
+            </ul>
+            <div class="qcode">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 二维码 -->
+    <div id="qrcode" style="display:none;width:600px; height:600px; margin-top:15px;"></div>
+    <script src="./../js/lib/jquery/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/jquery/jquery.session.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/other/other.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./../js/lib/layui-v2.2.5/layui.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/qrcode.min.js" charset="utf-8"></script>
+    <script src="./../js/lib/qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
+    <script src="./../js/index.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+
+    });
+    // layui.use('form', function() {
+    //     var form = layui.form;
+
+    // });
+    </script>
+    <script src="../js/components.js" charset="utf-8"></script>
+    <script type="text/html" id="cellnameTpl">
+        <a class="layui-table-link" target="_blank">{{ d.cellname }}</a>
+    </script>
+    <script type="text/html" id="statusTpl">
+        {{# if(d.status === '已签单'){ }}
+        <span style="color: red;">{{ d.status }}</span> {{# } else if(d.status === '已完成') { }}
+        <span style="color: green;">{{ d.status }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+    <script type="text/html" id="components">
+        <a class="layui-btn layui-btn-sm" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-warm  layui-btn-sm" lay-event="download">下载二维码</a>
+        <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+    </script>
+    <script type="text/html" id="accountScope">
+        <a class="layui-btn layui-btn-sm" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-warm  layui-btn-sm" lay-event="download">下载二维码</a>
+        <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+    </script>
+    <script type="text/html" id="indexTpl">
+<!--         {{# if(d.status==='outbound'){var color='red'; }
+        if(d.status==='add'){ var color='green';} }}
+            <span style="color:{{color}}">{{d.LAY_TABLE_INDEX+1}}</span> -->
+            {{d.LAY_TABLE_INDEX+1}}
+    </script>
+    <script type="text/html" id="scopeTpl">
+        {{# if(d.scope === '1'){}}
+        <span style="color: red;">{{ '超级管理员'}}</span> {{# } else if(d.scope === '2') { }}
+        <span style="color: red;">{{ '管理员' }}</span> {{# } else if(d.scope === '3') { }}
+        <span style="color: red;">{{ '入库员' }}</span> {{# } else if(d.scope === '4') { }}
+        <span style="color: red;">{{ '出库员' }}</span> {{# } else if(d.scope === '5') { }}
+        <span style="color: green;">{{ '操作员' }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+</body>
+
+</html>

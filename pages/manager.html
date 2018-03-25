@@ -20,7 +20,9 @@
             </div>
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="" style="font-size:20px;">PC构件出入库管理系统</a></li>
+                <li class="layui-nav-item"><a class="linkThis" href="./manager.html">控制中心</a></li>
+                <!-- <li class="layui-nav-item"><a target="_blank" href="./components.html">构件分类管理</a></li> -->
+                <!-- <li class="layui-nav-item"><a href="./cars.html">车辆管理</a></li> -->
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
@@ -85,13 +87,61 @@
                     </div>
                     <!-- <button lay-submit class=" layui-btn layui-btn-warm" lay-filter="search_btn">搜索</button> -->
                     <form class="layui-form search">
-                        <div class="select">
+                        <div class="select inboundSearch">
                             <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="selectData">
                                 <!-- <option value="proName">项目名称</option>
                                 <option value="buildingInfo">楼层号</option>
                                 <option value="componentName">构件名称</option> -->
                             </select>
                             <input type="text" name="dataString" required="" placeholder="请输入您要搜索的内容" autocomplete="off" class="layui-input searchData" />
+                            <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
+                        </div>
+                        <div class="select logSearch">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开始日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="beginDate" id="beginDate" lay-verify="productDate" placeholder="请选择开始日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">结束日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="offDate" id="offDate" lay-verify="productDate" placeholder="请选择结束日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <input type="text" name="proName" required="" placeholder="输入您要搜索的项目" autocomplete="off" class="layui-input searchData" />
+                            <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
+                        </div>
+                        <div class="select inboundCarsSearch">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开始日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="inboundCarsBeginDate" id="inboundCarsBeginDate" lay-verify="productDate" placeholder="请选择开始日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">结束日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="inboundCarsOffDate" id="inboundCarsOffDate" lay-verify="productDate" placeholder="请选择结束日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <input type="text" name="inboundCars" required="" placeholder="输入您要搜索的入库车" autocomplete="off" class="layui-input searchData" />
+                            <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
+                        </div>
+                        <div class="select outboundCarsSearch">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开始日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="outboundCarsBeginDate" id="outboundCarsBeginDate" lay-verify="productDate" placeholder="请选择开始日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">结束日期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="outboundCarsOffDate" id="outboundCarsOffDate" lay-verify="productDate" placeholder="请选择结束日期" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <input type="text" name="outboundCars" required="" placeholder="输入您要搜索的出库车" autocomplete="off" class="layui-input searchData" />
                             <button lay-submit class=" layui-btn layui-btn-warm search_btn" data-type="reload" lay-filter="search_btn">搜索</button>
                         </div>
                         <a href="./addProduct.html" target="_blank" class="layui-btn addNewProduct" style="padding:0 10px;">
@@ -101,6 +151,12 @@
                             <i class="layui-icon">&#xe608;</i> 添加
                         </a>
                         <div class="layui-btn layui-btn-normal refresh_btn">刷新</div>
+                        <a href="./components.html" target="_blank" class="components layui-btn layui-bg-red" style="padding:0 10px;">
+                            分类查询
+                        </a>
+                        <a href="./outbound.html" target="_blank" class="outbound layui-btn layui-bg-red" style="padding:0 10px;">
+                            分类查询
+                        </a>
                         <!-- <button class="layui-btn" data-type="reload">搜索</button> -->
                     </form>
                 </div>
@@ -148,7 +204,7 @@
 
     // });
     </script>
-    <script src="../js/components.js" charset="utf-8"></script>
+    <script src="../js/manager.js" charset="utf-8"></script>
     <script type="text/html" id="cellnameTpl">
         <a class="layui-table-link" target="_blank">{{ d.cellname }}</a>
     </script>
@@ -168,7 +224,8 @@
         <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
     </script>
     <script type="text/html" id="indexTpl">
-        {{d.LAY_TABLE_INDEX+1}}
+        {{# if(d.status==='outbound'){var color='red'; } if(d.status==='inbound'){ var color='green';} }}
+        <span style="color:{{color}}">{{d.LAY_TABLE_INDEX+1}}</span>
     </script>
     <script type="text/html" id="scopeTpl">
         {{# if(d.scope === '1'){}}
@@ -177,6 +234,10 @@
         <span style="color: red;">{{ '入库员' }}</span> {{# } else if(d.scope === '4') { }}
         <span style="color: red;">{{ '出库员' }}</span> {{# } else if(d.scope === '5') { }}
         <span style="color: green;">{{ '操作员' }}</span> {{# } else { }} {{ d.status }} {{# } }}
+    </script>
+    <script type="text/html" id="reasonTpl">
+        {{# if(d.status==='outbound'){var color='red'; } if(d.status==='inbound'){ var color='green';} }}
+        <span style="color:{{color}}">{{d.status    }}</span>
     </script>
 </body>
 

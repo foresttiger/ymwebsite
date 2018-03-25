@@ -11,15 +11,7 @@
       $(".addNewProduct").show();
       var searchObj = undefined;
       judgeIsLogin();
-      var type = $(".components .layui-header a.linkThis").attr("data-type");
-      if (type == "inbound") {
-          loadDataToType("add");
-
-      } else {
-          loadDataToType("outbound");
-
-      }
-      // loadDataToType("add");
+      loadDataToType("add");
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
           $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
@@ -27,10 +19,38 @@
           loadDataToType(dataType);
           console.log(dataType);
       })
-      layui.use('form', function() {
-          var form = layui.form;
+      layui.use(['form', 'layedit', 'laydate'], function() {
+          var form = layui.form,
+              layer = layui.layer,
+              layedit = layui.layedit,
+              laydate = layui.laydate;
+          laydate.render({
+              elem: '#beginDate', //指定元素
+              zIndex: 99999999
+          });
+          laydate.render({
+              elem: '#offDate', //指定元素
+              zIndex: 99999999
+          });
+          laydate.render({
+              elem: '#outboundCarsBeginDate', //指定元素
+              zIndex: 99999999
+          });
+          laydate.render({
+              elem: '#outboundCarsOffDate', //指定元素
+              zIndex: 99999999
+          });
+          laydate.render({
+              elem: '#inboundCarsBeginDate', //指定元素
+              zIndex: 99999999
+          });
+          laydate.render({
+              elem: '#inboundCarsOffDate', //指定元素
+              zIndex: 99999999
+          });
+          // outboundCars
           form.on('select(search_type)', function(data) {
-              var type = $(".components .layui-header a.linkThis").attr("data-type");
+              var type = $(".components dd.layui-this").attr("data-type");
               if (data.value == "all") {
                   $(".searchData").val("");
                   loadDataToType(type);
@@ -40,7 +60,7 @@
               console.log(data.othis); //得到美化后的DOM对象
           });
           form.on('submit(search_btn)', function(data) {
-              var type = $(".components .layui-header a.linkThis").attr("data-type");
+              var type = $(".components dd.layui-this").attr("data-type");
               var string = data.field.dataString;
               searchObj = {
                   type: data.field.row,
@@ -55,7 +75,7 @@
           });
       });
       $(".refresh_btn").click(function() {
-          var type = $(".components .layui-header a.linkThis").attr("data-type");
+          var type = $(".components dd.layui-this").attr("data-type");
           refreshData(type);
       })
 
@@ -75,10 +95,9 @@
       $("#selectData").empty();
       var token = getSession("token");
       var scope = getSession("scope");
-      // var componentsSelect = '<option value="proName">项目名称</option>' +
-      //     '<option value="buildingInfo">楼层号</option>' +
-      //     '<option value="componentName">构件名称</option>';
-      var componentsSelect = '<option value="proName">项目名称</option><option value="componentName">构件名称</option>';
+      var componentsSelect = '<option value="proName">项目名称</option>' +
+          '<option value="buildingInfo">楼层号</option>' +
+          '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var URL = "http://ymzg.gxajl.com/getComponents";
@@ -94,8 +113,14 @@
           case "update":
           case "inbound":
               opt.status = undefined;
+              // $(".select").show();
+              // $(".addNewProduct").show();
+              // $(".addAccount").hide();
               break
           case "inboundCars":
+              // $(".select").show();
+              // $(".addNewProduct").hide();
+              // $(".addAccount").hide();
               opt.status = undefined;
               if (!!!searchObj) {
                   opt["inboundCars"] = ""
@@ -107,7 +132,11 @@
               if (!!!searchObj) {
                   opt["inboundCars"] = ""
               }
+              // $(".select").show();
+              // $(".addNewProduct").hide();
+              // $(".addAccount").hide();
               opt.status = "outbound";
+              // searchObj = { type: "outboundCars", value: "" }
               break;
           case "admin":
               delete opt.status;
@@ -117,51 +146,79 @@
               delete opt.status;
               opt["type"] = type;
               break;
+              // case "adminlog":
+              // case "inboundlog":
+              // case "outboundlog":
+              // case "accountlog":
+              //     opt["type"] = "adminlog";
+              //     break;
+              // case "inboundlog":
+              //     opt["type"] = "inboundlog";
+              //     break;
           default:
               opt["type"] = type;
               break;
       }
+      $(".select").hide();
       switch (type) {
           case "pc":
           case "add":
           case "update":
           case "inbound":
-              $(".select").show();
+              $(".select.inboundSearch").css("display", "flex");
               $(".addNewProduct").show();
               $(".addAccount").hide();
               $("#selectData").append(componentsSelect);
+              $(".tab-header .components").show();
+              $(".tab-header .outbound").hide();
               break;
           case "outbound":
-              $(".select").show();
+              $(".select.inboundSearch").css("display", "flex");
+              // $(".select").show();
               $(".addNewProduct").hide();
               $(".addAccount").hide();
               $("#selectData").append(componentsSelect);
+              $(".tab-header .components").hide();
+              $(".tab-header .outbound").show();
               break;
           case "inboundCars":
-              $(".select").show();
+              $(".select.inboundCarsSearch").css("display", "flex");
+              // $(".select").show();
               $(".addNewProduct").hide();
               $(".addAccount").hide();
               $("#selectData").append(inboundCarsSelect)
+              $(".tab-header .components").hide();
+              $(".tab-header .outbound").hide();
               break;
           case "outboundCars":
-              $(".select").show();
+              // $(".select").show();
+              $(".select.outboundCarsSearch").css("display", "flex");
               $(".addNewProduct").hide();
               $(".addAccount").hide();
               $("#selectData").append(outboundCarsSelect)
+              $(".tab-header .components").hide();
+              $(".tab-header .outbound").hide();
               break;
           case "admin":
           case "operator":
-              $(".select").hide();
+              // $(".select").hide();
               $(".addAccount").show();
               $(".addNewProduct").hide();
+              $(".tab-header .components").hide();
+              $(".tab-header .outbound").hide();
               break;
           case "adminlog":
           case "inboundlog":
           case "outboundlog":
           case "accountlog":
-              $(".select").hide();
+              if ((["inboundlog", "outboundlog", "adminlog"]).indexOf(type) != -1) {
+                  $(".select.logSearch").css("display", "flex");
+              }
+              // $(".select").hide();
               $(".addNewProduct").hide();
               $(".addAccount").hide();
+              $(".tab-header .components").hide();
+              $(".tab-header .outbound").hide();
               break;
       }
       layui.use('form', function() {
@@ -212,7 +269,13 @@
 
   function renderOrderTable(data, type) {
       var options = [ //标题栏
-          { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+          {
+              title: '序号',
+              templet: '#indexTpl',
+              width: 80,
+              fixed: 'left',
+              align: "center"
+          },
           {
               field: 'id',
               title: '产品ID',
@@ -231,31 +294,15 @@
               }
           },
           {
-              field: 'company',
-              title: '公司名',
-              align: "center",
-              event: 'company',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.company + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.company + '</span>'
-                  } else {
-                      return d.company
-                  }
-              }
-          },
-          {
               field: 'proName',
               title: '项目名称',
+              sort: true,
               align: "center",
               event: 'proName',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.proName + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.proName + '</span>'
                   } else {
                       return d.proName
@@ -266,63 +313,14 @@
               field: 'buildingInfo',
               title: '楼层号',
               align: "center",
-              event: "buildingInfo",
+              event: 'buildingInfo',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.buildingInfo + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.buildingInfo + '</span>'
                   } else {
                       return d.buildingInfo
-                  }
-              }
-          },
-          {
-              field: 'building',
-              title: '楼号',
-              align: "center",
-              event: "building",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.building + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.building + '</span>'
-                  } else {
-                      return d.building
-                  }
-              }
-          },
-          {
-              field: 'layer',
-              title: '层号',
-              align: "center",
-              event: "layer",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.layer + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.layer + '</span>'
-                  } else {
-                      return d.layer
-                  }
-              }
-          },
-          {
-              field: 'category',
-              title: '构件类型',
-              align: "center",
-              event: 'category',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.category + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.category + '</span>'
-                  } else {
-                      return d.category
                   }
               }
           },
@@ -333,10 +331,9 @@
               event: 'componentName',
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.componentName + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.componentName + '</span>'
+                      return '<span style="color: green">' + d.proName + '</span>'
+                  } else if (d.status === "outbound") {
+                      return '<span style="color: red">' + d.proName + '</span>'
                   } else {
                       return d.componentName
                   }
@@ -350,8 +347,7 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.size + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.size + '</span>'
                   } else {
                       return d.size
@@ -361,13 +357,13 @@
           {
               field: 'volume',
               title: '混凝土方量',
+              sort: true,
               align: "center",
               event: 'volume',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.volume + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.volume + '</span>'
                   } else {
                       return d.volume
@@ -377,13 +373,13 @@
           {
               field: 'weight',
               title: '构件重量',
+              sort: true,
               align: "center",
               event: 'weight',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.weight + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.weight + '</span>'
                   } else {
                       return d.weight
@@ -393,13 +389,13 @@
           {
               field: 'level',
               title: '混凝土等级',
+              sort: true,
               align: "center",
               event: 'level',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.level + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.level + '</span>'
                   } else {
                       return d.level
@@ -409,13 +405,13 @@
           {
               field: 'productDate',
               title: '生产日期',
+              sort: true,
               align: "center",
               event: 'productDate',
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.productDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.productDate + '</span>'
                   } else {
                       return d.productDate
@@ -426,12 +422,12 @@
               field: 'inboundDate',
               title: '入库日期',
               width: 160,
+              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.inboundDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundDate + '</span>'
                   } else {
                       return d.inboundDate
@@ -442,12 +438,12 @@
               field: 'outboundDate',
               title: '出库日期',
               width: 160,
+              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.outboundDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundDate + '</span>'
                   } else {
                       return d.outboundDate
@@ -457,12 +453,12 @@
           {
               field: 'location',
               title: '区域',
+              sort: true,
               align: "center",
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.location + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.location + '</span>'
                   } else {
                       return d.location
@@ -476,8 +472,7 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.inboundCars + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundCars + '</span>'
                   } else {
                       return d.inboundCars
@@ -491,29 +486,14 @@
               templet: function(d) {
                   if (d.status === "inbound") {
                       return '<span style="color: green">' + d.outboundCars + '</span>'
-                  }
-                  if (d.status === "outbound") {
+                  } else if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundCars + '</span>'
                   } else {
                       return d.outboundCars
                   }
               }
           },
-          {
-              field: 'status',
-              title: '状态',
-              align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.status + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.status + '</span>'
-                  } else {
-                      return d.status
-                  }
-              }
-          },
+          { field: 'status', title: '状态', align: "center", templet: '#reasonTpl' },
           // { field: 'picPath', title: '二维码地址', align: "center" },
           { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
       ]
@@ -522,24 +502,86 @@
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                  { field: 'company', title: '公司名', align: "center" },
-                  { field: 'proName', title: '项目名称', align: "center" },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
                   { field: 'buildingInfo', title: '楼层号', align: "center" },
-                  { field: 'building', title: '楼号', align: "center" },
-                  { field: 'layer', title: '层号', align: "center" },
-                  { field: 'category', title: '构件分类', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center", event: 'size' },
-                  { field: 'volume', title: '混凝土方量', align: "center" },
-                  { field: 'weight', title: '构件重量', align: "center" },
-                  { field: 'level', title: '混凝土等级', align: "center" },
-                  { field: 'productDate', title: '生产日期', align: "center" },
-                  { field: 'inboundDate', title: '入库日期', width: 160, align: "center" },
-                  { field: 'outboundDate', title: '出库日期', width: 160, align: "center" },
-                  { field: 'location', title: '区域', align: "center" },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
                   { field: 'outboundCars', title: '出库车辆', align: "center" },
                   { field: 'status', title: '状态', align: "center" },
+              ]
+              break;
+          case "inboundCars":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'inboundCars', title: '入库车辆', align: "center" },
+                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'componentName', title: '构件名称', align: "center" },
+                  { field: 'size', title: '尺寸', align: "center" },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  { field: 'inboundDate', title: '入库日期', width: 160, sort: true, align: "center" },
+                  // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
+
+              ]
+              break;
+          case "outboundCars":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  { field: 'outboundCars', title: '出库车辆', align: "center" },
+                  // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
+                  { field: 'proName', title: '项目名称', sort: true, align: "center" },
+                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'componentName', title: '构件名称', align: "center" },
+                  { field: 'size', title: '尺寸', align: "center" },
+                  { field: 'volume', title: '混凝土方量', sort: true, align: "center" },
+                  { field: 'weight', title: '构件重量', sort: true, align: "center" },
+                  { field: 'level', title: '混凝土等级', sort: true, align: "center" },
+                  { field: 'productDate', title: '生产日期', sort: true, align: "center" },
+                  // { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, sort: true, align: "center" },
+                  { field: 'location', title: '区域', sort: true, align: "center" },
+                  // { field: 'inboundCars', title: '入库车辆', align: "center" },
+
+                  // { field: 'status', title: '状态', align: "center" },
+                  // { field: 'picPath', title: '二维码地址', align: "center" },
+                  // { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
+              ]
+              break;
+          case "admin":
+          case "operator":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+                  // { field: 'id', title: '账户ID', sort: true, align: "center" },
+                  { field: 'phone', title: '用户名', sort: true, align: "center" },
+                  { field: 'password', title: '密码', align: "center", event: 'password' },
+                  { field: 'scope', title: '权限', align: "center", event: 'scope', templet: '#scopeTpl' },
+                  { field: 'date', title: '日期', width: 160, align: "center" },
+                  { field: 'operator', title: '操作人', align: "center" },
+              ]
+              break;
+          case "adminlog":
+          case "inboundlog":
+          case "outboundlog":
+          case "accountlog":
+              options = [ //标题栏
+                  { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
+
+                  // { field: 'id', title: '日志ID', width: 120, sort: true, align: "center", },
+                  { field: 'message', title: '详情', align: "left" },
+                  { field: 'date', title: '日期', width: 160, align: "center" },
               ]
               break;
 
@@ -552,17 +594,17 @@
               cellMinWidth: 100,
               loading: true,
               cols: [options],
-              height: 'full-370',
+              height: 'full-200',
               id: 'testReload',
               data: data,
               even: true,
               page: true, //是否显示分页
-              limits: [10, 20, 50],
-              limit: 10, //每页默认显示的数量
+              limits: [50, 100, 200],
+              limit: 50, //每页默认显示的数量
               done: function(res, curr, count) {
                   var $ = layui.$;
                   // $("[data-field='id']").css('display', 'none');
-                  $("[data-field='status']").css('display', 'none');
+                  // $("[data-field='status']").css('display', 'none');
               }
           });
           var $ = layui.$,
@@ -620,28 +662,16 @@
                   layer.msg('正在下载中...');
                   downloadQRcode(data);
               }
-              var type = $(".components .headLine li a.linkThis").attr("data-type");
+              var type = $(".components dd.layui-this").attr("data-type");
               if (!(["inbound", "admin", "operator"].indexOf(type) != -1)) {
                   return;
               }
               switch (layEvent) {
-                  case "company":
-                      editValue("", obj.event, "公司名", obj)
-                      break;
                   case "proName":
                       editValue("", obj.event, "项目名", obj)
                       break;
                   case "buildingInfo":
                       editValue("", obj.event, "楼层号", obj)
-                      break;
-                  case "building":
-                      editValue("", obj.event, "楼号", obj)
-                      break;
-                  case "layer":
-                      editValue("", obj.event, "层号", obj)
-                      break;
-                  case "category":
-                      editValue("", obj.event, "构件类别", obj)
                       break;
                   case "componentName":
                       editValue("", obj.event, "构件名称", obj)
@@ -707,97 +737,37 @@
               })
               return;
           }
-          switch (obj.event) {
-              case "company":
-                  if (!(["永茂住工", "远大住工", "宝岳住工", "君大住工"].indexOf(value) != -1)) {
-                      layer.confirm('公司名设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  } else {
-                      obj.data[name] = value;
-                      option[name] = value;
-                      opt[name] = value;
-                  }
-                  break;
-              case "building":
-                  if (!(["1号楼", "2号楼", "3号楼", "4号楼", "5号楼", "6号楼", "7号楼", "8号楼", "9号楼", "10号楼", "11号楼", "12号楼", "13号楼", "14号楼", "15号楼", "16号楼", "17号楼", "18号楼", "19号楼", "20号楼"].indexOf(value) != -1)) {
-                      layer.confirm('楼号设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  } else {
-                      obj.data[name] = value;
-                      option[name] = value;
-                      opt[name] = value;
-                  }
-                  break;
-              case "layer":
-                  if (!(["1F", "2F", "3F", "4F", "5F", "6F", "7F", "8F", "9F", "10F", "11F", "12F", "13F", "14F", "15F", "16F", "17F", "18F", "19F", "20F"].indexOf(value) != -1)) {
-                      layer.confirm('层号设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  } else {
-                      obj.data[name] = value;
-                      option[name] = value;
-                      opt[name] = value;
-                  }
-                  break;
-              case "category":
-                  if (!(["墙", "板", "柱", "楼梯", "阳台", "凸窗"].indexOf(value) != -1)) {
-                      layer.confirm('构件类型设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  } else {
-                      obj.data[name] = value;
-                      option[name] = value;
-                      opt[name] = value;
-                  }
-                  break;
-              case "level":
-                  if (!(["C30", "C35", "C40", "C45"].indexOf(value) != -1)) {
-                      layer.confirm('混凝土等级设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  } else {
-                      obj.data[name] = value;
-                      option[name] = value;
-                      opt[name] = value;
-                  }
-                  break;
-              case "scope":
-                  if (!(["入库员", "出库员", "操作员", "管理员"].indexOf(value) != -1)) {
-                      layer.confirm('权限设置错误，请重新设置！', {
-                          btn: ['确定'] //按钮
-                      })
-                      return;
-                  }
-                  if (value == "入库员") {
-                      obj.data[name] = "3";
-                      opt["type"] = "operator";
-                      opt[name] = "3";
-                  } else if (value == "出库员") {
-                      obj.data[name] = "4";
-                      opt["type"] = "operator";
-                      opt[name] = "4";
-                  } else if (value == "操作员") {
-                      opt["type"] = "operator";
-                      obj.data[name] = "5";
-                      opt[name] = "5";
-                  } else if (value == "管理员") {
-                      opt["type"] = "admin";
-                      obj.data[name] = "2";
-                      opt[name] = "2";
-                  }
-                  break;
-              default:
-                  obj.data[name] = value;
-                  option[name] = value;
-                  opt[name] = value;
-                  break;
+
+          if (obj.event == "scope") {
+              // ["入库员", "出库员", "操作员"]
+              if (!(["入库员", "出库员", "操作员", "管理员"].indexOf(value) != -1)) {
+                  layer.confirm('权限设置错误，请重新设置！', {
+                      btn: ['确定'] //按钮
+                  })
+                  return;
+              }
+              if (value == "入库员") {
+                  obj.data[name] = "3";
+                  opt["type"] = "operator";
+                  opt[name] = "3";
+              } else if (value == "出库员") {
+                  obj.data[name] = "4";
+                  opt["type"] = "operator";
+                  opt[name] = "4";
+              } else if (value == "操作员") {
+                  opt["type"] = "operator";
+                  obj.data[name] = "5";
+                  opt[name] = "5";
+              } else if (value == "管理员") {
+                  opt["type"] = "admin";
+                  obj.data[name] = "2";
+                  opt[name] = "2";
+              }
+
+          } else {
+              obj.data[name] = value;
+              option[name] = value;
+              opt[name] = value;
           }
           option["id"] = obj.data.id;
           opt["id"] = obj.data.id;
@@ -809,7 +779,7 @@
       // var datas = obj.data;
       var datas = obj;
       var url = "http://ymzg.gxajl.com/saveOrUpdateComponent";
-      var type = $(".components .layui-header a.linkThis").attr("data-type");
+      var type = $(".components dd.layui-this").attr("data-type");
       var token = getSession("token");
       if (datas.status == "inbound") {
           layer.confirm('该构件已入库，不可再修改！', {

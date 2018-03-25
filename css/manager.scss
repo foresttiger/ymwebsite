@@ -1,12 +1,23 @@
-.layui-layout-admin .layui-logo{
-    background:#ffffff;
+.layui-layout-admin .layui-logo {
+    background: #ffffff;
 }
-.layui-table-view .layui-table{
-    width:100%;
+
+.layui-table-view .layui-table {
+    width: 100%;
 }
-.layui-nav .layui-nav-item .components a{
-    font-size:13px;
+
+.layui-nav .layui-nav-item .components a {
+    font-size: 13px;
 }
+
+.layui-nav .layui-nav-item a {
+    font-size: 16px;
+}
+
+.layui-nav .layui-nav-item a.linkThis {
+    color: #ffb800;
+}
+
 .tab-header {
     width: 100%;
     height: 40px;
@@ -22,6 +33,9 @@
     //  // margin-left: 12px;
     //  // border-right: none;
     // }
+    .select{
+        display: none;
+    }
     .searchData {
         width: 200px;
         margin-left: 12px;
@@ -42,7 +56,7 @@
 
 .layui-select-title {
     input {
-        width: 100px;
+        min-width: 100px;
     }
 }
 
@@ -58,53 +72,55 @@
     }
 }
 
-.manager {
-
-    .ms {
-        display: none;
-        .contents {
-            width: 600px;
+.ms {
+    display: none;
+    .contents {
+        width: 600px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .qcode {
+            width: 300px;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            .qcode {
-                width: 300px;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                img {
-                    width: 280px;
-                    height: 331px;
-                    border: 1px solid #000000;
-                }
-            }
-        }
-        ul {
-            width: 200px;
-            display: flex;
-            justify-content: center;
-            /* align-items: center; */
-            flex-direction: column;
-            margin-top: 10px;
-            li {
-                // width: 300px;
-                text-align: left;
-                margin: 6px 0; // display: flex; // justify-content: ;
-                // align-items: center;
-                label {
-                    // display: block;
-                    width: 80px;
-                    text-align: right;
-                    font-size: 16px;
-                }
-                span {
-                    font-size: 16px;
-                }
+            img {
+                width: 280px;
+                height: 331px;
+                border: 1px solid #000000;
             }
         }
     }
+    ul {
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        flex-direction: column;
+        margin-top: 10px;
+        li {
+            // width: 300px;
+            text-align: left;
+            margin: 6px 0; // display: flex; // justify-content: ;
+            // align-items: center;
+            label {
+                // display: block;
+                width: 80px;
+                text-align: right;
+                font-size: 16px;
+            }
+            span {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+.manager {
+
+
     .layui-table-cell {
         padding: 0 5px;
     }
