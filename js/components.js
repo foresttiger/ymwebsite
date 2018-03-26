@@ -9,6 +9,7 @@
       category: undefined,
   };
   $(function() {
+      searchData.proName = $("#scence dl[data-type=proName] dd.selected").attr("data-id")
       var scope = getSession("scope");
       if (scope == "1") {
           $("#accountName").text("超级管理员")
