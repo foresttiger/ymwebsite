@@ -1,4 +1,26 @@
+  /*时间戳转时间*/
+  function timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      Y = date.getFullYear() + '-';
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      D = date.getDate() + ' ';
+      h = date.getHours() + ':';
+      m = date.getMinutes() + ':';
+      s = date.getSeconds();
+      return Y + M + D + h + m + s;
+  }
+  /*时间转时间戳*/
+  function timeToTimestamp(time) {
+      var date = new Date(time);
+      var time1 = date.getTime(); //精确到毫秒
+      var time2 = date.valueOf(); //精确到毫秒
+      var time3 = Date.parse(date); //精确到秒
+      return time3 * 0.001;
+  }
+  var startTime = 0;
+  var endTime = 0;
   $(function() {
+
       var scope = getSession("scope");
       if (scope == "1") {
           $("#accountName").text("超级管理员")
@@ -15,51 +37,154 @@
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
           $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
-
+          startTime = 0;
+          endTime = 0;
           loadDataToType(dataType);
           console.log(dataType);
       })
       layui.use(['form', 'layedit', 'laydate'], function() {
+          function renderData() {
+              laydate.render({
+                  elem: '#beginDate', //指定元素
+                  type: 'datetime',
+                  // zIndex: 99999999,
+                  calendar: true,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      startTime = dataNum;
+                      if ((endTime != 0) && (startTime > endTime)) {
+                          layer.confirm('开始时间不能超过结束时间！', {
+                              zIndex: 99999999,
+                              // time: 20000, //20s后自动关闭
+                              btn: ['确定']
+                          });
+                      }
+                      // renderData();
+                  }
+              });
+              laydate.render({
+                  elem: '#offDate', //指定元素
+                  type: 'datetime',
+                  // zIndex: 99999999,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      endTime = dataNum;
+                      // renderData();
+                  }
+              });
+              laydate.render({
+                  elem: '#outboundCarsBeginDate', //指定元素
+                  type: 'datetime',
+                  // value: new Date(),
+                  // zIndex: 99999999,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      startTime = dataNum
+                  }
+              });
+              laydate.render({
+                  elem: '#outboundCarsOffDate', //指定元素
+                  type: 'datetime',
+                  // value: new Date(),
+                  zIndex: 99999999,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      endTime = dataNum
+                  }
+              });
+              laydate.render({
+                  elem: '#inboundCarsBeginDate', //指定元素
+                  type: 'datetime',
+                  // value: new Date(),
+                  zIndex: 99999999,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      startTime = dataNum
+                  }
+              });
+              laydate.render({
+                  elem: '#inboundCarsOffDate', //指定元素
+                  type: 'datetime',
+                  // value: new Date(),
+                  zIndex: 99999999,
+                  change: function(value, date) { //监听日期被切换
+                      var dataNum = timeToTimestamp(value)
+                      endTime = dataNum
+                  }
+              });
+          }
           var form = layui.form,
               layer = layui.layer,
               layedit = layui.layedit,
               laydate = layui.laydate;
-          laydate.render({
-              elem: '#beginDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
-          laydate.render({
-              elem: '#offDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
-          laydate.render({
-              elem: '#outboundCarsBeginDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
-          laydate.render({
-              elem: '#outboundCarsOffDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
-          laydate.render({
-              elem: '#inboundCarsBeginDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
-          laydate.render({
-              elem: '#inboundCarsOffDate', //指定元素
-              type: 'datetime',
-              value: new Date(),
-              zIndex: 99999999
-          });
+          renderData();
+          // laydate.render({
+          //     elem: '#beginDate', //指定元素
+          //     type: 'datetime',
+          //     min: '2016-1-1 00:00:00',
+          //     max: endTime ? (timestampToTime(endTime)) : '',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         // console.log(value)
+          //         // console.log(date)
+          //         var dataNum = timeToTimestamp(value)
+          //         // console.log(dataNum)
+          //         startTime = dataNum
+          //     }
+          // });
+          // laydate.render({
+          //     elem: '#offDate', //指定元素
+          //     type: 'datetime',
+          //     min: startTime ? (timestampToTime(startTime)) : '',
+          //     max: '2030-1-1 00:00:00',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         var dataNum = timeToTimestamp(value)
+          //         endTime = dataNum
+          //     }
+          // });
+          // laydate.render({
+          //     elem: '#outboundCarsBeginDate', //指定元素
+          //     type: 'datetime',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         var dataNum = timeToTimestamp(value)
+          //         startTime = dataNum
+          //     }
+          // });
+          // laydate.render({
+          //     elem: '#outboundCarsOffDate', //指定元素
+          //     type: 'datetime',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         var dataNum = timeToTimestamp(value)
+          //         endTime = dataNum
+          //     }
+          // });
+          // laydate.render({
+          //     elem: '#inboundCarsBeginDate', //指定元素
+          //     type: 'datetime',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         var dataNum = timeToTimestamp(value)
+          //         startTime = dataNum
+          //     }
+          // });
+          // laydate.render({
+          //     elem: '#inboundCarsOffDate', //指定元素
+          //     type: 'datetime',
+          //     // value: new Date(),
+          //     zIndex: 99999999,
+          //     change: function(value, date) { //监听日期被切换
+          //         var dataNum = timeToTimestamp(value)
+          //         endTime = dataNum
+          //     }
+          // });
           // outboundCars
           form.on('select(search_type)', function(data) {
               var type = $(".components dd.layui-this").attr("data-type");
