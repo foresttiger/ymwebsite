@@ -49,47 +49,67 @@
                   type: 'datetime',
                   // zIndex: 99999999,
                   calendar: true,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
                       startTime = dataNum;
                       if ((endTime != 0) && (startTime > endTime)) {
-                          layer.confirm('开始时间不能超过结束时间！', {
+                          layer.open({
                               zIndex: 99999999,
-                              // time: 20000, //20s后自动关闭
-                              btn: ['确定']
+                              title: '提示',
+                              content: '开始时间不能超过结束时间！'
                           });
+
                       }
-                      // renderData();
                   }
               });
               laydate.render({
                   elem: '#offDate', //指定元素
                   type: 'datetime',
-                  // zIndex: 99999999,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
                       endTime = dataNum;
-                      // renderData();
+                      if ((startTime != 0) && (startTime > endTime)) {
+                          layer.open({
+                              zIndex: 99999999,
+                              title: '提示',
+                              content: '结束时间不能小于开始时间！'
+                          });
+
+                      }
                   }
               });
               laydate.render({
                   elem: '#outboundCarsBeginDate', //指定元素
                   type: 'datetime',
-                  // value: new Date(),
-                  // zIndex: 99999999,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
-                      startTime = dataNum
+                      startTime = dataNum;
+                      if ((endTime != 0) && (startTime > endTime)) {
+                          layer.open({
+                              zIndex: 99999999,
+                              title: '提示',
+                              content: '开始时间不能超过结束时间！'
+                          });
+
+                      }
                   }
-              });
+              })
               laydate.render({
                   elem: '#outboundCarsOffDate', //指定元素
                   type: 'datetime',
                   // value: new Date(),
                   zIndex: 99999999,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
-                      endTime = dataNum
+                      endTime = dataNum;
+                      if ((startTime != 0) && (startTime > endTime)) {
+                          layer.open({
+                              zIndex: 99999999,
+                              title: '提示',
+                              content: '结束时间不能小于开始时间！'
+                          });
+
+                      }
                   }
               });
               laydate.render({
@@ -97,9 +117,17 @@
                   type: 'datetime',
                   // value: new Date(),
                   zIndex: 99999999,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
-                      startTime = dataNum
+                      startTime = dataNum;
+                      if ((endTime != 0) && (startTime > endTime)) {
+                          layer.open({
+                              zIndex: 99999999,
+                              title: '提示',
+                              content: '开始时间不能超过结束时间！'
+                          });
+
+                      }
                   }
               });
               laydate.render({
@@ -107,9 +135,17 @@
                   type: 'datetime',
                   // value: new Date(),
                   zIndex: 99999999,
-                  change: function(value, date) { //监听日期被切换
+                  done: function(value, date, endDate) { //监听日期被切换
                       var dataNum = timeToTimestamp(value)
-                      endTime = dataNum
+                      endTime = dataNum;
+                      if ((startTime != 0) && (startTime > endTime)) {
+                          layer.open({
+                              zIndex: 99999999,
+                              title: '提示',
+                              content: '结束时间不能小于开始时间！'
+                          });
+
+                      }
                   }
               });
           }
@@ -203,6 +239,10 @@
                   type: data.field.row,
                   value: string
               }
+              
+                
+
+
               // var string = data.field.row + '=' + data.field.dataString;
               // if (data.field.row == "all") {
               //     string = undefined
