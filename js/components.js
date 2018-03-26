@@ -289,7 +289,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.id + '</span>'
                   } else {
-                      return d.id
+                      return d.id == null ? "" : d.id
                   }
               }
           },
@@ -305,7 +305,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.company + '</span>'
                   } else {
-                      return d.company
+                      return d.company == null ? "" : d.company
                   }
               }
           },
@@ -321,23 +321,23 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.proName + '</span>'
                   } else {
-                      return d.proName
+                      return d.proName == null ? "" : d.proName
                   }
               }
           },
           {
-              field: 'buildingInfo',
-              title: '楼层号',
+              field: 'plant',
+              title: '厂区',
               align: "center",
-              event: "buildingInfo",
+              event: "plant",
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.buildingInfo + '</span>'
+                      return '<span style="color: green">' + d.plant + '</span>'
                   }
                   if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.buildingInfo + '</span>'
+                      return '<span style="color: red">' + d.plant + '</span>'
                   } else {
-                      return d.buildingInfo
+                      return d.plant == null ? "" : d.plant
                   }
               }
           },
@@ -353,7 +353,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.buildingNum + '</span>'
                   } else {
-                      return d.buildingNum
+                      return d.buildingNum == null ? "" : d.buildingNum
                   }
               }
           },
@@ -369,7 +369,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.floorNum + '</span>'
                   } else {
-                      return d.floorNum
+                      return d.floorNum == null ? "" : d.floorNum
                   }
               }
           },
@@ -385,7 +385,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.category + '</span>'
                   } else {
-                      return d.category
+                      return d.category == null ? "" : d.category
                   }
               }
           },
@@ -401,7 +401,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.componentName + '</span>'
                   } else {
-                      return d.componentName
+                      return d.componentName == null ? "" : d.componentName
                   }
               }
           },
@@ -417,7 +417,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.size + '</span>'
                   } else {
-                      return d.size
+                      return d.size == null ? "" : d.size
                   }
               }
           },
@@ -433,7 +433,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.volume + '</span>'
                   } else {
-                      return d.volume
+                      return d.volume == null ? "" : d.volume
                   }
               }
           },
@@ -449,7 +449,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.weight + '</span>'
                   } else {
-                      return d.weight
+                      return d.weight == null ? "" : d.weight
                   }
               }
           },
@@ -465,7 +465,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.level + '</span>'
                   } else {
-                      return d.level
+                      return d.level == null ? "" : d.level
                   }
               }
           },
@@ -481,7 +481,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.productDate + '</span>'
                   } else {
-                      return d.productDate
+                      return d.productDate == null ? "" : d.productDate
                   }
               }
           },
@@ -497,7 +497,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundDate + '</span>'
                   } else {
-                      return d.inboundDate
+                      return d.inboundDate == null ? "" : d.inboundDate
                   }
               }
           },
@@ -513,7 +513,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundDate + '</span>'
                   } else {
-                      return d.outboundDate
+                      return d.outboundDate == null ? "" : d.outboundDate
                   }
               }
           },
@@ -528,7 +528,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.location + '</span>'
                   } else {
-                      return d.location
+                      return d.location == null ? "" : d.location
                   }
               }
           },
@@ -543,7 +543,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundCars + '</span>'
                   } else {
-                      return d.inboundCars
+                      return d.inboundCars == null ? "" : d.inboundCars
                   }
               }
           },
@@ -558,7 +558,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundCars + '</span>'
                   } else {
-                      return d.outboundCars
+                      return d.outboundCars == null ? "" : d.outboundCars
                   }
               }
           },
@@ -953,8 +953,10 @@
   function showModel(data) {
       $('.ms ul').empty();
       $('.ms .contents .qcode img').removeAttr("src");
-      var HTML = '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
-          // '<li><label for="">楼层号:</label><span>' + data.buildingInfo + '</span></li>' +
+      var HTML = '<li><label for="">公司名称:</label><span>' + data.company + '</span></li>' +
+          '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
+          '<li><label for="">楼层号:</label><span>' + data.buildingNum + data.floorNum + '</span></li>' +
+          '<li><label for="">构件名称:</label><span>' + data.category + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
           '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
           '<li><label for="">混凝土方量:</label><span>' + data.volume + '</span></li>' +
@@ -973,7 +975,7 @@
           type: 1,
           title: data.componentName,
           skin: 'layui-layer-rim', //加上边框
-          area: ['600px', '640px'], //宽高
+          area: ['700px', '640px'], //宽高
           content: $('.ms')
       });
   }
@@ -989,16 +991,21 @@
   function makeCode(ms) {
       var opts = {
           "id": ms.id,
+          "company": ms.company,
           "proName": ms.proName,
-          "buildingInfo": ms.buildingInfo,
+          "buildingNum": ms.buildingNum,
+          "floorNum": ms.floorNum,
+          "category": ms.category,
           "componentName": ms.componentName,
+          "level": ms.level,
+          "weight": ms.weight,
           "productDate": ms.productDate,
       }
       var data = JSON.stringify(opts)
       $("#qrcode").empty();
       $("#qrcode").qrcode({
-          width: 400,
-          height: 400,
+          width: 200,
+          height: 200,
           colorDark: "#000000",
           colorLight: "#ffffff",
           correctLevel: 0,
@@ -1029,32 +1036,48 @@
   function productQrcodeImg(data) {
       // var opts
       var id = data.id;
+      var company = data.company;
       var proName = data.proName;
-      var buildingInfo = data.buildingInfo;
+      var buildingInfo = data.buildingNum + data.floorNum;
       var componentName = data.componentName;
+      var level = data.level;
+      var weight = data.weight;
       var productDate = data.productDate;
       var c = document.createElement('canvas');
-      c.width = 600;
+      c.width = 720;
       c.height = 520;
       var ctx = c.getContext("2d");
       ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, 600, 500);
+      ctx.fillRect(0, 0, 640, 520);
 
       // 获取base64的图片节点
       var img = $('#qrcode canvas')[0];
       // 构建画布
       var canvas = document.createElement('canvas');
-      canvas.width = 440;
+      canvas.width = 620;
       canvas.height = 520;
-      canvas.getContext('2d').font = "22px Georgia";
+      canvas.getContext('2d').font = "40px Microsoft Yahei";
 
       canvas.getContext('2d').drawImage(c, 0, 0);
-      canvas.getContext('2d').drawImage(img, 20, 80);
+      canvas.getContext('2d').drawImage(img, 60, 250);
+      canvas.getContext('2d').textAlign = "left";
+      canvas.getContext('2d').fillText(company || "永茂住工", 60, 110);
+      canvas.getContext('2d').fillText("城建档案馆" || proName, 60, 170);
+      canvas.getContext('2d').fillText(buildingInfo, 60, 230);
 
-      canvas.getContext('2d').fillText('项目:' + proName, 10, 30);
-      canvas.getContext('2d').fillText('楼层号:' + buildingInfo, 220, 30);
-      canvas.getContext('2d').fillText('构件:' + componentName, 10, 60);
-      canvas.getContext('2d').fillText('生产日期:' + productDate, 220, 60);
+      canvas.getContext('2d').textAlign = "center";
+      canvas.getContext('2d').font = "70px Microsoft Yahei";
+      canvas.getContext('2d').fillText(componentName, 420, 190);
+
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').textAlign = "left";
+
+      canvas.getContext('2d').fillText('等级: ' + "C30" || level, 305, 280);
+      canvas.getContext('2d').fillText('重量: ' + "50" || weight, 305, 340);
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').fillText('生产日期: ', 305, 390);
+      canvas.getContext('2d').font = "30px Microsoft Yahei";
+      canvas.getContext('2d').fillText(productDate, 305, 440);
       return canvas.toDataURL('image/png')
   }
   /*下载图片*/
