@@ -1,13 +1,18 @@
   /*时间戳转时间*/
-  function timestampToTime(timestamp) {
-      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      Y = date.getFullYear() + '-';
-      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-      D = date.getDate() + ' ';
-      h = date.getHours() + ':';
-      m = date.getMinutes() + ':';
-      s = date.getSeconds();
-      return Y + M + D + h + m + s;
+  function timestampToTime(dateNum) {
+      // var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var date = new Date(dateNum * 1000);
+      return date.getFullYear() + "-" + fixZero(date.getMonth() + 1, 2) + "-" + fixZero(date.getDate(), 2) + " " + fixZero(date.getHours(), 2) + ":" + fixZero(date.getMinutes(), 2) + ":" + fixZero(date.getSeconds(), 2);
+
+      function fixZero(num, length) {
+          var str = "" + num;
+          var len = str.length;
+          var s = "";
+          for (var i = length; i-- > len;) {
+              s += "0";
+          }
+          return s + str;
+      }
   }
   /*时间转时间戳*/
   function timeToTimestamp(time) {
@@ -17,10 +22,24 @@
       var time3 = Date.parse(date); //精确到秒
       return time3 * 0.001;
   }
+  /*是否是时间*/
+  function isDate(str) {
+      var reg = /^(\d+)-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+      var r = str.match(reg);
+      if (r == null) return false;
+      r[2] = r[2] - 1;
+      var d = new Date(r[1], r[2], r[3], r[4], r[5], r[6]);
+      if (d.getFullYear() != r[1]) return false;
+      if (d.getMonth() != r[2]) return false;
+      if (d.getDate() != r[3]) return false;
+      if (d.getHours() != r[4]) return false;
+      if (d.getMinutes() != r[5]) return false;
+      if (d.getSeconds() != r[6]) return false;
+      return true;
+  }
   var startTime = 0;
   var endTime = 0;
   $(function() {
-
       var scope = getSession("scope");
       if (scope == "1") {
           $("#accountName").text("超级管理员")
@@ -234,13 +253,83 @@
           });
           form.on('submit(search_btn)', function(data) {
               var type = $(".components dd.layui-this").attr("data-type");
-              var string = data.field.dataString;
-              searchObj = {
-                  type: data.field.row,
-                  value: string
+              var string = $(".searchData").val().trim();
+              var searchObj = {};
+              // var searchString = $(".searchData").val().trim();
+              // searchObj = {
+              //     type: data.field.row,
+              //     value: string
+              // }
+              if (startTime == 0) {
+                  startTime = undefined;
+              } else if (startTime && !isDate(String(startTime))) {
+                  startTime = timestampToTime(startTime);
+              } else {
+                  startTime = startTime;
               }
-              
-                
+              if (endTime == 0) {
+                  endTime = undefined;
+              } else if (endTime && !isDate(String(endTime))) {
+                  endTime = timestampToTime(endTime);
+              } else {
+                  endTime = endTime;
+              }
+              // if (startTime == 0 || !isDate(startTime)) {
+              //     startTime = undefined;
+              // } else {
+              //     startTime = timestampToTime(startTime);
+              // }
+              // if (endTime == 0 || !isDate(endTime)) {
+              //     endTime = undefined;
+              // } else {
+              //     endTime = timestampToTime(endTime);
+              // }
+              // endTime = timestampToTime(endTime);
+              switch (type) {
+                  case "inbound":
+                      searchObj[data.field.row] = string;
+                      // searchObj[]
+                      break;
+                  case "outbound":
+                      searchObj[data.field.row] = string;
+                      break;
+                  case "inboundCars":
+                      string = $(".searchData[name=" + type + "]").val().trim();
+                      (string != "") && (searchObj[data.field.row] = string);
+                      searchObj["beginInboundDate"] = startTime;
+                      searchObj["endInboundDate"] = endTime;
+                      // searchObj["status"] = "inbound";
+                      break;
+                  case "outboundCars":
+                      string = $(".searchData[name=" + type + "]").val().trim();
+                      (string != "") && (searchObj[data.field.row] = string);
+                      searchObj["beginOutboundDate"] = startTime;
+                      searchObj["endOutboundDate"] = endTime;
+                      // searchObj["status"] = "outbound";
+                      break;
+                  case "adminlog":
+                      string = $(".searchData[name=proName]").val().trim();
+                      (string != "") && (searchObj["proName"] = string);
+                      searchObj["addDate"] = startTime;
+                      searchObj["endDate"] = endTime;
+                      // searchObj["status"] = type;
+                      break;
+                  case "inboundlog":
+                      string = $(".searchData[name=proName]").val().trim();
+                      (string != "") && (searchObj["proName"] = string);
+                      searchObj["addDate"] = startTime;
+                      searchObj["endDate"] = endTime;
+                      // searchObj["status"] = type;
+                      break;
+                  case "outboundlog":
+                      string = $(".searchData[name=proName]").val().trim();
+                      (string != "") && (searchObj["proName"] = string);
+                      searchObj["addDate"] = startTime;
+                      searchObj["endDate"] = endTime;
+                      // searchObj["status"] = type;
+                      break;
+              }
+
 
 
               // var string = data.field.row + '=' + data.field.dataString;
@@ -281,7 +370,7 @@
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       // rainingjoy.xin:9000/search
-      var URL = "http://rainingjoy.xin:9000/search";
+      var URL = "http://rainingjoy.xin:9000/searchComponents";
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -414,27 +503,32 @@
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://rainingjoy.xin:9000/search"
+              URL = "http://rainingjoy.xin:9000/searchComponents"
               // URL = "http://ymzg.gxajl.com/getComponents"
               break;
           case "admin":
           case "operator":
-              URL = "http://ymzg.gxajl.com/getCustomers"
+              URL = "http://rainingjoy.xin:9000/getCustomers"
+              // URL = "http://ymzg.gxajl.com/getCustomers"
               break;
           case "adminlog":
           case "inboundlog":
           case "outboundlog":
           case "accountlog":
-              URL = "http://ymzg.gxajl.com/getLogs"
+              URL = "http://rainingjoy.xin:9000/searchLog"
               break;
 
       }
       // var URL = "http://ymzg.gxajl.com/getList"
 
       if (!!searchObj) {
-          opt[searchObj.type] = searchObj.value;
-          // Object.assign(opt,{})
+          for (x in searchObj) {
+              opt[x] = searchObj[x];
+          }
+          // opt[searchObj.type] = searchObj.value;
+          // // Object.assign(opt,{})
       }
+
       $.ajax({
           "url": URL,
           "type": "post",

@@ -122,7 +122,7 @@
       var componentsSelect = '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
-      URL = "http://rainingjoy.xin:9000/search"
+      URL = "http://rainingjoy.xin:9000/searchComponents"
       // URL = "http://ymzg.gxajl.com/getComponents"
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
@@ -218,7 +218,7 @@
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://rainingjoy.xin:9000/search"
+              URL = "http://rainingjoy.xin:9000/searchComponents"
               // URL = "http://ymzg.gxajl.com/getComponents"
               break;
           case "admin":
@@ -229,7 +229,7 @@
           case "inboundlog":
           case "outboundlog":
           case "accountlog":
-              URL = "http://ymzg.gxajl.com/getLogs"
+              URL = "http://ymzg.gxajl.com/searchLog"
               break;
 
       }
