@@ -107,8 +107,11 @@
       $("#selectData").empty();
       var token = getSession("token");
       var scope = getSession("scope");
-      var componentsSelect = '<option value="proName">项目名称</option>' +
-          '<option value="buildingInfo">楼层号</option>' +
+      // var componentsSelect = '<option value="proName">项目名称</option>' +
+      //     '<option value="buildingInfo">楼层号</option>' +
+      //     '<option value="componentName">构件名称</option>';
+      var componentsSelect = '<option value="company">公司名</option>' +
+          '<option value="proName">项目名称</option>' +
           '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
@@ -297,7 +300,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.id + '</span>'
                   } else {
-                      return d.id
+                      return d.id == null ? "" : d.id
                   }
               }
           },
@@ -313,7 +316,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.company + '</span>'
                   } else {
-                      return d.company
+                      return d.company == null ? "" : d.company
                   }
               }
           },
@@ -329,23 +332,23 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.proName + '</span>'
                   } else {
-                      return d.proName
+                      return d.proName == null ? "" : d.proName
                   }
               }
           },
           {
-              field: 'buildingInfo',
-              title: '楼层号',
+              field: 'plant',
+              title: '厂区',
               align: "center",
-              event: "buildingInfo",
+              event: "plant",
               templet: function(d) {
                   if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.buildingInfo + '</span>'
+                      return '<span style="color: green">' + d.plant + '</span>'
                   }
                   if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.buildingInfo + '</span>'
+                      return '<span style="color: red">' + d.plant + '</span>'
                   } else {
-                      return d.buildingInfo
+                      return d.plant == null ? "" : d.plant
                   }
               }
           },
@@ -361,7 +364,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.buildingNum + '</span>'
                   } else {
-                      return d.buildingNum
+                      return d.buildingNum == null ? "" : d.buildingNum
                   }
               }
           },
@@ -377,7 +380,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.floorNum + '</span>'
                   } else {
-                      return d.floorNum
+                      return d.floorNum == null ? "" : d.floorNum
                   }
               }
           },
@@ -393,7 +396,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.category + '</span>'
                   } else {
-                      return d.category
+                      return d.category == null ? "" : d.category
                   }
               }
           },
@@ -409,7 +412,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.componentName + '</span>'
                   } else {
-                      return d.componentName
+                      return d.componentName == null ? "" : d.componentName
                   }
               }
           },
@@ -425,7 +428,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.size + '</span>'
                   } else {
-                      return d.size
+                      return d.size == null ? "" : d.size
                   }
               }
           },
@@ -441,7 +444,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.volume + '</span>'
                   } else {
-                      return d.volume
+                      return d.volume == null ? "" : d.volume
                   }
               }
           },
@@ -457,7 +460,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.weight + '</span>'
                   } else {
-                      return d.weight
+                      return d.weight == null ? "" : d.weight
                   }
               }
           },
@@ -473,7 +476,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.level + '</span>'
                   } else {
-                      return d.level
+                      return d.level == null ? "" : d.level
                   }
               }
           },
@@ -489,7 +492,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.productDate + '</span>'
                   } else {
-                      return d.productDate
+                      return d.productDate == null ? "" : d.productDate
                   }
               }
           },
@@ -505,7 +508,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundDate + '</span>'
                   } else {
-                      return d.inboundDate
+                      return d.inboundDate == null ? "" : d.inboundDate
                   }
               }
           },
@@ -521,7 +524,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundDate + '</span>'
                   } else {
-                      return d.outboundDate
+                      return d.outboundDate == null ? "" : d.outboundDate
                   }
               }
           },
@@ -536,7 +539,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.location + '</span>'
                   } else {
-                      return d.location
+                      return d.location == null ? "" : d.location
                   }
               }
           },
@@ -551,7 +554,7 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.inboundCars + '</span>'
                   } else {
-                      return d.inboundCars
+                      return d.inboundCars == null ? "" : d.inboundCars
                   }
               }
           },
@@ -566,11 +569,11 @@
                   if (d.status === "outbound") {
                       return '<span style="color: red">' + d.outboundCars + '</span>'
                   } else {
-                      return d.outboundCars
+                      return d.outboundCars == null ? "" : d.outboundCars
                   }
               }
           },
-          { field: 'status', title: '状态', align: "center", templet: '#reasonTpl' },
+          // { field: 'status', title: '状态', align: "center", templet: '#reasonTpl' },
           // { field: 'picPath', title: '二维码地址', align: "center" },
           { field: 'right', title: '操作', width: 150, toolbar: "#components", align: "center", fixed: 'right' }
       ]
@@ -578,47 +581,45 @@
           case "outbound":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  { field: 'id', title: '产品ID', width: 80,align: "center", },
-                  { field: 'company', title: '公司名称',align: "center" },
-                  { field: 'proName', title: '项目名称',align: "center" },
-                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'id', title: '产品ID', width: 80, align: "center", },
+                  { field: 'company', title: '公司名称', align: "center" },
+                  { field: 'proName', title: '项目名称', align: "center" },
                   { field: 'buildingNum', title: '楼号', align: "center" },
                   { field: 'floorNum', title: '层号', align: "center" },
                   { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center", event: 'size' },
-                  { field: 'volume', title: '混凝土方量',align: "center" },
-                  { field: 'weight', title: '构件重量',align: "center" },
-                  { field: 'level', title: '混凝土等级',align: "center" },
-                  { field: 'productDate', title: '生产日期',align: "center" },
+                  { field: 'volume', title: '混凝土方量', align: "center" },
+                  { field: 'weight', title: '构件重量', align: "center" },
+                  { field: 'level', title: '混凝土等级', align: "center" },
+                  { field: 'productDate', title: '生产日期', align: "center" },
                   { field: 'inboundDate', title: '入库日期', width: 160, align: "center" },
-                  { field: 'outboundDate', title: '出库日期', width: 160,  align: "center" },
-                  { field: 'location', title: '区域',  align: "center" },
+                  { field: 'outboundDate', title: '出库日期', width: 160, align: "center" },
+                  { field: 'location', title: '区域', align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
                   { field: 'outboundCars', title: '出库车辆', align: "center" },
-                  { field: 'status', title: '状态', align: "center" },
+                  // { field: 'status', title: '状态', align: "center" },
               ]
               break;
           case "inboundCars":
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
-                  { field: 'company', title: '公司名称',align: "center" },
+                  { field: 'company', title: '公司名称', align: "center" },
                   { field: 'inboundCars', title: '入库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
                   { field: 'proName', title: '项目名称', align: "center" },
-                  { field: 'buildingInfo', title: '楼层号', align: "center" },
                   { field: 'buildingNum', title: '楼号', align: "center" },
                   { field: 'floorNum', title: '层号', align: "center" },
                   { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center" },
-                  { field: 'volume', title: '混凝土方量',align: "center" },
-                  { field: 'weight', title: '构件重量',align: "center" },
+                  { field: 'volume', title: '混凝土方量', align: "center" },
+                  { field: 'weight', title: '构件重量', align: "center" },
                   { field: 'level', title: '混凝土等级', align: "center" },
-                  { field: 'productDate', title: '生产日期',align: "center" },
+                  { field: 'productDate', title: '生产日期', align: "center" },
                   { field: 'inboundDate', title: '入库日期', width: 160, align: "center" },
                   // { field: 'outboundDate', title: '出库日期', sort: true, align: "center" },
-                  { field: 'location', title: '区域',align: "center" },
+                  { field: 'location', title: '区域', align: "center" },
 
               ]
               break;
@@ -627,20 +628,19 @@
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   { field: 'outboundCars', title: '出库车辆', align: "center" },
                   // { field: 'id', title: '产品ID', width: 80, sort: true, align: "center", },
-                  { field: 'proName', title: '项目名称',align: "center" },
-                  { field: 'buildingInfo', title: '楼层号', align: "center" },
+                  { field: 'proName', title: '项目名称', align: "center" },
                   { field: 'buildingNum', title: '楼号', align: "center" },
                   { field: 'floorNum', title: '层号', align: "center" },
                   { field: 'category', title: '构件类别', align: "center" },
                   { field: 'componentName', title: '构件名称', align: "center" },
                   { field: 'size', title: '尺寸', align: "center" },
-                  { field: 'volume', title: '混凝土方量',align: "center" },
+                  { field: 'volume', title: '混凝土方量', align: "center" },
                   { field: 'weight', title: '构件重量', align: "center" },
                   { field: 'level', title: '混凝土等级', align: "center" },
                   { field: 'productDate', title: '生产日期', align: "center" },
                   // { field: 'inboundDate', title: '入库日期', sort: true, align: "center" },
                   { field: 'outboundDate', title: '出库日期', width: 160, align: "center" },
-                  { field: 'location', title: '区域',align: "center" },
+                  { field: 'location', title: '区域', align: "center" },
                   // { field: 'inboundCars', title: '入库车辆', align: "center" },
 
                   // { field: 'status', title: '状态', align: "center" },
@@ -653,7 +653,7 @@
               options = [ //标题栏
                   { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
                   // { field: 'id', title: '账户ID', sort: true, align: "center" },
-                  { field: 'phone', title: '用户名',align: "center" },
+                  { field: 'phone', title: '用户名', align: "center" },
                   { field: 'password', title: '密码', align: "center", event: 'password' },
                   { field: 'scope', title: '权限', align: "center", event: 'scope', templet: '#scopeTpl' },
                   { field: 'date', title: '日期', width: 160, align: "center" },
@@ -1022,7 +1022,7 @@
       $('.ms .contents .qcode img').removeAttr("src");
       var HTML = '<li><label for="">公司名称:</label><span>' + data.company + '</span></li>' +
           '<li><label for="">项目名称:</label><span>' + data.proName + '</span></li>' +
-          '<li><label for="">楼层号:</label><span>' + data.buildingNum + data.floorNum  + '</span></li>' +
+          '<li><label for="">楼层号:</label><span>' + data.buildingNum + data.floorNum + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.category + '</span></li>' +
           '<li><label for="">构件名称:</label><span>' + data.componentName + '</span></li>' +
           '<li><label for="">尺寸:</label><span>' + data.size + '</span></li>' +
