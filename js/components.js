@@ -915,14 +915,14 @@
       canvas.getContext('2d').font = "40px Microsoft Yahei";
 
       canvas.getContext('2d').drawImage(c, 0, 0);
-      canvas.getContext('2d').drawImage(img, 60, 250);
+      canvas.getContext('2d').drawImage(img, 55, 250);
       canvas.getContext('2d').textAlign = "left";
-      canvas.getContext('2d').fillText(company || "永茂住工", 60, 110);
-      canvas.getContext('2d').fillText("城建档案馆" || proName, 60, 170);
-      canvas.getContext('2d').fillText(buildingInfo, 60, 230);
+      canvas.getContext('2d').fillText(company || "永茂住工", 55, 110);
+      canvas.getContext('2d').fillText("城建档案馆" || proName, 55, 170);
+      canvas.getContext('2d').fillText(buildingInfo, 55, 230);
 
       canvas.getContext('2d').textAlign = "center";
-      canvas.getContext('2d').font = "70px Microsoft Yahei";
+      canvas.getContext('2d').font = "65px Microsoft Yahei";
       canvas.getContext('2d').fillText(componentName, 420, 190);
 
       canvas.getContext('2d').font = "30px Microsoft Yahei";
