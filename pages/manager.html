@@ -83,11 +83,10 @@
             <div style="padding: 15px;">
                 <div class="tab-header">
                     <div class="tab-title">
-                        <h2>构件入库</h2> 
+                        <h2>构件入库</h2>
                         <button class="selectMore layui-btn layui-btn-warm" data-type="getCheckData">下载二维码</button>
                     </div>
                     <!-- <button lay-submit class=" layui-btn layui-btn-warm" lay-filter="search_btn">搜索</button> -->
-
                     <form class="layui-form search">
                         <div class="select inboundSearch">
                             <select name="row" lay-verify="required" lay-filter="search_type" lay-search id="selectData">
@@ -228,6 +227,114 @@
     <script type="text/html" id="indexTpl">
         {{# if(d.status==='outbound'){var color='red'; } if(d.status==='inbound'){ var color='green';} }}
         <span style="color:{{color}}">{{d.LAY_TABLE_INDEX+1}}</span>
+    </script>
+    <script type="text/html" id="idTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.id}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.id}}</span> {{# } else if(d.id === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.id }} {{# } }}
+    </script>
+    <script type="text/html" id="proNameTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.proName}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.proName}}</span> {{# } else if(d.proName === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.proName }} {{# } }}
+    </script>
+    <script type="text/html" id="companyTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.company}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.company}}</span> {{# } else if(d.company === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.company }} {{# } }}
+    </script>
+    <script type="text/html" id="plantTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.plant}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.plant}}</span> {{# } else if(d.plant === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.plant }} {{# } }}
+    </script>
+    <script type="text/html" id="buildingNumTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.buildingNum}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.buildingNum}}</span> {{# } else if(d.buildingNum === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.buildingNum }} {{# } }}
+    </script>
+    <script type="text/html" id="floorNumTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.floorNum}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.floorNum}}</span> {{# } else if(d.floorNum === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.floorNum }} {{# } }}
+    </script>
+    <script type="text/html" id="categoryTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.category}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.category}}</span> {{# } else if(d.category === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.category }} {{# } }}
+    </script>
+    <script type="text/html" id="componentNameTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.componentName}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.componentName}}</span> {{# } else if(d.componentName === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.componentName }} {{# } }}
+    </script>
+    <script type="text/html" id="sizeTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.size}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.size}}</span> {{# } else if(d.size === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.size }} {{# } }}
+    </script>
+    <script type="text/html" id="volumeTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.volume}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.volume}}</span> {{# } else if(d.volume === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.volume }} {{# } }}
+    </script>
+    <script type="text/html" id="weightTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.weight}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.weight}}</span> {{# } else if(d.weight === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.weight }} {{# } }}
+    </script>
+    <script type="text/html" id="levelTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.level}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.level}}</span> {{# } else if(d.level === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.level }} {{# } }}
+    </script>
+    <script type="text/html" id="productDateTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.productDate}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.productDate}}</span> {{# } else if(d.productDate === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.productDate }} {{# } }}
+    </script>
+    <script type="text/html" id="inboundDateTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.inboundDate}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.inboundDate}}</span> {{# } else if(d.inboundDate === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.inboundDate }} {{# } }}
+    </script>
+    <script type="text/html" id="outboundDateTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.outboundDate}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.outboundDate}}</span> {{# } else if(d.outboundDate === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.outboundDate }} {{# } }}
+    </script>
+    <script type="text/html" id="locationTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.location}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.location}}</span> {{# } else if(d.location === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.location }} {{# } }}
+    </script>
+    <script type="text/html" id="inboundCarsTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.inboundCars}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.inboundCars}}</span> {{# } else if(d.inboundCars === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.inboundCars }} {{# } }}
+    </script>
+    <script type="text/html" id="outboundCarsTpl">
+        {{# if(d.status === 'inbound'){}}
+        <span style="color: green;">{{ d.outboundCars}}</span> {{# } else if(d.status === 'outbound') { }}
+        <span style="color: red;">{{ d.outboundCars}}</span> {{# } else if(d.outboundCars === null) { }}
+        <span style="color: red;">{{ "" }}</span> {{# } else { }} {{ d.outboundCars }} {{# } }}
     </script>
     <script type="text/html" id="scopeTpl">
         {{# if(d.scope === '1'){}}

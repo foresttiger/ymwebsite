@@ -19,7 +19,7 @@ var base = new Base64();
         $.ajax({
             type: "post",
             url: "http://rainingjoy.xin:9000/login",
-            // url: "http://ymzg.gxajl.com/login",
+            // url: "http://rainingjoy.xin:9000/login",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(obj),

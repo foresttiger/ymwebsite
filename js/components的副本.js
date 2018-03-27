@@ -72,7 +72,7 @@
           '<option value="componentName">构件名称</option>';
       var inboundCarsSelect = '<option value="inboundCars">入库车辆</option>';
       var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
-      var URL = "http://ymzg.gxajl.com/getComponents";
+      var URL = "http://rainingjoy.xin:9000/getComponents";
       // var outboundCarsSelect = '<option value="outboundCars">出库车辆</option>';
       var opt = {
           "token": token,
@@ -179,28 +179,28 @@
           form.render();
       });
       // form.render();
-      // var URL = "http://ymzg.gxajl.com/getList";
+      // var URL = "http://rainingjoy.xin:9000/getList";
       switch (type) {
           case "add":
           case "update":
           case "outbound":
           case "inboundCars":
           case "outboundCars":
-              URL = "http://ymzg.gxajl.com/getComponents"
+              URL = "http://rainingjoy.xin:9000/getComponents"
               break;
           case "admin":
           case "operator":
-              URL = "http://ymzg.gxajl.com/getCustomers"
+              URL = "http://rainingjoy.xin:9000/getCustomers"
               break;
           case "adminlog":
           case "inboundlog":
           case "outboundlog":
           case "accountlog":
-              URL = "http://ymzg.gxajl.com/getLogs"
+              URL = "http://rainingjoy.xin:9000/getLogs"
               break;
 
       }
-      // var URL = "http://ymzg.gxajl.com/getList"
+      // var URL = "http://rainingjoy.xin:9000/getList"
 
       if (!!searchObj) {
           opt[searchObj.type] = searchObj.value;
@@ -522,7 +522,7 @@
   function updataOrderData(obj, opt) {
       // var datas = obj.data;
       var datas = obj;
-      var url = "http://ymzg.gxajl.com/saveOrUpdateComponent";
+      var url = "http://rainingjoy.xin:9000/saveOrUpdateComponent";
       var type = $(".components dd.layui-this").attr("data-type");
       var token = getSession("token");
       if (datas.status == "inbound") {
@@ -538,26 +538,26 @@
       }
       switch (type) {
           case "inbound":
-              url = "http://ymzg.gxajl.com/saveOrUpdateComponent";
+              url = "http://rainingjoy.xin:9000/saveOrUpdateComponent";
               break;
           case "admin":
           case "operator":
-              url = "http://ymzg.gxajl.com/saveOrUpdateCustomer";
+              url = "http://rainingjoy.xin:9000/saveOrUpdateCustomer";
               break;
               // case "adminlog":
               // case "inboundlog":
               // case "outboundlog":
               // case "accountlog":
-              //     URL = "http://ymzg.gxajl.com/getLogs"
+              //     URL = "http://rainingjoy.xin:9000/getLogs"
               //     break;
 
       }
       if (obj.event == "scope") {
-          url = "http://ymzg.gxajl.com/setScope";
+          url = "http://rainingjoy.xin:9000/setScope";
       }
 
       if (obj.event == "password") {
-          url = "http://ymzg.gxajl.com/saveOrUpdateCustomer";
+          url = "http://rainingjoy.xin:9000/saveOrUpdateCustomer";
           Object.assign(opt, { "token": token, "type": type });
 
       }
@@ -566,7 +566,7 @@
           delete opt.status
       }
       // delete datas.LAY_TABLE_INDEX
-      // http://ymzg.gxajl.com/saveOrUpdateComponent
+      // http://rainingjoy.xin:9000/saveOrUpdateComponent
       // var url = 'http://www.zjgymzg.com:9111/saveOrUpdate?dataType=' + type
       // return;
       $.ajax({
