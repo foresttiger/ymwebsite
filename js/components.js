@@ -276,6 +276,7 @@
 
   function renderOrderTable(data, type) {
       var options = [ //标题栏
+          { title: 'checkbox', type: "checkbox", width: 80, fixed: 'left' },
           { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
           {
               field: 'id',
@@ -608,6 +609,7 @@
               break;
 
       }
+
       layui.use('table', function() {
           var table = layui.table;
           //展示已知数据
@@ -631,6 +633,17 @@
           });
           var $ = layui.$,
               active = {
+                  getCheckData: function() { //获取选中数据
+                      var checkStatus = table.checkStatus('testReload'),
+                          data = checkStatus.data;
+                      // console.log(data.length);
+                      // console.log(data);
+                      data.forEach(function(item) {
+                          downloadQRcode(item)
+                      })
+                      // downloadQRcode(data)
+                      // layer.alert(JSON.stringify(data));
+                  },
                   reload: function() {
                       var demoReload = $('#demoReload');
 
@@ -641,27 +654,44 @@
                       });
                   }
               };
+          table.on('checkbox(quote)', function(obj) {
+              // console.log(obj.checked); //当前是否选中状态
+              // if (obj.checked) {}
+              // console.log(obj.data); //选中行的相关数据
+              // console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+              if (obj.checked) {
+                  $(".selectMore").show();
+              }
+              var length = $("table input[type=checkbox]:checked").length;
+              if (length == 0) {
+                  $(".selectMore").hide();
+              }
+          });
           $('#demo .layui-btn.search_btn').on('click', function() {
               var type = $(this).data('type');
               active[type] ? active[type].call(this) : '';
           });
-          var $ = layui.$,
-              active = {
-                  getCheckData: function() { //获取选中数据
-                      var checkStatus = table.checkStatus('idTest'),
-                          data = checkStatus.data;
-                      layer.alert(JSON.stringify(data));
-                  },
-                  getCheckLength: function() { //获取选中数目
-                      var checkStatus = table.checkStatus('idTest'),
-                          data = checkStatus.data;
-                      layer.msg('选中了：' + data.length + ' 个');
-                  },
-                  isAll: function() { //验证是否全选
-                      var checkStatus = table.checkStatus('idTest');
-                      layer.msg(checkStatus.isAll ? '全选' : '未全选')
-                  }
-              };
+          $('.selectMore').on('click', function() {
+              var type = $(this).data('type');
+              active[type] ? active[type].call(this) : '';
+          });
+          // var $ = layui.$,
+          //     active = {
+          //         getCheckData: function() { //获取选中数据
+          //             var checkStatus = table.checkStatus('idTest'),
+          //                 data = checkStatus.data;
+          //             layer.alert(JSON.stringify(data));
+          //         },
+          //         getCheckLength: function() { //获取选中数目
+          //             var checkStatus = table.checkStatus('idTest'),
+          //                 data = checkStatus.data;
+          //             layer.msg('选中了：' + data.length + ' 个');
+          //         },
+          //         isAll: function() { //验证是否全选
+          //             var checkStatus = table.checkStatus('idTest');
+          //             layer.msg(checkStatus.isAll ? '全选' : '未全选')
+          //         }
+          //     };
           //监听工具条
           //监听单元格事件
           table.on('tool(quote)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"

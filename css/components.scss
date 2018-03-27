@@ -22,8 +22,8 @@
     .layui-nav .layui-nav-item a.linkThis {
         color: #ffb800;
     }
-    .layui-form-item{
-        margin-bottom:0;
+    .layui-form-item {
+        margin-bottom: 0;
     }
 
     .tab-header {
@@ -45,6 +45,15 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 12px;
+        .tab-title {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .selectMore {
+                display: none;
+                margin-left: 20px;
+            }
+        }
     }
 
     .layui-table-cell {
@@ -154,6 +163,8 @@
         }
     }
 }
+
+
 
 
 

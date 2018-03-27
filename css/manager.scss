@@ -24,6 +24,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .tab-title {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .selectMore{
+            display: none;
+            margin-left:20px;
+        }
+    }
 }
 
 .search {
@@ -33,11 +42,11 @@
     //  // margin-left: 12px;
     //  // border-right: none;
     // }
-    .select{
+    .select {
         display: none;
     }
-    .layui-form-item{
-        margin-bottom:0;
+    .layui-form-item {
+        margin-bottom: 0;
     }
     .searchData {
         width: 200px;
@@ -90,8 +99,7 @@
             justify-content: center;
             align-items: center;
             img {
-                width: 400px;
-                // height: 500px;
+                width: 400px; // height: 500px;
                 border: 1px solid #000000;
             }
         }

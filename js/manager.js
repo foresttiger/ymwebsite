@@ -173,74 +173,6 @@
               layedit = layui.layedit,
               laydate = layui.laydate;
           renderData();
-          // laydate.render({
-          //     elem: '#beginDate', //指定元素
-          //     type: 'datetime',
-          //     min: '2016-1-1 00:00:00',
-          //     max: endTime ? (timestampToTime(endTime)) : '',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         // console.log(value)
-          //         // console.log(date)
-          //         var dataNum = timeToTimestamp(value)
-          //         // console.log(dataNum)
-          //         startTime = dataNum
-          //     }
-          // });
-          // laydate.render({
-          //     elem: '#offDate', //指定元素
-          //     type: 'datetime',
-          //     min: startTime ? (timestampToTime(startTime)) : '',
-          //     max: '2030-1-1 00:00:00',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         var dataNum = timeToTimestamp(value)
-          //         endTime = dataNum
-          //     }
-          // });
-          // laydate.render({
-          //     elem: '#outboundCarsBeginDate', //指定元素
-          //     type: 'datetime',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         var dataNum = timeToTimestamp(value)
-          //         startTime = dataNum
-          //     }
-          // });
-          // laydate.render({
-          //     elem: '#outboundCarsOffDate', //指定元素
-          //     type: 'datetime',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         var dataNum = timeToTimestamp(value)
-          //         endTime = dataNum
-          //     }
-          // });
-          // laydate.render({
-          //     elem: '#inboundCarsBeginDate', //指定元素
-          //     type: 'datetime',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         var dataNum = timeToTimestamp(value)
-          //         startTime = dataNum
-          //     }
-          // });
-          // laydate.render({
-          //     elem: '#inboundCarsOffDate', //指定元素
-          //     type: 'datetime',
-          //     // value: new Date(),
-          //     zIndex: 99999999,
-          //     change: function(value, date) { //监听日期被切换
-          //         var dataNum = timeToTimestamp(value)
-          //         endTime = dataNum
-          //     }
-          // });
-          // outboundCars
           form.on('select(search_type)', function(data) {
               var type = $(".components dd.layui-this").attr("data-type");
               if (data.value == "all") {
@@ -344,6 +276,10 @@
           var type = $(".components dd.layui-this").attr("data-type");
           refreshData(type);
       })
+      // $('.selectMore').on('click', function() {
+      //     var type = $(this).data('type');
+      //     active[type] ? active[type].call(this) : '';
+      // });
 
 
 
@@ -545,6 +481,7 @@
 
   function renderOrderTable(data, type) {
       var options = [ //标题栏
+          { title: 'checkbox', type: "checkbox", width: 80, fixed: 'left', },
           { title: '序号', templet: '#indexTpl', width: 80, fixed: 'left', align: "center" },
           {
               field: 'id',
@@ -956,9 +893,19 @@
           });
           var $ = layui.$,
               active = {
+                  getCheckData: function() { //获取选中数据
+                      var checkStatus = table.checkStatus('testReload'),
+                          data = checkStatus.data;
+                      console.log(data.length);
+                      console.log(data);
+                      data.forEach(function(item) {
+                          downloadQRcode(item)
+                      })
+                      // downloadQRcode(data)
+                      // layer.alert(JSON.stringify(data));
+                  },
                   reload: function() {
                       var demoReload = $('#demoReload');
-
                       table.reload('testReload', {
                           where: {
                               keyword: demoReload.val()
@@ -966,27 +913,45 @@
                       });
                   }
               };
+          table.on('checkbox(quote)', function(obj) {
+              // console.log(obj.checked); //当前是否选中状态
+              // if (obj.checked) {}
+              // console.log(obj.data); //选中行的相关数据
+              // console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+              if (obj.checked) {
+                  $(".selectMore").show();
+              }
+              var length = $("table input[type=checkbox]:checked").length;
+              if (length == 0) {
+                  $(".selectMore").hide();
+              }
+          });
+          $('.selectMore').on('click', function() {
+              var type = $(this).data('type');
+              active[type] ? active[type].call(this) : '';
+          });
+
           $('#demo .layui-btn.search_btn').on('click', function() {
               var type = $(this).data('type');
               active[type] ? active[type].call(this) : '';
           });
-          var $ = layui.$,
-              active = {
-                  getCheckData: function() { //获取选中数据
-                      var checkStatus = table.checkStatus('idTest'),
-                          data = checkStatus.data;
-                      layer.alert(JSON.stringify(data));
-                  },
-                  getCheckLength: function() { //获取选中数目
-                      var checkStatus = table.checkStatus('idTest'),
-                          data = checkStatus.data;
-                      layer.msg('选中了：' + data.length + ' 个');
-                  },
-                  isAll: function() { //验证是否全选
-                      var checkStatus = table.checkStatus('idTest');
-                      layer.msg(checkStatus.isAll ? '全选' : '未全选')
-                  }
-              };
+          // var $ = layui.$,
+          //     active = {
+          //         getCheckData: function() { //获取选中数据
+          //             var checkStatus = table.checkStatus('idTest'),
+          //                 data = checkStatus.data;
+          //             layer.alert(JSON.stringify(data));
+          //         },
+          //         getCheckLength: function() { //获取选中数目
+          //             var checkStatus = table.checkStatus('idTest'),
+          //                 data = checkStatus.data;
+          //             layer.msg('选中了：' + data.length + ' 个');
+          //         },
+          //         isAll: function() { //验证是否全选
+          //             var checkStatus = table.checkStatus('idTest');
+          //             layer.msg(checkStatus.isAll ? '全选' : '未全选')
+          //         }
+          //     };
           //监听工具条
           //监听单元格事件
           table.on('tool(quote)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -1387,8 +1352,8 @@
       canvas.getContext('2d').drawImage(c, 0, 0);
       canvas.getContext('2d').drawImage(img, 60, 250);
       canvas.getContext('2d').textAlign = "left";
-      canvas.getContext('2d').fillText(company || "永茂住工", 60, 110);
-      canvas.getContext('2d').fillText("城建档案馆" || proName, 60, 170);
+      canvas.getContext('2d').fillText(company, 60, 110);
+      canvas.getContext('2d').fillText(proName, 60, 170);
       canvas.getContext('2d').fillText(buildingInfo, 60, 230);
 
       canvas.getContext('2d').textAlign = "center";
@@ -1398,8 +1363,8 @@
       canvas.getContext('2d').font = "30px Microsoft Yahei";
       canvas.getContext('2d').textAlign = "left";
 
-      canvas.getContext('2d').fillText('等级: ' + "C30" || level, 305, 280);
-      canvas.getContext('2d').fillText('重量: ' + "50" || weight, 305, 340);
+      canvas.getContext('2d').fillText('等级: ' + level, 305, 280);
+      canvas.getContext('2d').fillText('重量: ' + weight, 305, 340);
       canvas.getContext('2d').font = "30px Microsoft Yahei";
       canvas.getContext('2d').fillText('生产日期: ', 305, 390);
       canvas.getContext('2d').font = "30px Microsoft Yahei";
