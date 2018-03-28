@@ -100,7 +100,7 @@ function loaderData(option) {
     Object.assign(option, { "token": token, "size": size, "status": "add" });
     $.ajax({
         type: "post",
-        url: "http://rainingjoy.xin:9000/saveOrUpdateComponent",
+        url: "http://www.zjgymzg.com/saveOrUpdateComponent",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(option),
