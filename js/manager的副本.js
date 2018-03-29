@@ -55,11 +55,12 @@
       loadDataToType("add");
       $(".components dd").click(function(e) {
           var dataType = $(this).attr("data-type");
+          $("#selectMoreTwoCode").hide();
           $(".tab-header h2").html($(".components dd[data-type=" + dataType + "]").find("a").text());
           startTime = 0;
           endTime = 0;
           loadDataToType(dataType);
-          console.log(dataType);
+          // console.log(dataType);
       })
       layui.use(['form', 'layedit', 'laydate'], function() {
           function renderData() {
