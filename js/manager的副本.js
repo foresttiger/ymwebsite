@@ -227,13 +227,18 @@
                       searchObj[data.field.row] = string;
                       break;
                   case "inboundCars":
+                      startTime = $("#inboundCarsBeginDate").val();
+                      endTime = $("#inboundCarsOffDate").val();
                       string = $(".searchData[name=" + type + "]").val().trim();
                       (string != "") && (searchObj[data.field.row] = string);
                       searchObj["beginInboundDate"] = startTime;
                       searchObj["endInboundDate"] = endTime;
+
                       // searchObj["status"] = "inbound";
                       break;
                   case "outboundCars":
+                      startTime = $("#outboundCarsBeginDate").val();
+                      endTime = $("#outboundCarsOffDate").val();
                       string = $(".searchData[name=" + type + "]").val().trim();
                       (string != "") && (searchObj[data.field.row] = string);
                       searchObj["beginOutboundDate"] = startTime;
@@ -241,6 +246,8 @@
                       // searchObj["status"] = "outbound";
                       break;
                   case "adminlog":
+                      startTime = $("#beginDate").val();
+                      endTime = $("#offDate").val();
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
                       searchObj["beginDate"] = startTime;
@@ -248,6 +255,8 @@
                       // searchObj["status"] = type;
                       break;
                   case "inboundlog":
+                      startTime = $("#beginDate").val();
+                      endTime = $("#offDate").val();
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
                       searchObj["beginDate"] = startTime;
@@ -255,6 +264,8 @@
                       // searchObj["status"] = type;
                       break;
                   case "outboundlog":
+                      startTime = $("#beginDate").val();
+                      endTime = $("#offDate").val();
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
                       searchObj["beginDate"] = startTime;
