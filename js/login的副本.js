@@ -19,6 +19,7 @@ var base = new Base64();
         $.ajax({
             type: "post",
             url: "http://www.zjgymzg.com/login",
+            // url: "http://www.zjgymzg.com/login",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(obj),

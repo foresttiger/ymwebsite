@@ -197,14 +197,14 @@
               } else if (startTime && !isDate(String(startTime))) {
                   startTime = timestampToTime(startTime);
               } else {
-                  startTime = startTime;
+                  startTime = $("#beginDate").val();
               }
               if (endTime == 0) {
                   endTime = undefined;
               } else if (endTime && !isDate(String(endTime))) {
                   endTime = timestampToTime(endTime);
               } else {
-                  endTime = endTime;
+                  endTime = $("#offDate").val();
               }
               // if (startTime == 0 || !isDate(startTime)) {
               //     startTime = undefined;
@@ -242,21 +242,21 @@
                   case "adminlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
                   case "inboundlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
                   case "outboundlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
@@ -294,6 +294,7 @@
   }
   /*加载数据*/
   function loadDataToType(type, searchObj, status) {
+      var loadingLayerIndex = 0;
       $("#selectData").empty();
       var token = getSession("token");
       var scope = getSession("scope");
@@ -430,6 +431,8 @@
       layui.use('form', function() {
           var form = layui.form;
           form.render();
+          layer = layui.layer,
+              loadingLayerIndex = layer.load(0, { shade: 0.3 });
       });
       // form.render();
       // var URL = "http://www.zjgymzg.com/getList";
@@ -471,8 +474,10 @@
           contentType: "application/json",
           "data": JSON.stringify(opt)
       }).done(function(data) {
+          layer.close(loadingLayerIndex);
           renderOrderTable(data.list, type)
       }).fail(function(e) {
+          layer.close(loadingLayerIndex);
           console.log(e)
           layer.msg("网络异常，请稍后再试！")
       });
@@ -489,285 +494,123 @@
               width: 80,
               sort: true,
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.id + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.id + '</span>'
-                  } else {
-                      return d.id == null ? "" : d.id
-                  }
-              }
+              templet: "#idTpl"
           },
           {
               field: 'company',
               title: '公司名',
               align: "center",
               event: 'company',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.company + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.company + '</span>'
-                  } else {
-                      return d.company == null ? "" : d.company
-                  }
-              }
+              templet: "#companyTpl"
           },
           {
               field: 'proName',
               title: '项目名称',
               align: "center",
               event: 'proName',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.proName + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.proName + '</span>'
-                  } else {
-                      return d.proName == null ? "" : d.proName
-                  }
-              }
+              templet: "#proNameTpl"
           },
-          {
-              field: 'plant',
-              title: '厂区',
-              align: "center",
-              event: "plant",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.plant + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.plant + '</span>'
-                  } else {
-                      return d.plant == null ? "" : d.plant
-                  }
-              }
-          },
+          // {
+          //     field: 'plant',
+          //     title: '厂区',
+          //     align: "center",
+          //     event: "plant",
+          //     templet: "#plantTpl"
+          // },
           {
               field: 'buildingNum',
               title: '楼号',
               align: "center",
               event: "buildingNum",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.buildingNum + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.buildingNum + '</span>'
-                  } else {
-                      return d.buildingNum == null ? "" : d.buildingNum
-                  }
-              }
+              templet: "#buildingNumTpl"
           },
           {
               field: 'floorNum',
               title: '层号',
               align: "center",
               event: "floorNum",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.floorNum + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.floorNum + '</span>'
-                  } else {
-                      return d.floorNum == null ? "" : d.floorNum
-                  }
-              }
+              templet: "#floorNumTpl"
           },
           {
               field: 'category',
               title: '构件类别',
               align: "center",
               event: 'category',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.category + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.category + '</span>'
-                  } else {
-                      return d.category == null ? "" : d.category
-                  }
-              }
+              templet: "#categoryTpl"
           },
           {
               field: 'componentName',
               title: '构件名称',
               align: "center",
               event: 'componentName',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.componentName + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.componentName + '</span>'
-                  } else {
-                      return d.componentName == null ? "" : d.componentName
-                  }
-              }
+              templet: "#componentNameTpl"
           },
           {
               field: 'size',
               title: '尺寸',
               align: "center",
               event: 'size',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.size + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.size + '</span>'
-                  } else {
-                      return d.size == null ? "" : d.size
-                  }
-              }
+              templet: "#sizeTpl"
           },
           {
               field: 'volume',
               title: '混凝土方量',
               align: "center",
               event: 'volume',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.volume + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.volume + '</span>'
-                  } else {
-                      return d.volume == null ? "" : d.volume
-                  }
-              }
+              templet: '#volumeTpl'
           },
           {
               field: 'weight',
               title: '构件重量',
               align: "center",
               event: 'weight',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.weight + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.weight + '</span>'
-                  } else {
-                      return d.weight == null ? "" : d.weight
-                  }
-              }
+              templet: '#weightTpl'
           },
           {
               field: 'level',
               title: '混凝土等级',
               align: "center",
               event: 'level',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.level + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.level + '</span>'
-                  } else {
-                      return d.level == null ? "" : d.level
-                  }
-              }
+              templet: '#levelTpl'
           },
           {
               field: 'productDate',
               title: '生产日期',
               align: "center",
               event: 'productDate',
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.productDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.productDate + '</span>'
-                  } else {
-                      return d.productDate == null ? "" : d.productDate
-                  }
-              }
+              templet: 'productDateTpl'
           },
           {
               field: 'inboundDate',
               title: '入库日期',
               width: 160,
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.inboundDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.inboundDate + '</span>'
-                  } else {
-                      return d.inboundDate == null ? "" : d.inboundDate
-                  }
-              }
+              templet: '#inboundDateTpl'
           },
           {
               field: 'outboundDate',
               title: '出库日期',
               width: 160,
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.outboundDate + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.outboundDate + '</span>'
-                  } else {
-                      return d.outboundDate == null ? "" : d.outboundDate
-                  }
-              }
+              templet: '#outboundDateTpl'
           },
           {
               field: 'location',
               title: '区域',
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.location + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.location + '</span>'
-                  } else {
-                      return d.location == null ? "" : d.location
-                  }
-              }
+              templet: "#locationTpl"
           },
           {
               field: 'inboundCars',
               title: '入库车辆',
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.inboundCars + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.inboundCars + '</span>'
-                  } else {
-                      return d.inboundCars == null ? "" : d.inboundCars
-                  }
-              }
+              templet: "#inboundCarsTpl"
           },
           {
               field: 'outboundCars',
               title: '出库车辆',
               align: "center",
-              templet: function(d) {
-                  if (d.status === "inbound") {
-                      return '<span style="color: green">' + d.outboundCars + '</span>'
-                  }
-                  if (d.status === "outbound") {
-                      return '<span style="color: red">' + d.outboundCars + '</span>'
-                  } else {
-                      return d.outboundCars == null ? "" : d.outboundCars
-                  }
-              }
+              templet: "#outboundCarsTpl"
           },
           // { field: 'status', title: '状态', align: "center", templet: '#reasonTpl' },
           // { field: 'picPath', title: '二维码地址', align: "center" },
@@ -1034,7 +877,10 @@
       var scope = getSession("scope");
       var option = obj;
       var opt = {};
-      if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
+      if (obj.event == "scope") {
+          if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
+      }
+      // if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
 
       layer.prompt({
           formType: 2,
@@ -1214,7 +1060,7 @@
               if (json.status == 200) {
                   layer.msg("更新成功！")
                   obj.update(opt);
-                  $(".refresh_btn").click();
+                  // $(".refresh_btn").click();
               } else {
                   $("#msg").remove();
                   layer.msg(json.message)

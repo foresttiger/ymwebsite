@@ -197,14 +197,14 @@
               } else if (startTime && !isDate(String(startTime))) {
                   startTime = timestampToTime(startTime);
               } else {
-                  startTime = startTime;
+                  startTime = $("#beginDate").val();
               }
               if (endTime == 0) {
                   endTime = undefined;
               } else if (endTime && !isDate(String(endTime))) {
                   endTime = timestampToTime(endTime);
               } else {
-                  endTime = endTime;
+                  endTime = $("#offDate").val();
               }
               // if (startTime == 0 || !isDate(startTime)) {
               //     startTime = undefined;
@@ -242,21 +242,21 @@
                   case "adminlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
                   case "inboundlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
                   case "outboundlog":
                       string = $(".searchData[name=proName]").val().trim();
                       (string != "") && (searchObj["proName"] = string);
-                      searchObj["addDate"] = startTime;
+                      searchObj["beginDate"] = startTime;
                       searchObj["endDate"] = endTime;
                       // searchObj["status"] = type;
                       break;
@@ -294,6 +294,7 @@
   }
   /*加载数据*/
   function loadDataToType(type, searchObj, status) {
+      var loadingLayerIndex = 0;
       $("#selectData").empty();
       var token = getSession("token");
       var scope = getSession("scope");
@@ -430,6 +431,8 @@
       layui.use('form', function() {
           var form = layui.form;
           form.render();
+          layer = layui.layer,
+              loadingLayerIndex = layer.load(0, { shade: 0.3 });
       });
       // form.render();
       // var URL = "http://www.zjgymzg.com/getList";
@@ -471,8 +474,10 @@
           contentType: "application/json",
           "data": JSON.stringify(opt)
       }).done(function(data) {
+          layer.close(loadingLayerIndex);
           renderOrderTable(data.list, type)
       }).fail(function(e) {
+          layer.close(loadingLayerIndex);
           console.log(e)
           layer.msg("网络异常，请稍后再试！")
       });
@@ -505,13 +510,13 @@
               event: 'proName',
               templet: "#proNameTpl"
           },
-          {
-              field: 'plant',
-              title: '厂区',
-              align: "center",
-              event: "plant",
-              templet: "#plantTpl"
-          },
+          // {
+          //     field: 'plant',
+          //     title: '厂区',
+          //     align: "center",
+          //     event: "plant",
+          //     templet: "#plantTpl"
+          // },
           {
               field: 'buildingNum',
               title: '楼号',
@@ -532,7 +537,7 @@
               align: "center",
               event: 'category',
               templet: "#categoryTpl"
-         },
+          },
           {
               field: 'componentName',
               title: '构件名称',
@@ -872,7 +877,10 @@
       var scope = getSession("scope");
       var option = obj;
       var opt = {};
-      if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
+      if (obj.event == "scope") {
+          if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
+      }
+      // if (obj.data[name] == "1") { obj.data[name] = "超级管理员" } else if (obj.data[name] == "2") { obj.data[name] = "管理员" } else if (obj.data[name] == "3") { obj.data[name] = "入库员" } else if (obj.data[name] == "4") { obj.data[name] = "出库员" } else if (obj.data[name] == "5") { obj.data[name] = "操作员" }
 
       layer.prompt({
           formType: 2,
@@ -1052,7 +1060,7 @@
               if (json.status == 200) {
                   layer.msg("更新成功！")
                   obj.update(opt);
-                  $(".refresh_btn").click();
+                  // $(".refresh_btn").click();
               } else {
                   $("#msg").remove();
                   layer.msg(json.message)

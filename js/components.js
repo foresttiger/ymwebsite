@@ -7,6 +7,7 @@
       buildingNum: undefined,
       floorNum: undefined,
       category: undefined,
+      componentName:undefined
   };
   $(function() {
       searchData.proName = $("#scence dl[data-type=proName] dd.selected").attr("data-id")
@@ -72,6 +73,7 @@
           refreshData(type);
       })
       $("#scence dl dd").on("click", function() {
+          var searchString = $(".searchData").val().trim();
           var dataType = $(this).parent().attr("data-type");
           var oldDataId = $("#scence dl[data-type=" + dataType + "] dd.selected").attr("data-id");
           var newDataId = $(this).attr("data-id");
@@ -84,6 +86,7 @@
           $("#scence dl[data-type=" + dataType + "] dd.selected").removeClass("selected");
           $(this).addClass("selected");
           console.log(newDataId);
+          searchData.componentName = searchString;
           switch (dataType) {
               case "proName":
                   searchData.proName = newDataId;
@@ -98,6 +101,7 @@
                   searchData.category = newDataId;
                   break;
           }
+
           var _type = $(".components .headLine li a.linkThis").attr("data-type");
           loadDataToType(_type, searchData)
       })
@@ -115,6 +119,7 @@
   /*加载数据*/
   function loadDataToType(type, searchObj, status) {
       $("#selectData").empty();
+      var loadingLayerIndex = 0;
       var token = getSession("token");
       var scope = getSession("scope");
       // var componentsSelect = '<option value="proName">项目名称</option>' +
@@ -210,6 +215,8 @@
       layui.use('form', function() {
           var form = layui.form;
           form.render();
+          layer = layui.layer,
+          loadingLayerIndex = layer.load(0, { shade: 0.3 });
       });
       // form.render();
       // var URL = "http://www.zjgymzg.com/getList";
@@ -267,6 +274,7 @@
           contentType: "application/json",
           "data": JSON.stringify(opt)
       }).done(function(data) {
+          layer.close(loadingLayerIndex);
           renderOrderTable(data.list, type)
       }).fail(function(e) {
           console.log(e)
@@ -301,13 +309,13 @@
               event: 'proName',
               templet: "#proNameTpl"
           },
-          {
-              field: 'plant',
-              title: '厂区',
-              align: "center",
-              event: "plant",
-              templet: "#plantTpl"
-          },
+          // {
+          //     field: 'plant',
+          //     title: '厂区',
+          //     align: "center",
+          //     event: "plant",
+          //     templet: "#plantTpl"
+          // },
           {
               field: 'buildingNum',
               title: '楼号',
@@ -792,7 +800,7 @@
               if (json.status == 200) {
                   layer.msg("更新成功！")
                   obj.update(opt);
-                  $(".refresh_btn").click();
+                  // $(".refresh_btn").click();
               } else {
                   $("#msg").remove();
                   layer.msg(json.message)

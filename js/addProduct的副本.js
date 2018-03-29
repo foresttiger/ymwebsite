@@ -98,9 +98,11 @@ function loaderData(option) {
     delete option.length_Z;
     // Object.assign(option, { "token": "8f79bacb841642fd894bb0d2ea0f5c74", "size": size, "picPath":picPath,"status":"入库" });
     Object.assign(option, { "token": token, "size": size, "status": "add" });
+    console.log(option)
     $.ajax({
         type: "post",
         url: "http://www.zjgymzg.com/saveOrUpdateComponent",
+        // url: "http://www.zjgymzg.com/saveOrUpdateComponent",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(option),

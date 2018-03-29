@@ -45,37 +45,34 @@ layui.use(['form', 'layedit', 'laydate'], function() {
     form.on('submit(demo1)', function(data) {
         console.log(data.field)
         var opt = data.field;
-        switch (true) {
-            case opt.admin && opt.admin == 'on':
-                delete opt.admin;
-                opt["scope"] = '2';
-                opt["type"] = 'admin';
-                submitAddAccountData(opt);
-                break;
-            case opt.inbound == 'on' && opt.outbound == 'on':
-                opt["scope"] = '5';
-                opt["type"] = 'operator';
+        // switch (true) {
+        //     case opt.admin && opt.admin == 'on':
+        //         delete opt.admin;
+        //         opt["scope"] = '2';
+        //         opt["type"] = 'admin';
+        //         submitAddAccountData(opt);
+        //         break;
+        //     case opt.inbound == 'on' && opt.outbound == 'on':
+        //         opt["scope"] = '5';
+        //         opt["type"] = 'operator';
 
-                delete opt.inbound;
-                delete opt.outbound;
-                submitAddAccountData(opt);
-                break;
-            case opt.inbound == 'on':
-                opt["type"] = 'operator';
-                opt["scope"] = '3';
-                delete opt.inbound;
-                submitAddAccountData(opt);
-                break;
-            case opt.outbound == 'on':
-                opt["scope"] = '4';
-                opt["type"] = 'operator';
-                delete opt.outbound;
-                submitAddAccountData(opt);
-                break;
-        }
-
-        // submitData(opt);
-
+        //         delete opt.inbound;
+        //         delete opt.outbound;
+        //         submitAddAccountData(opt);
+        //         break;
+        //     case opt.inbound == 'on':
+        //         opt["type"] = 'operator';
+        //         opt["scope"] = '3';
+        //         delete opt.inbound;
+        //         submitAddAccountData(opt);
+        //         break;
+        //     case opt.outbound == 'on':
+        //         opt["scope"] = '4';
+        //         opt["type"] = 'operator';
+        //         delete opt.outbound;
+        //         submitAddAccountData(opt);
+        //         break;
+        // }
         return false;
     });
 });
