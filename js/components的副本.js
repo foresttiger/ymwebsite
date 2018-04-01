@@ -7,7 +7,7 @@
       buildingNum: undefined,
       floorNum: undefined,
       category: undefined,
-      componentName:undefined
+      componentName: undefined
   };
   $(function() {
       searchData.proName = $("#scence dl[data-type=proName] dd.selected").attr("data-id")
@@ -53,16 +53,18 @@
               console.log(data.othis); //得到美化后的DOM对象
           });
           form.on('submit(search_btn)', function(data) {
+              var searchObj = {};
               var type = $(".components .layui-header a.linkThis").attr("data-type");
               var string = data.field.dataString;
-              searchObj = {
-                  type: data.field.row,
-                  value: string
-              }
+              // searchObj = {
+              //     type: data.field.row,
+              //     value: string
+              // }
               // var string = data.field.row + '=' + data.field.dataString;
               // if (data.field.row == "all") {
               //     string = undefined
               // }
+              searchObj[data.field.row] = string;
               loadDataToType(type, searchObj);
               return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
           });
@@ -212,11 +214,12 @@
               $(".addAccount").hide();
               break;
       }
+      var layer = undefined;
       layui.use('form', function() {
           var form = layui.form;
           form.render();
           layer = layui.layer,
-          loadingLayerIndex = layer.load(0, { shade: 0.3 });
+              loadingLayerIndex = layer.load(0, { shade: 0.3 });
       });
       // form.render();
       // var URL = "http://www.zjgymzg.com/getList";
@@ -342,6 +345,7 @@
               title: '构件名称',
               align: "center",
               event: 'componentName',
+              sort: true,
               templet: "#componentNameTpl"
           },
           {
@@ -355,6 +359,7 @@
               field: 'volume',
               title: '混凝土方量',
               align: "center",
+              sort: true,
               event: 'volume',
               templet: '#volumeTpl'
           },
@@ -636,7 +641,7 @@
           }
           switch (obj.event) {
               case "company":
-                  if (!(["永茂住工", "远大住工", "宝岳住工", "君大住工"].indexOf(value) != -1)) {
+                  if (!(["永茂住工", "远大住工", "宝岳住工", "君道住工"].indexOf(value) != -1)) {
                       layer.confirm('公司名设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
                       })
@@ -684,7 +689,7 @@
                   }
                   break;
               case "level":
-                  if (!(["C30", "C35", "C40", "C45"].indexOf(value) != -1)) {
+                  if (!(["C30", "C35", "C40", "C45", "C50"].indexOf(value) != -1)) {
                       layer.confirm('混凝土等级设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
                       })

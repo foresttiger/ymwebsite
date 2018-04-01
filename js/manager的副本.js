@@ -555,6 +555,7 @@
               title: '构件名称',
               align: "center",
               event: 'componentName',
+              sort: true,
               templet: "#componentNameTpl"
           },
           {
@@ -568,6 +569,7 @@
               field: 'volume',
               title: '混凝土方量',
               align: "center",
+              sort: true,
               event: 'volume',
               templet: '#volumeTpl'
           },
@@ -908,7 +910,7 @@
           }
           switch (obj.event) {
               case "company":
-                  if (!(["永茂住工", "远大住工", "宝岳住工", "君大住工"].indexOf(value) != -1)) {
+                  if (!(["永茂住工", "远大住工", "宝岳住工", "君道住工"].indexOf(value) != -1)) {
                       layer.confirm('公司名设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
                       })
@@ -956,7 +958,7 @@
                   }
                   break;
               case "level":
-                  if (!(["C30", "C35", "C40", "C45"].indexOf(value) != -1)) {
+                  if (!(["C30", "C35", "C40", "C45","C50"].indexOf(value) != -1)) {
                       layer.confirm('混凝土等级设置错误，请重新设置！', {
                           btn: ['确定'] //按钮
                       })
